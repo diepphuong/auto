@@ -1,0 +1,30 @@
+{
+  "name": "elsevier-cw-auto",
+  "version": "1.0.0",
+  "description": "Elsevier Courseware Automation Test Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://duongphan@git.kms-technology.com/Elsevier/elsevier-cw-auto.git"
+  },
+  "keywords": [
+    "cypress",
+    "demo"
+  ],
+  "author": "DuongPhanHoai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://git.kms-technology.com/Elsevier/elsevier-cw-auto/issues"
+  },
+  "homepage": "https://git.kms-technology.com/Elsevier/elsevier-cw-auto",
+  "dependencies": {
+    "cypress": "*",
+    "cypress-xpath": "*"
+  },
+  "devDependencies": {
+    "cypress-wait-until": "^1.7.1"
+  }
+}
