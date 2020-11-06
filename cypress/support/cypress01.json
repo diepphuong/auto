@@ -1,0 +1,19 @@
+{
+  "numTestsKeptInMemory": 5,
+  "defaultCommandTimeout": 60000,
+  "video": false,
+  "env": {
+      "env": "test4",
+      "adminUsername": "eolsadmin",
+      "adminPassword": "testing1",
+      "email": "vip@yopmail.com",
+      "isLocal": false,
+      "configPath": "",
+      "prefix": "sherCy",
+      "numberOfCard": "7",
+      "course":"CW-test4-Aug2601",
+      "ISBN": "9780323398817"
+  },
+  "fixturesFolder": "cypress/fixtures",
+  "baseUrl": "https://sherpath-courseware-test4.apps.els-ols.com/#/"
+}
