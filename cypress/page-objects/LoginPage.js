@@ -16,13 +16,15 @@ const selCourse = '#field-input-course-select'
 const selISBN = '#field-input-isbn-select'
 const btnGo = '#launchBtn'
 
+//data
+const backDoor = require('../data/Backdoor.json');
+
 class LoginPage {
   userLogin (username, password){
     cy.clearLocalStorage()
     cy.visit('admin')
-
-    cy.get(txtUsername).clear().type('eolsadmin')
-    cy.get(txtPassword).clear().type('testing1')
+    cy.get(txtUsername).clear().type(username)
+    cy.get(txtPassword).clear().type(password)
     cy.get(btnLogin).click()
   }
    
@@ -41,13 +43,19 @@ class LoginPage {
     cy.get(btnGo).click()
   }
 
-  loginByAdmin(){
-    this.userLogin(Cypress.env("adminUsername"), Cypress.env("adminPassword"))
-    this.eolsUserLookUp(Cypress.env("email"))
+  launchCourseSuccess(){
+    this.userLogin(backDoor.adminUsername, backDoor.adminPassword)
+    this.eolsUserLookUp(backDoor.email)
     this.selectUser()
-    this.selectCourse(Cypress.env("course"), Cypress.env("ISBN"))
+    this.selectCourse(backDoor.course, backDoor.ISBN)
+    cy.url().should('contain','course-builder')
   }
+
+  //verifyCoursePlanURL(){
+   // cy.url().should('contain','course-builder')
+    //}
 }
+
   export default LoginPage;
 
 

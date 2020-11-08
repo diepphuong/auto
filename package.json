@@ -22,7 +22,7 @@
   "homepage": "https://git.kms-technology.com/Elsevier/elsevier-cw-auto",
   "dependencies": {
     "cypress": "*",
-    "cypress-xpath": "*"
+    "cypress-xpath": "^1.6.1"
   },
   "devDependencies": {
     "cypress-wait-until": "^1.7.1"

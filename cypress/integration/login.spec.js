@@ -4,5 +4,6 @@ describe("Login by Admin-->search user-->select Course -> Navigate to CoursePlan
   it("should login as an admin!", () => {
     const loginPage = new LoginPage();
     loginPage.loginByAdmin();
+    loginPage.verifyCoursePlanURL();
   });
 });

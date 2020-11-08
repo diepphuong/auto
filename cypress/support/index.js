@@ -16,5 +16,6 @@
 
 // Import setup.js using ES2015 syntax:
 import './setup';
+require('cypress-xpath');
 
 
