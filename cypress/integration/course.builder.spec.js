@@ -7,7 +7,7 @@ const courseBuilderData = require('../data/CourseBuilder.json');
 describe("Verify Course Builder Page", () => {
     beforeEach(()=>{
       const loginPage = new LoginPage();
-      loginPage.launchCourseSuccess(backDoor.adminUsername, backDoor.adminPassword, backDoor.email, backDoor.course, backDoor.ISBN);
+      loginPage.launchCourseBuilderSuccess(backDoor.adminUsername, backDoor.adminPassword, backDoor.email, backDoor.course, backDoor.ISBN);
     });
 
     //it("Verify course name", () => {
@@ -15,9 +15,10 @@ describe("Verify Course Builder Page", () => {
       //courseBuilderPage.verifyCourseName(courseBuilderData["special characters"]);
     //})
 
-    it("Verify default of course builder page", () => {
+    it("Verify course builder page", () => {
         const courseBuilderPage = new CourseBuilderPage();
-        courseBuilderPage.verifyDefaultCourseBuilderPage()
+        //courseBuilderPage.verifyDefaultCourseBuilderPage()
+        courseBuilderPage.selectBuildCourseManual()
     
   });
 })
