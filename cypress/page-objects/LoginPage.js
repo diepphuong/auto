@@ -43,19 +43,22 @@ class LoginPage {
     cy.get(btnGo).click()
   }
 
-  launchCourseSuccess(){
-    this.userLogin(backDoor.adminUsername, backDoor.adminPassword)
-    this.eolsUserLookUp(backDoor.email)
+  launchCourseBuilderSuccess(adminUsername, adminPassword, email, course, ISBN ){
+    this.userLogin(adminUsername, adminPassword)
+    this.eolsUserLookUp(email)
     this.selectUser()
-    this.selectCourse(backDoor.course, backDoor.ISBN)
+    this.selectCourse(course, ISBN)
     cy.url().should('contain','course-builder')
   }
 
-  //verifyCoursePlanURL(){
-   // cy.url().should('contain','course-builder')
-    //}
+  launchCoursePlanSuccess(adminUsername, adminPassword, email, course, ISBN ){
+    this.userLogin(adminUsername, adminPassword)
+    this.eolsUserLookUp(email)
+    this.selectUser()
+    this.selectCourse(course, ISBN)
+    cy.url().should('contain','course-plan')
 }
-
+}
   export default LoginPage;
 
 
