@@ -17,8 +17,9 @@ describe("Verify Course Builder Page", () => {
 
     it("Verify course builder page", () => {
         const courseBuilderPage = new CourseBuilderPage();
-        //courseBuilderPage.verifyDefaultCourseBuilderPage()
-        courseBuilderPage.selectBuildCourseManual()
+        //courseBuilderPage.verifyDefaultCourseBuilderPage
+        courseBuilderPage.verifyTypeOfOrganization('folder')
+        
     
   });
 })

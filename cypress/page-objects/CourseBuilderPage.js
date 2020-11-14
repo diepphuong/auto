@@ -1,11 +1,11 @@
 
+//Course Info
 const txtCourseName = '#field-input-js-modal-focus'
 const rdbCreateNewCourse = ':nth-child(1) > #field-wrap-undefined > .c-els-field__label > .c-els-field__label-text > .c-els-field__switch'
 const rdbCopyCourse = '.o-els-flex-layout > :nth-child(2) > #field-wrap-undefined > .c-els-field__label > .c-els-field__label-text > .c-els-field__switch'
 const rdbAutoCourse = 'div.c-scm-course-builder__column-item > .o-els-container > div:nth-of-type(2) .c-els-field__input'
 const rdbManualCourse = 'div.c-scm-course-builder__column-item > .o-els-container > div:nth-of-type(3) #field-input-undefined'
 //Course structure
-
 const rdbWeek = 'div.c-scm-course-builder__inner .o-els-flex-layout__item > div > .o-els-container > div:nth-of-type(2) .c-els-field__input'
 const rdbUnit = 'div.c-scm-course-builder__inner .o-els-flex-layout__item > div > .o-els-container > div:nth-of-type(3) .c-els-field__input'
 const rdbModule = 'div.c-scm-course-builder__inner .o-els-flex-layout__item > div > .o-els-container > div:nth-of-type(4) .c-els-field__input'
@@ -21,7 +21,16 @@ const btnCreateCourse = '.c-els-button'
 //Error message
 const errorEmptyCourseName = '.c-els-field__message'   
 
+//Import data
 const courseBuilderData = require('../data/CourseBuilder.json');
+
+   //Variable for function verifyOrganizationText
+   const typeOfOrganization = [rdbWeek ,rdbUnit , rdbModule, rdbCustom]
+   const rdbOrganization = ['week', 'unit', 'module']
+   const rdbCustomFolder = "[name='CUSTOM_SECTION_TITLE']"
+
+
+
 
 class CourseBuilderPage {
     verifyCourseName(courseName){
@@ -31,7 +40,7 @@ class CourseBuilderPage {
         cy.get(txtCourseName).clear().type(courseName)
     }
 
-    courseBuilderDefaultOptions(){
+    verifyDefaultOptions(){
         cy.get(rdbAutoCourse).should('be.checked')
         cy.get(rdbManualCourse).should('not.be.checked')
         cy.get(rdbWeek).check({ force: true }).should('be.checked')
@@ -46,8 +55,13 @@ class CourseBuilderPage {
        // cy.get(startDate).should('not.be.visible')
     }
 
-    selectBuildCourseManual(){
+    selectManualBuildCourse(){
        cy.get(rdbManualCourse).check({ force: true }).should('be.checked')
+
+    }
+// Verify Course Builder page when selecting build course manually
+    verifyPageWhenSelectManualBuildCourse(){
+       this.selectManualBuildCourse()
        cy.get(rdbAutoCourse).should('not.be.checked')
        cy.get(rdbWeek).should('not.be.visible')
        cy.get(rdbUnit).should('not.be.visible')
@@ -58,20 +72,39 @@ class CourseBuilderPage {
        cy.get(textHowManyItems).should('not.be.visible')
        cy.get(btnCreateCourse, {timeout: 40000 }).should('be.enabled')
        cy.get(previewSection).should('not.be.visible')
-
     }
-
-
-
-
-
-
+    
     verifyDefaultCourseBuilderPage(){
-        this.courseBuilderDefaultOptions()
+        this.verifyDefaultOptions()
         
     }
 
+    
+    verifyTypeOfOrganization(customValue){  
+        for (var i=0; i<=typeOfOrganization.length; i++){
+        cy.get(typeOfOrganization[i]).check({force: true}).should('be.checked')
+        cy.get(textHowManyItems).should('have.text', 'How many ' + rdbOrganization[i] + 's' + ' do you need? *')
+        }
+            
+     }
+
+    selectCustomOption(){
+        cy.get(rdbCustom).check({force: true}).should('be.checked')
+    }
 
 
+    typeCustomValue(customValue){
+        this.selectCustomOption()
+        cy.get(rdbCustomFolder).clear().type(customValue).should('have.value', customValue)
+    }
+
+    verifyCustomValue(customValue){
+        this.typeCustomValue(customValue)
+        cy.get(textHowManyItems).should('have.text', 'How many ' + customValue + 's' + ' do you need? *')
+    }
+
+    
 }
+
+
 export default CourseBuilderPage;
