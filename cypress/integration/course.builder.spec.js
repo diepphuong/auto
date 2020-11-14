@@ -10,15 +10,15 @@ describe("Verify Course Builder Page", () => {
       loginPage.launchCourseBuilderSuccess(backDoor.adminUsername, backDoor.adminPassword, backDoor.email, backDoor.course, backDoor.ISBN);
     });
 
-    //it("Verify course name", () => {
-     // const courseBuilderPage = new CourseBuilderPage();
-      //courseBuilderPage.verifyCourseName(courseBuilderData["special characters"]);
-    //})
+    it("Verify default course builder page", () => {
+     const courseBuilderPage = new CourseBuilderPage();
+     courseBuilderPage.verifyDefaultCourseBuilderPage();
+    })
 
-    it("Verify course builder page", () => {
+    it("Verify user is able to select all types to organize the syllabus items", () => {
         const courseBuilderPage = new CourseBuilderPage();
-        //courseBuilderPage.verifyDefaultCourseBuilderPage
-        courseBuilderPage.verifyTypeOfOrganization('folder')
+        courseBuilderPage.verifyTypeOfOrganization()
+        courseBuilderPage.verifyCustomValue('folder')
         
     
   });

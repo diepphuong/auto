@@ -25,7 +25,7 @@ const errorEmptyCourseName = '.c-els-field__message'
 const courseBuilderData = require('../data/CourseBuilder.json');
 
    //Variable for function verifyOrganizationText
-   const typeOfOrganization = [rdbWeek ,rdbUnit , rdbModule, rdbCustom]
+   const typeOfOrganization = [rdbWeek ,rdbUnit , rdbModule]
    const rdbOrganization = ['week', 'unit', 'module']
    const rdbCustomFolder = "[name='CUSTOM_SECTION_TITLE']"
 
