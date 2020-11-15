@@ -15,32 +15,38 @@ const textHowManyItems = 'div.c-scm-course-builder__inner .o-els-flex-layout__it
 const chkDayRange = '.c-els-field--checkbox > :nth-child(1) .c-els-field__input[type=checkbox]'
 const previewSection = '.c-scm-course-builder-preview'
 const textPreviewDescription = 'div.c-scm-course-builder-preview > div:nth-of-type(2) > strong'
-const startDate = 'div.c-els-field--error .c-datepicker-input #field-input-undefined'
-const endDate = ':nth-child(2) > #field-wrap-undefined > .c-els-field__label > .c-els-field__wrap > .o-els-icon-svg'
+//const calendarSection = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) input:nth-of-type(1)'
+const startDate = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) input:nth-of-type(1)'
+const endDate = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) input:nth-of-type(1)'
 const btnCreateCourse = '.c-els-button'
 //Error message
-const errorEmptyCourseName = '.c-els-field__message'   
+const errorEmptyCourseName = '.c-els-field__message'
 
 //Import data
 const courseBuilderData = require('../data/CourseBuilder.json');
 
-   //Variable for function verifyOrganizationText
-   const typeOfOrganization = [rdbWeek ,rdbUnit , rdbModule]
-   const rdbOrganization = ['week', 'unit', 'module']
-   const rdbCustomFolder = "[name='CUSTOM_SECTION_TITLE']"
+//Variable for function verifyOrganizationText
+const typeOfOrganization = [rdbWeek, rdbUnit, rdbModule]
+const rdbOrganization = ['week', 'unit', 'module']
+const rdbCustomFolder = "[name='CUSTOM_SECTION_TITLE']"
 
 
 
 
 class CourseBuilderPage {
-    verifyCourseName(courseName){
+    verifyCourseName(courseName) {
         cy.get(txtCourseName).clear()
         cy.get(errorEmptyCourseName).should('contain', courseBuilderData.errorEmptyCourseName)
-        cy.get(btnCreateCourse, {timeout: 40000 }).should('be.disabled')
+        cy.get(btnCreateCourse, { timeout: 40000 }).should('be.disabled')
         cy.get(txtCourseName).clear().type(courseName)
     }
-
-    verifyDefaultOptions(){
+    //By default:
+    //Options are checked: Create new course, added course content auto, Week, Add date range to weekweek
+    //Options are not checked: build course manual, Unit, Module, CustomCustom
+    //The number of week is: 16
+    //Start date is displayed and empty
+    //End date is disabled and empty
+    verifyDefaultOptions() {
         cy.get(rdbAutoCourse).should('be.checked')
         cy.get(rdbManualCourse).should('not.be.checked')
         cy.get(rdbWeek).check({ force: true }).should('be.checked')
@@ -50,60 +56,72 @@ class CourseBuilderPage {
         cy.get(chkDayRange).should('be.checked')
         cy.get(txtNumberOfWeek).should('have.value', '16')
         cy.get(textHowManyItems).should('have.text', 'How many weeks do you need? *')
-        cy.get(btnCreateCourse, {timeout: 40000 }).should('be.disabled')
+        cy.get(btnCreateCourse, { timeout: 40000 }).should('be.disabled')
         cy.get(previewSection).should('not.be.visible')
-       // cy.get(startDate).should('not.be.visible')
-    }
-
-    selectManualBuildCourse(){
-       cy.get(rdbManualCourse).check({ force: true }).should('be.checked')
+        cy.get(chkDayRange).should('be.checked')
+        cy.get(startDate).should('be.visible').should('have.attr', 'placeholder', 'MM-DD-YYYY')
+        cy.get(endDate).should('be.disabled').should('have.attr', 'placeholder', 'MM-DD-YYYY')
 
     }
-// Verify Course Builder page when selecting build course manually
-    verifyPageWhenSelectManualBuildCourse(){
-       this.selectManualBuildCourse()
-       cy.get(rdbAutoCourse).should('not.be.checked')
-       cy.get(rdbWeek).should('not.be.visible')
-       cy.get(rdbUnit).should('not.be.visible')
-       cy.get(rdbModule).should('not.be.visible')
-       cy.get(rdbCustom).should('not.be.visible')
-       cy.get(chkDayRange).should('not.be.visible')
-       cy.get(txtNumberOfWeek).should('not.be.visible')
-       cy.get(textHowManyItems).should('not.be.visible')
-       cy.get(btnCreateCourse, {timeout: 40000 }).should('be.enabled')
-       cy.get(previewSection).should('not.be.visible')
-    }
-    
-    verifyDefaultCourseBuilderPage(){
+
+    verifyDefaultCourseBuilderPage() {
         this.verifyDefaultOptions()
-        
     }
 
-    
-    verifyTypeOfOrganization(customValue){  
-        for (var i=0; i<=typeOfOrganization.length; i++){
-        cy.get(typeOfOrganization[i]).check({force: true}).should('be.checked')
-        cy.get(textHowManyItems).should('have.text', 'How many ' + rdbOrganization[i] + 's' + ' do you need? *')
+    selectManualBuildCourse() {
+        cy.get(rdbManualCourse).check({ force: true }).should('be.checked')
+    }
+
+    selectAutoBuildCourse(){
+        cy.get(rdbAutoCourse).check({ force: true }).should('be.checked')
+    }
+
+    // Verify Course Builder page when selecting build course manually
+    verifyPageWhenSelectManualBuildCourse() {
+        this.selectManualBuildCourse()
+        cy.get(rdbAutoCourse).should('not.be.checked')
+        cy.get(rdbWeek).should('not.be.visible')
+        cy.get(rdbUnit).should('not.be.visible')
+        cy.get(rdbModule).should('not.be.visible')
+        cy.get(rdbCustom).should('not.be.visible')
+        cy.get(chkDayRange).should('not.be.visible')
+        cy.get(txtNumberOfWeek).should('not.be.visible')
+        cy.get(textHowManyItems).should('not.be.visible')
+        cy.get(btnCreateCourse, { timeout: 40000 }).should('be.enabled')
+        cy.get(previewSection).should('not.be.visible')
+    }
+
+    verifyTypeOfOrganization() {
+        for (var i = 0; i <= typeOfOrganization.length; i++) {
+            cy.get(typeOfOrganization[i]).check({ force: true }).should('be.checked')
+            cy.get(textHowManyItems).should('have.text', 'How many ' + rdbOrganization[i] + 's' + ' do you need? *')
         }
-            
-     }
 
-    selectCustomOption(){
-        cy.get(rdbCustom).check({force: true}).should('be.checked')
+    }
+
+    selectCustomOption() {
+        cy.get(rdbCustom).check({ force: true }).should('be.checked')
     }
 
 
-    typeCustomValue(customValue){
+    typeCustomValue(customValue) {
         this.selectCustomOption()
         cy.get(rdbCustomFolder).clear().type(customValue).should('have.value', customValue)
     }
 
-    verifyCustomValue(customValue){
+    verifyCustomValue(customValue) {
         this.typeCustomValue(customValue)
         cy.get(textHowManyItems).should('have.text', 'How many ' + customValue + 's' + ' do you need? *')
     }
 
-    
+    selectAddDateRange(){
+        cy.get(chkDayRange).check().should("be.checked")
+    }
+
+    unselectAddDateRange(){
+        cy.get(chkDayRange).uncheck().should("be.unchecked")
+    }
+
 }
 
 

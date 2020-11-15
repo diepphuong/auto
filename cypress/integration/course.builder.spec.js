@@ -13,13 +13,29 @@ describe("Verify Course Builder Page", () => {
     it("Verify default course builder page", () => {
      const courseBuilderPage = new CourseBuilderPage();
      courseBuilderPage.verifyDefaultCourseBuilderPage();
-    })
+    });
 
-    it("Verify user is able to select all types to organize the syllabus items", () => {
-        const courseBuilderPage = new CourseBuilderPage();
-        courseBuilderPage.verifyTypeOfOrganization()
-        courseBuilderPage.verifyCustomValue('folder')
-        
-    
-  });
+    // it("Verify user is able to select all types to organize the syllabus items & the sentence will be changed based on the selected option", () => {
+        // const courseBuilderPage = new CourseBuilderPage();
+        // courseBuilderPage.verifyTypeOfOrganization()
+        // courseBuilderPage.verifyCustomValue('folder')
+    // });
+
+    it('Select "Add date range to each week"', () => {
+      const courseBuilderPage = new CourseBuilderPage();
+      courseBuilderPage.verifyCalendarSection();
+      
+    });
+
+    // it('Verify "course end date" will be auto filled when selecting "course start date"', () => {
+      
+    // });
+
+    // it('Verify Preview section', () => {
+      
+    // });
+
+    // it('Verify CB page when selecting build course manually', () => {
+      
+    // });
 })
