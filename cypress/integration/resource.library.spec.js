@@ -12,7 +12,7 @@ describe("Verify Resource Library Page", () => {
       const coursePlan = new CoursePlanPage()
 
       loginPage.launchCourse(loginData.email_lam, loginData.course_lam)
-      //coursePlan.goToResourceLibraryPage()
+      coursePlan.goToResourceLibrary()
     });
 
   });
