@@ -10,10 +10,10 @@ describe("Verify Course Builder Page", () => {
       loginPage.launchCourseBuilderSuccess(backDoor.adminUsername, backDoor.adminPassword, backDoor.email, backDoor.course, backDoor.ISBN);
     });
 
-    it("Verify default course builder page", () => {
-     const courseBuilderPage = new CourseBuilderPage();
-     courseBuilderPage.verifyDefaultCourseBuilderPage();
-    });
+    // it("Verify default course builder page", () => {
+    //  const courseBuilderPage = new CourseBuilderPage();
+    //  courseBuilderPage.verifyDefaultCourseBuilderPage();
+    // });
 
     // it("Verify user is able to select all types to organize the syllabus items & the sentence will be changed based on the selected option", () => {
         // const courseBuilderPage = new CourseBuilderPage();
@@ -21,15 +21,19 @@ describe("Verify Course Builder Page", () => {
         // courseBuilderPage.verifyCustomValue('folder')
     // });
 
-    it('Select "Add date range to each week"', () => {
+    //Calendar (StartDate & EndDate) are displayed when checking "Add date range to each week" option, preview is not displayed
+    //Calendar (StartDate & EndDate) are NOT displayed when unchecking "Add date range to each week" option, preview is displayed
+    // it('Select "Add date range to each week"', () => {
+    //   const courseBuilderPage = new CourseBuilderPage();
+    //   courseBuilderPage.verifyCalendarSection();
+    // });
+
+    it('Verify "course end date" will be auto filled when selecting "course start date"', () => {
       const courseBuilderPage = new CourseBuilderPage();
-      courseBuilderPage.verifyCalendarSection();
+      courseBuilderPage.autoSelectEndDate();
+
       
     });
-
-    // it('Verify "course end date" will be auto filled when selecting "course start date"', () => {
-      
-    // });
 
     // it('Verify Preview section', () => {
       

@@ -1,5 +1,6 @@
 
-//Course Info
+//Course Info 
+const courseBuilderPage = '.c-scm-course-builder__container'
 const txtCourseName = '#field-input-js-modal-focus'
 const rdbCreateNewCourse = ':nth-child(1) > #field-wrap-undefined > .c-els-field__label > .c-els-field__label-text > .c-els-field__switch'
 const rdbCopyCourse = '.o-els-flex-layout > :nth-child(2) > #field-wrap-undefined > .c-els-field__label > .c-els-field__label-text > .c-els-field__switch'
@@ -16,8 +17,8 @@ const chkDayRange = '.c-els-field--checkbox > :nth-child(1) .c-els-field__input[
 const previewSection = '.c-scm-course-builder-preview'
 const textPreviewDescription = 'div.c-scm-course-builder-preview > div:nth-of-type(2) > strong'
 //const calendarSection = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) input:nth-of-type(1)'
-const startDate = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) input:nth-of-type(1)'
-const endDate = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) input:nth-of-type(1)'
+const txtStartDate = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) input:nth-of-type(1)'
+const txtEndDate = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) input:nth-of-type(1)'
 const btnCreateCourse = '.c-els-button'
 //Error message
 const errorEmptyCourseName = '.c-els-field__message'
@@ -30,6 +31,9 @@ const typeOfOrganization = [rdbWeek, rdbUnit, rdbModule]
 const rdbOrganization = ['week', 'unit', 'module']
 const rdbCustomFolder = "[name='CUSTOM_SECTION_TITLE']"
 
+//Variable for auto fill end date
+const startDate = Cypress.moment().format()
+const endDate = Cypress.moment().add(6,'days').format()
 
 
 
@@ -53,14 +57,14 @@ class CourseBuilderPage {
         cy.get(rdbUnit).should('not.be.checked')
         cy.get(rdbModule).should('not.be.checked')
         cy.get(rdbCustom).should('not.be.checked')
+        cy.get(courseBuilderPage).scrollTo('bottom')
         cy.get(chkDayRange).should('be.checked')
         cy.get(txtNumberOfWeek).should('have.value', '16')
         cy.get(textHowManyItems).should('have.text', 'How many weeks do you need? *')
         cy.get(btnCreateCourse, { timeout: 40000 }).should('be.disabled')
         cy.get(previewSection).should('not.be.visible')
-        cy.get(chkDayRange).should('be.checked')
-        cy.get(startDate).should('be.visible').should('have.attr', 'placeholder', 'MM-DD-YYYY')
-        cy.get(endDate).should('be.disabled').should('have.attr', 'placeholder', 'MM-DD-YYYY')
+        cy.get(txtStartDate).should('be.visible').should('have.attr', 'placeholder', 'MM-DD-YYYY')
+        cy.get(txtEndDate).should('be.disabled').should('have.attr', 'placeholder', 'MM-DD-YYYY')
 
     }
 
@@ -72,7 +76,7 @@ class CourseBuilderPage {
         cy.get(rdbManualCourse).check({ force: true }).should('be.checked')
     }
 
-    selectAutoBuildCourse(){
+    selectAutoBuildCourse() {
         cy.get(rdbAutoCourse).check({ force: true }).should('be.checked')
     }
 
@@ -84,6 +88,7 @@ class CourseBuilderPage {
         cy.get(rdbUnit).should('not.be.visible')
         cy.get(rdbModule).should('not.be.visible')
         cy.get(rdbCustom).should('not.be.visible')
+        cy.get(courseBuilderPage).scrollTo('bottom')
         cy.get(chkDayRange).should('not.be.visible')
         cy.get(txtNumberOfWeek).should('not.be.visible')
         cy.get(textHowManyItems).should('not.be.visible')
@@ -114,13 +119,38 @@ class CourseBuilderPage {
         cy.get(textHowManyItems).should('have.text', 'How many ' + customValue + 's' + ' do you need? *')
     }
 
-    selectAddDateRange(){
-        cy.get(chkDayRange).check().should("be.checked")
+    selectAddDateRange() {
+        cy.get(chkDayRange).check({ force: true }).should("be.checked")
     }
 
-    unselectAddDateRange(){
-        cy.get(chkDayRange).uncheck().should("be.unchecked")
+    unselectAddDateRange() {
+        cy.get(chkDayRange).uncheck({ force: true })
     }
+
+    verifyCalendarSection() {
+        cy.get(courseBuilderPage).scrollTo('bottom')
+        //Calendar is displayed when "add date range checkbox is selected"
+        this.selectAddDateRange()
+        cy.get(txtStartDate).should('be.visible').should('have.attr', 'placeholder', 'MM-DD-YYYY')
+        cy.get(txtEndDate).should('be.disabled').should('have.attr', 'placeholder', 'MM-DD-YYYY')
+        cy.get(previewSection).should("not.be.visible")
+        //Calendar is NOT displayed when "add date range checkbox is selected"
+        this.unselectAddDateRange()
+        cy.get(txtStartDate).should('not.be.visible')
+        cy.get(txtEndDate).should('not.be.visible')
+        cy.get(previewSection).should("be.visible")
+    }
+
+
+    autoSelectEndDate(){
+        cy.get(courseBuilderPage).scrollTo('bottom')
+        cy.get(txtNumberOfWeek).clear().type('1')
+        this.selectAddDateRange()
+        cy.get(txtStartDate).type(startDate)
+        cy.get(txtEndDate).should('have.value',endDate)
+    
+    }
+
 
 }
 
