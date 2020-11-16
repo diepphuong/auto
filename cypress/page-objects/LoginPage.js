@@ -17,7 +17,7 @@ const selISBN = '#field-input-isbn-select'
 const btnGo = '#launchBtn'
 
 //data
-const backDoor = require('../data/Backdoor.json');
+const backDoor = require('../data/Backdoor.json')
 
 class LoginPage {
   userLogin (username, password){
@@ -34,7 +34,12 @@ class LoginPage {
   }
 
   selectUser(){
-    cy.get(btnSelect).click()
+    cy.wait(2000) // need a better solution
+    cy.get('body').then($body => {
+      if ($body.find(btnSelect).length > 0) {
+          cy.get(btnSelect).click()
+      }
+    })
   }
 
   selectCourse(course, ISBN){
@@ -57,7 +62,14 @@ class LoginPage {
     this.selectUser()
     this.selectCourse(course, ISBN)
     cy.url().should('contain','course-plan')
-}
+  }
+
+  launchCourse(email, course){
+    this.userLogin(backDoor.adminUsername, backDoor.adminPassword)
+    this.eolsUserLookUp(email)
+    this.selectUser()
+    this.selectCourse(course, backDoor.ISBN)
+  }
 }
   export default LoginPage;
 
