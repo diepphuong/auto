@@ -34,5 +34,5 @@ package-lock.json
 /.vscode
 
 /src/components/pages/demo/components/
-cypress.json
+
 
