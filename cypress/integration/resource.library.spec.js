@@ -3,6 +3,7 @@ import CoursePlanPage from '../page-objects/CoursePlanPage'
 import ResourceLibraryPage from '../page-objects/ResourceLibraryPage'
 
 //const resourceLibraryData = require('../data/ResourceLibrary.json');
+const loginData = require('../data/Backdoor.json');
 
 describe("Verify Resource Library Page", () => {
     
@@ -10,8 +11,8 @@ describe("Verify Resource Library Page", () => {
       const loginPage = new LoginPage()
       const coursePlan = new CoursePlanPage()
 
-      loginPage.launchCourseSuccess("cw_canvas_fac01@sharklasers.com","test4_CW_Oct31")
-      coursePlan.goToResourceLibraryPage()
+      loginPage.launchCourse(loginData.email_lam, loginData.course_lam)
+      //coursePlan.goToResourceLibraryPage()
     });
 
   });

@@ -8,5 +8,7 @@
         "prefix": "sherCy",
         "numberOfCard": "7",
         "course":"CW-test4-Aug2601",
-        "ISBN": "9780323398817"
+        "ISBN": "9780323398817",
+        "email_lam": "cw_canvas_fac01@sharklasers.com",
+        "course_lam": "test4_CW_Oct31"
     }
