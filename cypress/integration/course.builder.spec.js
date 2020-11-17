@@ -31,8 +31,6 @@ describe("Verify Course Builder Page", () => {
     it('Verify "course end date" will be auto filled when selecting "course start date"', () => {
       const courseBuilderPage = new CourseBuilderPage();
       courseBuilderPage.autoSelectEndDate();
-
-      
     });
 
     // it('Verify Preview section', () => {
