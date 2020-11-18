@@ -1,16 +1,24 @@
 import LoginPage from '../page-objects/LoginPage'
 import CoursePlanPage from '../page-objects/CoursePlanPage'
 
+//Data
 const backDoor = require('../data/Backdoor.json')
+const coursePlan = require('../data/CoursePlan.json')
 
 describe ('Verify Course Plan page', ()=>{
-    beforeEach(()=>{
-        const loginPage = new LoginPage()
-        loginPage.launchCourseBuilderSuccess(backDoor.adminUsername, backDoor.adminPassword, backDoor.email, backDoor.course, backDoor.ISBN)
-      })
+  const coursePlanPage = new CoursePlanPage()
+  
+  beforeEach(()=>{
+    const loginPage = new LoginPage()
+    loginPage.launchCourse(backDoor.email_lam, backDoor.course_lam)
+  })
 
-      it("Verify default course builder page", () => {
-        const courseBuilderPage = new CourseBuilderPage()
-        courseBuilderPage.verifyDefaultCourseBuilderPage()
-       })
+  /* it("Verify UI course plan page", () => {
+    coursePlanPage.verifyUICoursePlan()
+  }) */
+
+  it("Verify Add New Folder from top menu", () => {
+    coursePlanPage.addParentFolder(coursePlan.folderName)
+  })
+
 })
