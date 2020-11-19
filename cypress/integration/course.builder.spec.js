@@ -4,7 +4,7 @@ import CourseBuilderPage from '../page-objects/CourseBuilderPage'
 const backDoor = require('../data/Backdoor.json');
 const courseBuilderData = require('../data/CourseBuilder.json');
 
-describe("Verify Course Builder Page", () => {
+describe("Verify Course Builder Page when selecting build course automatically", () => {
     beforeEach(()=>{
       const loginPage = new LoginPage();
       loginPage.launchCourseBuilderSuccess(backDoor.adminUsername, backDoor.adminPassword, backDoor.email, backDoor.course, backDoor.ISBN);
@@ -28,16 +28,30 @@ describe("Verify Course Builder Page", () => {
     //   courseBuilderPage.verifyCalendarSection();
     // });
 
-    it('Verify "course end date" will be auto filled when selecting "course start date"', () => {
-      const courseBuilderPage = new CourseBuilderPage();
-      courseBuilderPage.autoSelectEndDate();
-    });
+    // it('Verify "course end date" will be auto filled when selecting "course start date"', () => {
+    //   const courseBuilderPage = new CourseBuilderPage();
+    //   courseBuilderPage.autoSelectEndDate();
+    // });
 
     // it('Verify Preview section', () => {
+    //   const courseBuilderPage = new CourseBuilderPage();
+    //   courseBuilderPage.verifyPreviewWithoutAddDateRange();
+    //   courseBuilderPage.verifyPreviewWithAddDateRange();
       
-    // });
-
-    // it('Verify CB page when selecting build course manually', () => {
-      
-    // });
+    // });  
 })
+
+describe("Verify Course Builder Page when selecting build course manually", () => {
+  beforeEach(()=>{
+    const loginPage = new LoginPage();
+    loginPage.launchCourseBuilderSuccess(backDoor.adminUsername, backDoor.adminPassword, backDoor.email, backDoor.course, backDoor.ISBN);
+  })
+
+  it('Verify CB page when selecting build course manually', () => {
+    const courseBuilderPage = new CourseBuilderPage();
+    courseBuilderPage.verifyPageWhenSelectManualBuildCourse();
+    courseBuilderPage.changeFirstFolderTitle('shortcut')
+  });
+
+  
+});

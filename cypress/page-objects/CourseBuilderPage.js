@@ -15,7 +15,8 @@ const txtNumberOfWeek = "[name='NUMBER_OF_SECTIONS']"
 const textHowManyItems = 'div.c-scm-course-builder__inner .o-els-flex-layout__item > div:nth-of-type(1) > div:nth-of-type(2) .c-els-field__label-text'
 const chkDayRange = '.c-els-field--checkbox > :nth-child(1) .c-els-field__input[type=checkbox]'
 const previewSection = '.c-scm-course-builder-preview'
-const textPreviewDescription = 'div.c-scm-course-builder-preview > div:nth-of-type(2) > strong'
+const txtFolderTitle = "[name='FIRST_FOLDER_TITLE']"
+
 //const calendarSection = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) input:nth-of-type(1)'
 const txtStartDate = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) input:nth-of-type(1)'
 const txtEndDate = 'span.c-els-field__label-text-content > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) input:nth-of-type(1)'
@@ -34,7 +35,14 @@ const rdbCustomFolder = "[name='CUSTOM_SECTION_TITLE']"
 //Variable for auto fill end date
 const startDate = Cypress.moment().format()
 const endDate = Cypress.moment().add(6,'days').format()
+const fixedStartDate = '11-01-2020'
 
+//Preview section
+const dateRangeHeader = 'div.c-scm-course-builder-preview > div:nth-of-type(2) > strong'
+
+//Common actions
+const linkReturnToCourseSetup = ':nth-child(2) > div > strong'
+const btnAlertSubmit = '#c-els-modal__button-RETURN_TO_COURSE_BUILDER_MODAL--alert'
 
 
 class CourseBuilderPage {
@@ -68,6 +76,10 @@ class CourseBuilderPage {
 
     }
 
+    scrollToBottom(){
+        cy.get(courseBuilderPage).scrollTo('bottom')
+    }
+
     verifyDefaultCourseBuilderPage() {
         this.verifyDefaultOptions()
     }
@@ -94,6 +106,7 @@ class CourseBuilderPage {
         cy.get(textHowManyItems).should('not.be.visible')
         cy.get(btnCreateCourse, { timeout: 40000 }).should('be.enabled')
         cy.get(previewSection).should('not.be.visible')
+        cy.get(txtFolderTitle).should('be.enabled').should('have.value', 'Week 1')
     }
 
     verifyTypeOfOrganization() {
@@ -128,7 +141,7 @@ class CourseBuilderPage {
     }
 
     verifyCalendarSection() {
-        cy.get(courseBuilderPage).scrollTo('bottom')
+        this.scrollToBottom()
         //Calendar is displayed when "add date range checkbox is selected"
         this.selectAddDateRange()
         cy.get(txtStartDate).should('be.visible').should('have.attr', 'placeholder', 'MM-DD-YYYY')
@@ -141,17 +154,64 @@ class CourseBuilderPage {
         cy.get(previewSection).should("be.visible")
     }
 
-
-    autoSelectEndDate(){
-        cy.get(courseBuilderPage).scrollTo('bottom')
-        cy.get(txtNumberOfWeek).clear().type('1')
-        this.selectAddDateRange()
-        cy.get(txtStartDate).type(startDate)
-        cy.get(txtEndDate).should('have.value',endDate)
-    
+    setNumberOfWeek(numberOfWeek){
+        cy.get(txtNumberOfWeek).clear().type(numberOfWeek)
     }
 
+    setCurrentDateAsStartDate(){
+        this.scrollToBottom()
+        this.selectAddDateRange()
+        cy.get(txtStartDate).type(startDate)
+    }
 
+    setHardStartDate(){
+        this.scrollToBottom()
+        cy.get(txtStartDate).type(fixedStartDate)
+    }
+
+    verifyEndDateValue(){
+        this.setNumberOfWeek('1')
+        this.setCurrentDateAsStartDate()
+        cy.get(txtEndDate).should('have.value',endDate)
+    }
+
+    verifyPreviewWithoutAddDateRange(){
+        this.unselectAddDateRange()
+        cy.get(dateRangeHeader).should('have.text', 'Week 1')
+    }
+
+    verifyPreviewWithAddDateRange(){
+        this.selectAddDateRange()
+        this.setHardStartDate()
+        cy.get(dateRangeHeader).should('have.text','Week 1: Nov. 1 - Nov. 7')
+    }
+
+    changeFirstFolderTitle(title){
+        //this.selectManualBuildCourse()
+        cy.get(txtFolderTitle).clear().type(title).should('have.value',title)
+    }
+
+    enterCourseName(courseName){
+        cy.get(txtCourseName).clear()
+          .type(courseName)
+          .should('have.value',courseName)
+    }
+
+    createManualCourse(firstFolderTitle){
+        this.selectManualBuildCourse()
+        this.changeFirstFolderTitle(firstFolderTitle)
+        cy.get(btnCreateCourse).click()
+    }
+
+    verifyManualCourseCreateSuccess(){
+        cy.url().should('contain','course-plan')
+    }
+
+    returnToCourseSetup(){
+        cy.get(linkReturnToCourseSetup).click()
+        cy.get(btnAlertSubmit).click()
+        cy.url().should('contain','course-builder')
+    }
 }
 
 
