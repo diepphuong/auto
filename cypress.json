@@ -3,5 +3,6 @@
   "defaultCommandTimeout": 60000,
   "video": false,
   "fixturesFolder": "cypress/fixtures",
-  "baseUrl": "https://sherpath-courseware-test4.apps.els-ols.com/#/"
+  "baseUrl": "https://sherpath-courseware-test4.apps.els-ols.com/#/",
+  "chromeWebSecurity": false
 }
