@@ -37,7 +37,7 @@ confirmRemoveItem(){
     cy.get(confirmRemoveItem).click
   }
 
-  deleteAFolder(){
+  deleteFirstFolder(){
     cy.get(btnMenu).click()
     cy.get(actionMenu).contains('Remove').trigger('mouseenter')
     this.confirmRemoveItem()

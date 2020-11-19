@@ -11,10 +11,30 @@ const btnAddSkill = '.c-els-button.c-els-button--small.c-els-button--secondary.q
 const btnAddMoreResources = '.c-els-button.c-els-button--small.c-els-button--secondary.qe-scm-course-plan-action-button-more-resources'
 const btnAddaFolder = '.c-els-button.c-els-button--small.c-els-button--secondary.qe-scm-course-plan-action-button-add-folder'
 
+//Action menu
+const btnMenu = 'div.o-els-flex-layout--center .c-els-menu .o-els-icon-svg'
+const menuRemove = 'ul.c-els-menu__list > li:nth-of-type(12) > span:nth-of-type(1) span:nth-of-type(1)'
+const actionMenu = '.c-els-menu__window'
+
+//Confirm dialogs
+const confirmRemoveItem = 'div#c-els-modal__content-REMOVE_MODAL_ID .c-els-button--primary'
+
 class CoursePlanPage{
   goToResourceLibrary(){
     cy.get(btnAddMoreResources).click()
   }
+
+  confirmRemoveItem(){
+    cy.get(confirmRemoveItem).click
+  }
+
+  deleteAFolder(){
+    cy.get(btnMenu).click()
+    cy.get(actionMenu).select('Remove')
+  }
+
+
+
 }
 
 export default CoursePlanPage
