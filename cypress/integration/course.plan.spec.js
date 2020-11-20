@@ -7,7 +7,7 @@ const coursePlan = require('../data/CoursePlan.json')
 
 describe ('Verify Course Plan page', ()=>{
   const coursePlanPage = new CoursePlanPage()
-  
+
   beforeEach(()=>{
     const loginPage = new LoginPage()
     loginPage.launchCourse(backDoor.email_lam, backDoor.course_lam)
@@ -19,6 +19,10 @@ describe ('Verify Course Plan page', ()=>{
 
   it("Verify Add New Folder from top menu", () => {
     coursePlanPage.addParentFolder(coursePlan.folderName)
+  })
+
+  it("Verify Delete folder from Coure Plan", () => {
+    coursePlanPage.removeItemsFromCoursePlan(coursePlan.folderName)
   })
 
 })
