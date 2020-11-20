@@ -12,21 +12,24 @@ describe("Create course successfully", () => {
 
     afterEach(() => {
       const commonAction = new CommonActions();
-      commonAction.deleteAFolder()
+      commonAction.deleteFirstFolder()
      
       
     });
 
-    it('Create Manual Course', () => {
-        const courseBuilderPage = new CourseBuilderPage();
-        courseBuilderPage.createManualCourse('Manual Course', 'Test')
-        courseBuilderPage.verifyManualCourseCreateSuccess()
+    // it('Create Manual Course', () => {
+    //     const courseBuilderPage = new CourseBuilderPage();
+    //     courseBuilderPage.createManualCourse('Manual Course')
+    //     courseBuilderPage.verifyCourseCreateSuccess()
 
-    });
-
-    // it('Create Auto Course', () => {
-        
     // });
+
+    it('Create Auto Course', () => {
+      const courseBuilderPage = new CourseBuilderPage();
+      courseBuilderPage.createAutoCourse()
+      courseBuilderPage.verifyCourseCreateSuccess()
+        
+    });
 
 
 

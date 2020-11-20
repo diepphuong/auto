@@ -203,7 +203,13 @@ class CourseBuilderPage {
         cy.get(btnCreateCourse).click()
     }
 
-    verifyManualCourseCreateSuccess(){
+    createAutoCourse(){
+        this.selectAutoBuildCourse()
+        this.unselectAddDateRange()
+        this.setNumberOfWeek('1')
+        cy.get(btnCreateCourse).click()
+    }
+    verifyCourseCreateSuccess(){
         cy.url().should('contain','course-plan')
     }
 
