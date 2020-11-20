@@ -1,16 +1,23 @@
-const ddlTaxonomyFilter = '#field-input-taxonomy-list'
-const rdbCreateNewCourse = ':nth-child(1) > #field-wrap-undefined > .c-els-field__label > .c-els-field__label-text > .c-els-field__switch'
-
+//CoursePlan Navigation bar
+const btnAddMoreResources = 'button.qe-scm-course-plan-action-button-more-resources > .c-els-button__text'
+const btnResourcesEbook =':nth-child(2) > .c-scm-sidebar__section > .o-els-flex-layout--column > :nth-child(3) > .c-scm-sidebar__section-link > .o-els-flex-layout > :nth-child(2) > .c-scm-sidebar__section-link-text'
 const ResourceLibraryData = require('../data/ResourceLibrary.json');
 
 class ResourceLibraryPage {
-    verifyResourceLibrary(courseName){
-        cy.get(txtCourseName).clear()
-        cy.get(errorEmptyCourseName).should('contain', courseBuilderData.errorEmptyCourseName)
-        cy.get(btnCreateCourse, {timeout: 40000 }).should('be.disabled')
-        cy.get(txtCourseName).clear().type(courseName)
+        openResourcesPageByNavigationBar(){
+            cy.get(btnResourcesEbook).click({force: true})
+          }
+
+          verifyResourcePageIsOpenSuccess(){
+            cy.url().should('contain','catalog')
+          }
+
+          openResourcesPageByTopMenu(){
+            cy.get(btnAddMoreResources).click({force: true})
+          }
+        
     }
 
-}
+
 
 export default ResourceLibraryPage;
