@@ -1,7 +1,3 @@
-const btnBulkEdit = 'span.c-els-slide-switch__switch'
-const checkBoxSelectAll = ':nth-child(2) > #field-wrap-undefined > .c-els-field__label > .c-els-field__label-text > .c-els-field__switch'
-const btnRemove = '#batch-remove-button > .c-els-button__text > .o-els-flex-layout > :nth-child(2) > div > .u-els-font-family-bold'
-
 //Top menu
 const btnAddEbookReading = '.c-els-button.c-els-button--small.c-els-button--secondary.qe-scm-course-plan-action-button-ebook-reading'
 const btnAddEAQ = '.c-els-button.c-els-button--small.c-els-button--secondary.qe-scm-course-plan-action-button-adaptive-quiz'
@@ -15,6 +11,7 @@ const btnAddaFolder = '.c-els-button.c-els-button--small.c-els-button--secondary
 const btnMenu = 'div.o-els-flex-layout--center .c-els-menu .o-els-icon-svg'
 const menuRemove = 'ul.c-els-menu__list > li:nth-of-type(12) > span:nth-of-type(1) span:nth-of-type(1)'
 const actionMenu = '.c-els-menu__window'
+const menuOption = 'li.c-els-menu__item > .c-els-link'
 
 //Confirm dialogs
 const confirmRemoveItem = 'div#c-els-modal__content-REMOVE_MODAL_ID .c-els-button--primary'
@@ -22,10 +19,11 @@ const confirmRemoveItem = 'div#c-els-modal__content-REMOVE_MODAL_ID .c-els-butto
 //Content page
 const btnCollapseExpandAllFolders = '.c-els-button--debuttonize.c-scm-course-plan-page__heading-button'
 const btnAddaFolderBottom = '.c-els-button.c-els-button--default.c-els-button--secondary.c-els-button--expanded.qe-scm-course-plan-action-button-add-folder'
+const divParentItem = '.c-scm-syllabus-item__heading'
 const iconCollapseExpandFolder = '.o-els-icon-svg.o-els-icon-svg--1x1o2.u-els-color-secondary.o-els-icon-svg--middle'
-//const iconActionMenu = '.o-els-flex-layout > .c-els-menu > .c-els-menu__button'
+const iconActionMenu = '.c-els-menu  > button.c-els-menu__button'
 
-//New Folder modal (iframe)
+//New Folder modal
 const txtName = '[name=editSyllabusItemTitleInput]'
 const modNewFolder = 'div.c-els-modal'
 const ddlDestination = 'select#field-input-destination-dropdown'
@@ -42,7 +40,7 @@ class CoursePlanPage{
   }
 
   confirmRemoveItem(){
-    cy.get(confirmRemoveItem).click
+    cy.get(confirmRemoveItem).click()
   }
 
   deleteAFolder(){
@@ -68,6 +66,7 @@ class CoursePlanPage{
     cy.get(ddlLocation).should('include.text',coursePlan.defaultLocation)
     cy.get(btnCancelNewFolder).should('include.text','Cancel')
     cy.get(btnAddNewFolder).should('include.text','Add').click()
+    cy.wait(1000)
   }
 
   addSubFolder(name,destination,location){
@@ -80,6 +79,20 @@ class CoursePlanPage{
     cy.get(ddlLocation).should('include.text',coursePlan.defaultLocation).select(location)
     cy.get(btnCancelNewFolder).should('include.text','Cancel')
     cy.get(btnAddNewFolder).should('include.text','Add').click()
+    cy.wait(1000)
+  }
+
+  removeItemsFromCoursePlan(itemName) {
+    cy.get(btnAddaFolderBottom).scrollIntoView().wait(1000)
+    cy.get(divParentItem).each(($el) => {
+      const innerText = $el.text()
+      if (innerText.includes(itemName)) {
+        $el.find(iconActionMenu).click()
+        return
+      }
+    })
+    cy.get(actionMenu).contains('Remove').click()
+    cy.get(confirmRemoveItem).click()
   }
 }
 
