@@ -22,6 +22,7 @@ const btnAddaFolderBottom = '.c-els-button.c-els-button--default.c-els-button--s
 const divParentItem = '.c-scm-syllabus-item__heading'
 const iconCollapseExpandFolder = '.o-els-icon-svg.o-els-icon-svg--1x1o2.u-els-color-secondary.o-els-icon-svg--middle'
 const iconActionMenu = '.c-els-menu  > button.c-els-menu__button'
+const btnOpenCourseSetup = '.o-els-container > div > .c-els-button'
 
 //New Folder modal
 const txtName = '[name=editSyllabusItemTitleInput]'
@@ -43,9 +44,8 @@ class CoursePlanPage{
     cy.get(confirmRemoveItem).click()
   }
 
-  deleteAFolder(){
-    cy.get(btnMenu).click()
-    cy.get(actionMenu).select('Remove')
+  openCourseSetup(){
+    cy.get(btnOpenCourseSetup).click
   }
 
   verifyUICoursePlan(){
