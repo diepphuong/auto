@@ -32,23 +32,30 @@ const ddlLocation = 'select#field-input-location-dropdown'
 const btnAddNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--primary'
 const btnCancelNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--secondary'
 
+//Navigation Bar (Phuong added)
+const btnResourcesEbook = ':nth-child(2) > .c-scm-sidebar__section > .o-els-flex-layout--column > :nth-child(3) > .c-scm-sidebar__section-link > .o-els-flex-layout > :nth-child(2) > .c-scm-sidebar__section-link-text'
+
+//AddAResource selector from an empty folder
+const btnAddAResource = 'div.c-scm-syllabus-item--empty-folder-placeholder .c-els-menu'
+const elAddResource = 'ul.c-els-menu__list > li:nth-of-type(5) > span:nth-of-type(1) .c-els-link__text'
+
 //data
 const coursePlan = require('../data/CoursePlan.json')
 
-class CoursePlanPage{
-  goToResourceLibrary(){
+class CoursePlanPage {
+  goToResourceLibrary() {
     cy.get(btnAddMoreResources).click()
   }
 
-  confirmRemoveItem(){
+  confirmRemoveItem() {
     cy.get(confirmRemoveItem).click()
   }
 
-  openCourseSetup(){
+  openCourseSetup() {
     cy.get(btnOpenCourseSetup).click
   }
 
-  verifyUICoursePlan(){
+  verifyUICoursePlan() {
     cy.get(btnAddEbookReading).should('be.visible')
     cy.get(btnAddEAQ).should('be.visible')
     cy.get(btnAddAdaptiveLesson).should('be.visible')
@@ -58,27 +65,27 @@ class CoursePlanPage{
     cy.get(btnAddaFolder).should('be.visible')
   }
 
-  addParentFolder(name){
+  addParentFolder(name) {
     cy.get(btnAddaFolder).click()
-    cy.get(modNewFolder).should('include.text',coursePlan.modalName).wait(1000)
+    cy.get(modNewFolder).should('include.text', coursePlan.modalName).wait(1000)
     cy.get(txtName).clear().type(name)
-    cy.get(ddlDestination).should('include.text',coursePlan.defaultDestination)
-    cy.get(ddlLocation).should('include.text',coursePlan.defaultLocation)
-    cy.get(btnCancelNewFolder).should('include.text','Cancel')
-    cy.get(btnAddNewFolder).should('include.text','Add').click()
+    cy.get(ddlDestination).should('include.text', coursePlan.defaultDestination)
+    cy.get(ddlLocation).should('include.text', coursePlan.defaultLocation)
+    cy.get(btnCancelNewFolder).should('include.text', 'Cancel')
+    cy.get(btnAddNewFolder).should('include.text', 'Add').click()
     cy.wait(1000)
   }
 
-  addSubFolder(name,destination,location){
-    if(destination === null) {destination = '- Week 1'}
+  addSubFolder(name, destination, location) {
+    if (destination === null) { destination = '- Week 1' }
 
     cy.get(btnAddaFolder).click()
-    cy.get(modNewFolder).should('include.text',coursePlan.modalName).wait(1000)
+    cy.get(modNewFolder).should('include.text', coursePlan.modalName).wait(1000)
     cy.get(txtName).clear().type(name)
-    cy.get(ddlDestination).should('include.text',coursePlan.defaultDestination).select(destination)
-    cy.get(ddlLocation).should('include.text',coursePlan.defaultLocation).select(location)
-    cy.get(btnCancelNewFolder).should('include.text','Cancel')
-    cy.get(btnAddNewFolder).should('include.text','Add').click()
+    cy.get(ddlDestination).should('include.text', coursePlan.defaultDestination).select(destination)
+    cy.get(ddlLocation).should('include.text', coursePlan.defaultLocation).select(location)
+    cy.get(btnCancelNewFolder).should('include.text', 'Cancel')
+    cy.get(btnAddNewFolder).should('include.text', 'Add').click()
     cy.wait(1000)
   }
 
@@ -94,6 +101,47 @@ class CoursePlanPage{
     cy.get(actionMenu).contains('Remove').click()
     cy.get(confirmRemoveItem).click()
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //Navigate from Course Plan to Resource Library
+  openResourcesPageByNavigationBar() {
+    cy.get(btnResourcesEbook).click({ force: true })
+  }
+
+  openResourcesPageByTopMenu() {
+    cy.get(btnAddMoreResources).click({ force: true })
+  }
+
+  openResourcePageFromEmptyFolder(){
+    cy.get(btnAddAResource).wait(3000).click()
+    cy.get(elAddResource).click()
+  }
+
+  verifyResourcePageIsOpenSuccess(){
+    cy.url().should('contain','catalog')
+  }
+
+
+
+
+
+
+
 }
 
 export default CoursePlanPage
