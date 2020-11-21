@@ -103,21 +103,6 @@ class CoursePlanPage {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   //Navigate from Course Plan to Resource Library
   openResourcesPageByNavigationBar() {
     cy.get(btnResourcesEbook).click({ force: true })
@@ -127,13 +112,13 @@ class CoursePlanPage {
     cy.get(btnAddMoreResources).click({ force: true })
   }
 
-  openResourcePageFromEmptyFolder(){
+  openResourcePageFromEmptyFolder() {
     cy.get(btnAddAResource).wait(3000).click()
     cy.get(elAddResource).click()
   }
 
-  verifyResourcePageIsOpenSuccess(){
-    cy.url().should('contain','catalog')
+  verifyResourcePageIsOpenSuccess() {
+    cy.url().should('contain', 'catalog')
   }
 
 
