@@ -9,7 +9,9 @@ const btnAddaFolder = '.c-els-button.c-els-button--small.c-els-button--secondary
 
 //Action menu
 const btnMenu = 'div.o-els-flex-layout--center .c-els-menu .o-els-icon-svg'
+const menuRemove = 'ul.c-els-menu__list > li:nth-of-type(12) > span:nth-of-type(1) span:nth-of-type(1)'
 const actionMenu = '.c-els-menu__list'
+const menuOption = 'li.c-els-menu__item > .c-els-link'
 
 //Confirm dialogs
 const confirmRemoveItem = 'div#c-els-modal__content-REMOVE_MODAL_ID .c-els-button--primary'
@@ -20,6 +22,7 @@ const btnAddaFolderBottom = '.c-els-button.c-els-button--default.c-els-button--s
 const divParentItem = '.c-scm-syllabus-item__heading'
 const iconCollapseExpandFolder = '.o-els-icon-svg.o-els-icon-svg--1x1o2.u-els-color-secondary.o-els-icon-svg--middle'
 const iconActionMenu = '.o-els-flex-layout__item > .c-els-menu  > button.c-els-menu__button'
+const btnOpenCourseSetup = '.o-els-container > div > .c-els-button'
 
 //New Folder modal
 const txtName = '[name=editSyllabusItemTitleInput]'
@@ -28,6 +31,13 @@ const ddlDestination = 'select#field-input-destination-dropdown'
 const ddlLocation = 'select#field-input-location-dropdown'
 const btnAddNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--primary'
 const btnCancelNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--secondary'
+
+/Navigation Bar (Phuong added)
+const btnResourcesEbook = ':nth-child(2) > .c-scm-sidebar__section > .o-els-flex-layout--column > :nth-child(3) > .c-scm-sidebar__section-link > .o-els-flex-layout > :nth-child(2) > .c-scm-sidebar__section-link-text'
+
+//AddAResource selector from an empty folder
+const btnAddAResource = 'div.c-scm-syllabus-item--empty-folder-placeholder .c-els-menu'
+const elAddResource = 'ul.c-els-menu__list > li:nth-of-type(5) > span:nth-of-type(1) .c-els-link__text'
 
 //data
 const coursePlan = require('../data/CoursePlan.json')
@@ -39,6 +49,10 @@ class CoursePlanPage{
 
   confirmRemoveItem(){
     cy.get(confirmRemoveItem).click()
+  }
+
+ openCourseSetup() {
+    cy.get(btnOpenCourseSetup).click
   }
 
   deleteAFolder(){
@@ -79,17 +93,35 @@ class CoursePlanPage{
   }
 
   removeItemsFromCoursePlan(itemName) {
-    cy.get(divParentItem).each(($el, index, $list) => {
-      const innerText = $el.text()
-      if (innerText.includes(itemName)) {
-        cy.wrap($el).scrollIntoView().wait(1000)
-        cy.wrap($el).find(iconActionMenu).click()
-        return
+      cy.get(divParentItem).each(($el, index, $list) => {
+        const innerText = $el.text()
+        if (innerText.includes(itemName)) {
+          cy.wrap($el).scrollIntoView().wait(1000)
+          cy.wrap($el).find(iconActionMenu).click()
+          return
+        }
+      })
+      cy.get(actionMenu).contains('Remove').click()
+      cy.get(confirmRemoveItem).click()
+    }
+
+    //Navigate from Course Plan to Resource Library
+      openResourcesPageByNavigationBar() {
+        cy.get(btnResourcesEbook).click({ force: true })
       }
-    })
-    cy.get(actionMenu).contains('Remove').click()
-    cy.get(confirmRemoveItem).click()
-  }
+
+      openResourcesPageByTopMenu() {
+        cy.get(btnAddMoreResources).click({ force: true })
+      }
+
+      openResourcePageFromEmptyFolder() {
+        cy.get(btnAddAResource).wait(3000).click()
+        cy.get(elAddResource).click()
+      }
+
+      verifyResourcePageIsOpenSuccess() {
+        cy.url().should('contain', 'catalog')
+      }
 }
 
 export default CoursePlanPage

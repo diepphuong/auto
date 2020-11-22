@@ -110,17 +110,20 @@ class CourseBuilderPage {
     }
 
     verifyTypeOfOrganization() {
-        for (var i = 0; i <= typeOfOrganization.length; i++) {
+        for (var i = 0; i <typeOfOrganization.length; i++) {
             cy.get(typeOfOrganization[i]).check({ force: true }).should('be.checked')
             cy.get(textHowManyItems).should('have.text', 'How many ' + rdbOrganization[i] + 's' + ' do you need? *')
         }
 
     }
 
+    selectTypeOfOrganization(){
+        cy.get(rdbWeek).check({ force: true }).should('be.checked')
+    }
+
     selectCustomOption() {
         cy.get(rdbCustom).check({ force: true }).should('be.checked')
     }
-
 
     typeCustomValue(customValue) {
         this.selectCustomOption()
@@ -166,7 +169,7 @@ class CourseBuilderPage {
 
     setHardStartDate(){
         this.scrollToBottom()
-        cy.get(txtStartDate).type(fixedStartDate)
+        cy.get(txtStartDate).clear().type(fixedStartDate)
     }
 
     verifyEndDateValue(){
@@ -203,7 +206,13 @@ class CourseBuilderPage {
         cy.get(btnCreateCourse).click()
     }
 
-    verifyManualCourseCreateSuccess(){
+    createAutoCourse(){
+        this.selectAutoBuildCourse()
+        this.unselectAddDateRange()
+        this.setNumberOfWeek('1')
+        cy.get(btnCreateCourse).click()
+    }
+    verifyCourseCreateSuccess(){
         cy.url().should('contain','course-plan')
     }
 
