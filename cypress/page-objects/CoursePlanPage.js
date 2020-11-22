@@ -23,6 +23,7 @@ const divParentItem = '.c-scm-syllabus-item__heading'
 const iconCollapseExpandFolder = '.o-els-icon-svg.o-els-icon-svg--1x1o2.u-els-color-secondary.o-els-icon-svg--middle'
 const iconActionMenu = '.o-els-flex-layout__item > .c-els-menu  > button.c-els-menu__button'
 const btnOpenCourseSetup = '.o-els-container > div > .c-els-button'
+const toastMessage = '.c-els-toast__content'
 
 //New Folder modal
 const txtName = '[name=editSyllabusItemTitleInput]'
@@ -32,7 +33,7 @@ const ddlLocation = 'select#field-input-location-dropdown'
 const btnAddNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--primary'
 const btnCancelNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--secondary'
 
-/Navigation Bar (Phuong added)
+//Navigation Bar (Phuong added)
 const btnResourcesEbook = ':nth-child(2) > .c-scm-sidebar__section > .o-els-flex-layout--column > :nth-child(3) > .c-scm-sidebar__section-link > .o-els-flex-layout > :nth-child(2) > .c-scm-sidebar__section-link-text'
 
 //AddAResource selector from an empty folder
@@ -103,6 +104,7 @@ class CoursePlanPage{
       })
       cy.get(actionMenu).contains('Remove').click()
       cy.get(confirmRemoveItem).click()
+      cy.get(toastMessage).should('include.text','removed')
     }
 
     //Navigate from Course Plan to Resource Library
@@ -121,6 +123,15 @@ class CoursePlanPage{
 
       verifyResourcePageIsOpenSuccess() {
         cy.url().should('contain', 'catalog')
+      }
+      
+      verifyUINewFolderModal(){
+        cy.get(modNewFolder).should('be.visible')
+        cy.get(txtName).should('be.visible')
+        cy.get(ddlDestination).should('be.visible')
+        cy.get(ddlLocation).should('be.visible')
+        cy.get(btnAddNewFolder).should('be.visible')
+        cy.get(btnCancelNewFolder).should('be.visible')
       }
 }
 
