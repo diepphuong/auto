@@ -2,5 +2,8 @@
     "modalName": "New Folder",
     "defaultDestination": "My Course Plan",
     "defaultLocation": "Insert here",
-    "folderName": "Testing Folder"
+    "folderName": "Testing Folder",
+    "subFolder": "Sub Folder",
+    "parentFolder": "- Week 1",
+    "insertLocation": "Insert here"
 }
