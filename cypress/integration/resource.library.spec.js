@@ -12,7 +12,7 @@ const backDoor = require('../data/Backdoor.json');
 //     const loginPage = new LoginPage();
 //     loginPage.launchCourse(backDoor.email, backDoor.course1)
 //   })
-    
+
 //     it("Launch Resource Library page by clicking Resource Ebook from navigation bar", () => {
 //       coursePlan.openResourcesPageByNavigationBar()
 //       coursePlan.verifyResourcePageIsOpenSuccess()
@@ -29,29 +29,38 @@ const backDoor = require('../data/Backdoor.json');
 //     });
 
 //     it('Launch RL page by clicking AddAResource from action menu', () => {
-      
+
 //     });
 
 //   });
 
-  describe("", () => {
-    const resourceLibrary = new ResourceLibraryPage()
+describe("", () => {
+  const resourceLibrary = new ResourceLibraryPage()
 
-    beforeEach(()=>{
-      const coursePlan = new CoursePlanPage();
-      const loginPage = new LoginPage();
-      loginPage.launchCourse(backDoor.email, backDoor.course1)
-      coursePlan.openResourcesPageByNavigationBar()
-    })
-
-    it('Verify Resource Library page header', () => {
-      resourceLibrary.verifyPageHeader()
-      resourceLibrary.selectAllResources()
-      resourceLibrary.unselectAllResources()
-    });
-
-
-
-
-
+  beforeEach(() => {
+    const coursePlan = new CoursePlanPage();
+    const loginPage = new LoginPage();
+    loginPage.launchCourse(backDoor.email, backDoor.course1)
+    coursePlan.openResourcesPageByNavigationBar()
   })
+
+  // it('Verify Resource Library page header', () => {
+  //   resourceLibrary.verifyPageHeader()
+
+  // });
+
+  // it('Verify All resources are checked when checkbox SelectAll is checked', () => {
+  //   resourceLibrary.selectAllResources()
+  //   resourceLibrary.verifyAllCheckboxesAreChecked()
+  // });
+
+  // it('Verify All resources are NOT checked when checkbox SelectAll is NOT checked', () => {
+  //   resourceLibrary.unselectAllResources()
+  //   resourceLibrary.verifyAllCheckboxesAreUnChecked()
+  // });
+
+  it('Verify filter taxonomy resource function works correctly', () => {
+    resourceLibrary.countNumberOfTaxonomy()
+  });
+
+})
