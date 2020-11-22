@@ -9,9 +9,7 @@ const btnAddaFolder = '.c-els-button.c-els-button--small.c-els-button--secondary
 
 //Action menu
 const btnMenu = 'div.o-els-flex-layout--center .c-els-menu .o-els-icon-svg'
-const menuRemove = 'ul.c-els-menu__list > li:nth-of-type(12) > span:nth-of-type(1) span:nth-of-type(1)'
-const actionMenu = '.c-els-menu__window'
-const menuOption = 'li.c-els-menu__item > .c-els-link'
+const actionMenu = '.c-els-menu__list'
 
 //Confirm dialogs
 const confirmRemoveItem = 'div#c-els-modal__content-REMOVE_MODAL_ID .c-els-button--primary'
@@ -21,7 +19,7 @@ const btnCollapseExpandAllFolders = '.c-els-button--debuttonize.c-scm-course-pla
 const btnAddaFolderBottom = '.c-els-button.c-els-button--default.c-els-button--secondary.c-els-button--expanded.qe-scm-course-plan-action-button-add-folder'
 const divParentItem = '.c-scm-syllabus-item__heading'
 const iconCollapseExpandFolder = '.o-els-icon-svg.o-els-icon-svg--1x1o2.u-els-color-secondary.o-els-icon-svg--middle'
-const iconActionMenu = '.c-els-menu  > button.c-els-menu__button'
+const iconActionMenu = '.o-els-flex-layout__item > .c-els-menu  > button.c-els-menu__button'
 
 //New Folder modal
 const txtName = '[name=editSyllabusItemTitleInput]'
@@ -70,8 +68,6 @@ class CoursePlanPage{
   }
 
   addSubFolder(name,destination,location){
-    if(destination === null) {destination = '- Week 1'}
-
     cy.get(btnAddaFolder).click()
     cy.get(modNewFolder).should('include.text',coursePlan.modalName).wait(1000)
     cy.get(txtName).clear().type(name)
@@ -83,11 +79,11 @@ class CoursePlanPage{
   }
 
   removeItemsFromCoursePlan(itemName) {
-    cy.get(btnAddaFolderBottom).scrollIntoView().wait(1000)
-    cy.get(divParentItem).each(($el) => {
+    cy.get(divParentItem).each(($el, index, $list) => {
       const innerText = $el.text()
       if (innerText.includes(itemName)) {
-        $el.find(iconActionMenu).click()
+        cy.wrap($el).scrollIntoView().wait(1000)
+        cy.wrap($el).find(iconActionMenu).click()
         return
       }
     })

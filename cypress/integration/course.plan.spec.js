@@ -19,10 +19,16 @@ describe ('Verify Course Plan page', ()=>{
 
   it("Verify Add New Folder from top menu", () => {
     coursePlanPage.addParentFolder(coursePlan.folderName)
+    //coursePlanPage.removeItemsFromCoursePlan(coursePlan.folderName)
   })
 
-  it("Verify Delete folder from Coure Plan", () => {
+  it("Verify Add Sub Folder from top menu", () => {
+    coursePlanPage.addSubFolder(coursePlan.subFolder, coursePlan.folderName, coursePlan.insertLocation)
     coursePlanPage.removeItemsFromCoursePlan(coursePlan.folderName)
   })
+
+  /*it("Verify Delete folder from Coure Plan", () => {
+    coursePlanPage.removeItemsFromCoursePlan(coursePlan.folderName)
+  })*/
 
 })
