@@ -13,12 +13,30 @@ describe ('Verify Course Plan page', ()=>{
     loginPage.launchCourse(backDoor.email_lam, backDoor.course_lam)
   })
 
-  /* it("Verify UI course plan page", () => {
+  it("Verify UI course plan page", () => {
     coursePlanPage.verifyUICoursePlan()
-  }) */
+  })
+
+})
+
+describe ('Verify New Folder modal', ()=>{
+  const coursePlanPage = new CoursePlanPage()
+
+  beforeEach(()=>{
+    const loginPage = new LoginPage()
+    loginPage.launchCourse(backDoor.email_lam, backDoor.course_lam)
+  })
+
+  it("Verify UI course plan page", () => {
+    coursePlanPage.verifyUICoursePlan()
+  })
 
   it("Verify Add New Folder from top menu", () => {
     coursePlanPage.addParentFolder(coursePlan.folderName)
+  })
+
+  it("Verify Add Sub Folder from top menu", () => {
+    coursePlanPage.addSubFolder(coursePlan.subFolder, '- ' + coursePlan.folderName, coursePlan.insertLocation)
   })
 
   it("Verify Delete folder from Coure Plan", () => {

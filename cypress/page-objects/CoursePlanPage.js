@@ -10,7 +10,7 @@ const btnAddaFolder = '.c-els-button.c-els-button--small.c-els-button--secondary
 //Action menu
 const btnMenu = 'div.o-els-flex-layout--center .c-els-menu .o-els-icon-svg'
 const menuRemove = 'ul.c-els-menu__list > li:nth-of-type(12) > span:nth-of-type(1) span:nth-of-type(1)'
-const actionMenu = '.c-els-menu__window'
+const actionMenu = '.c-els-menu__list'
 const menuOption = 'li.c-els-menu__item > .c-els-link'
 
 //Confirm dialogs
@@ -21,8 +21,9 @@ const btnCollapseExpandAllFolders = '.c-els-button--debuttonize.c-scm-course-pla
 const btnAddaFolderBottom = '.c-els-button.c-els-button--default.c-els-button--secondary.c-els-button--expanded.qe-scm-course-plan-action-button-add-folder'
 const divParentItem = '.c-scm-syllabus-item__heading'
 const iconCollapseExpandFolder = '.o-els-icon-svg.o-els-icon-svg--1x1o2.u-els-color-secondary.o-els-icon-svg--middle'
-const iconActionMenu = '.c-els-menu  > button.c-els-menu__button'
+const iconActionMenu = '.o-els-flex-layout__item > .c-els-menu  > button.c-els-menu__button'
 const btnOpenCourseSetup = '.o-els-container > div > .c-els-button'
+const toastMessage = '.c-els-toast__content'
 
 //New Folder modal
 const txtName = '[name=editSyllabusItemTitleInput]'
@@ -42,20 +43,25 @@ const elAddResource = 'ul.c-els-menu__list > li:nth-of-type(5) > span:nth-of-typ
 //data
 const coursePlan = require('../data/CoursePlan.json')
 
-class CoursePlanPage {
-  goToResourceLibrary() {
+class CoursePlanPage{
+  goToResourceLibrary(){
     cy.get(btnAddMoreResources).click()
   }
 
-  confirmRemoveItem() {
+  confirmRemoveItem(){
     cy.get(confirmRemoveItem).click()
   }
 
-  openCourseSetup() {
+ openCourseSetup() {
     cy.get(btnOpenCourseSetup).click
   }
 
-  verifyUICoursePlan() {
+  deleteAFolder(){
+    cy.get(btnMenu).click()
+    cy.get(actionMenu).select('Remove')
+  }
+
+  verifyUICoursePlan(){
     cy.get(btnAddEbookReading).should('be.visible')
     cy.get(btnAddEAQ).should('be.visible')
     cy.get(btnAddAdaptiveLesson).should('be.visible')
@@ -65,68 +71,68 @@ class CoursePlanPage {
     cy.get(btnAddaFolder).should('be.visible')
   }
 
-  addParentFolder(name) {
+  addParentFolder(name){
     cy.get(btnAddaFolder).click()
-    cy.get(modNewFolder).should('include.text', coursePlan.modalName).wait(1000)
+    cy.get(modNewFolder).should('include.text',coursePlan.modalName).wait(1000)
     cy.get(txtName).clear().type(name)
-    cy.get(ddlDestination).should('include.text', coursePlan.defaultDestination)
-    cy.get(ddlLocation).should('include.text', coursePlan.defaultLocation)
-    cy.get(btnCancelNewFolder).should('include.text', 'Cancel')
-    cy.get(btnAddNewFolder).should('include.text', 'Add').click()
+    cy.get(ddlDestination).should('include.text',coursePlan.defaultDestination)
+    cy.get(ddlLocation).should('include.text',coursePlan.defaultLocation)
+    cy.get(btnCancelNewFolder).should('include.text','Cancel')
+    cy.get(btnAddNewFolder).should('include.text','Add').click()
     cy.wait(1000)
   }
 
-  addSubFolder(name, destination, location) {
-    if (destination === null) { destination = '- Week 1' }
-
+  addSubFolder(name,destination,location){
     cy.get(btnAddaFolder).click()
-    cy.get(modNewFolder).should('include.text', coursePlan.modalName).wait(1000)
+    cy.get(modNewFolder).should('include.text',coursePlan.modalName).wait(1000)
     cy.get(txtName).clear().type(name)
-    cy.get(ddlDestination).should('include.text', coursePlan.defaultDestination).select(destination)
-    cy.get(ddlLocation).should('include.text', coursePlan.defaultLocation).select(location)
-    cy.get(btnCancelNewFolder).should('include.text', 'Cancel')
-    cy.get(btnAddNewFolder).should('include.text', 'Add').click()
+    cy.get(ddlDestination).should('include.text',coursePlan.defaultDestination).select(destination)
+    cy.get(ddlLocation).should('include.text',coursePlan.defaultLocation).select(location)
+    cy.get(btnCancelNewFolder).should('include.text','Cancel')
+    cy.get(btnAddNewFolder).should('include.text','Add').click()
     cy.wait(1000)
   }
 
   removeItemsFromCoursePlan(itemName) {
-    cy.get(btnAddaFolderBottom).scrollIntoView().wait(1000)
-    cy.get(divParentItem).each(($el) => {
-      const innerText = $el.text()
-      if (innerText.includes(itemName)) {
-        $el.find(iconActionMenu).click()
-        return
+      cy.get(divParentItem).each(($el, index, $list) => {
+        const innerText = $el.text()
+        if (innerText.includes(itemName)) {
+          cy.wrap($el).scrollIntoView().wait(1000)
+          cy.wrap($el).find(iconActionMenu).click()
+          return
+        }
+      })
+      cy.get(actionMenu).contains('Remove').click()
+      cy.get(confirmRemoveItem).click()
+      cy.get(toastMessage).should('include.text','removed')
+    }
+
+    //Navigate from Course Plan to Resource Library
+      openResourcesPageByNavigationBar() {
+        cy.get(btnResourcesEbook).click({ force: true })
       }
-    })
-    cy.get(actionMenu).contains('Remove').click()
-    cy.get(confirmRemoveItem).click()
-  }
 
+      openResourcesPageByTopMenu() {
+        cy.get(btnAddMoreResources).click({ force: true })
+      }
 
-  //Navigate from Course Plan to Resource Library
-  openResourcesPageByNavigationBar() {
-    cy.get(btnResourcesEbook).click({ force: true })
-  }
+      openResourcePageFromEmptyFolder() {
+        cy.get(btnAddAResource).wait(3000).click()
+        cy.get(elAddResource).click()
+      }
 
-  openResourcesPageByTopMenu() {
-    cy.get(btnAddMoreResources).click({ force: true })
-  }
-
-  openResourcePageFromEmptyFolder() {
-    cy.get(btnAddAResource).wait(3000).click()
-    cy.get(elAddResource).click()
-  }
-
-  verifyResourcePageIsOpenSuccess() {
-    cy.url().should('contain', 'catalog')
-  }
-
-
-
-
-
-
-
+      verifyResourcePageIsOpenSuccess() {
+        cy.url().should('contain', 'catalog')
+      }
+      
+      verifyUINewFolderModal(){
+        cy.get(modNewFolder).should('be.visible')
+        cy.get(txtName).should('be.visible')
+        cy.get(ddlDestination).should('be.visible')
+        cy.get(ddlLocation).should('be.visible')
+        cy.get(btnAddNewFolder).should('be.visible')
+        cy.get(btnCancelNewFolder).should('be.visible')
+      }
 }
 
 export default CoursePlanPage
