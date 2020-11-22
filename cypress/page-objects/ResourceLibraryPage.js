@@ -10,44 +10,104 @@ const chkSelectAll = "[name='checkbox_select-all']"
 //Filter section
 const ddTaxonomy = '#field-input-taxonomy-list'
 const ddSection = '#field-input-taxonomy-nodes'
-const totalTaxonomies = '.c-scm-catalog__item-list'
+const totalResources = '.c-scm-catalog__item-list'
 const eachTaxonomy = 'c-scm-catalog__item'
+const firstTaxonomy = 'Potter 10e Chapter'
+const secondTaxonomy = 'Cooper FAAHN 8e Chapter'
+const taxonomyItem = ['All', 'Potter 10e Chapter', 'Cooper FAAHN 8e Chapter']
+const chapterItem = ['All', 'Chapter 47, Bowel Elimination', 'Chapter 46, Urinary Elimination']
+
+//Select Folder section
+const ddSelectFolder = '#field-input-section-list'
+const btnAdd = '.c-els-button--default'
+const toastMessage = '.c-els-toast__item'
+
 
 class ResourceLibraryPage {
-    verifyPageHeader(){
+    verifyPageHeader() {
         cy.get(header).should('have.text', 'Resource Library')
     }
 
-    selectAllResources(){
-        cy.get(chkSelectAll).check({force:true}).should('be.checked')
+    selectAllResources() {
+        cy.get(chkSelectAll).check({ force: true }).should('be.checked')
     }
 
-    verifyAllCheckboxesAreChecked(){
+    verifyAllCheckboxesAreChecked() {
         cy.get('[type="checkbox"]').should('be.checked')
     }
 
-    unselectAllResources(){
-        cy.get(chkSelectAll).uncheck({force:true}).should('not.be.checked')
+    unselectAllResources() {
+        cy.get(chkSelectAll).uncheck({ force: true }).should('not.be.checked')
     }
 
-    verifyAllCheckboxesAreUnChecked(){
+    verifyAllCheckboxesAreUnChecked() {
         cy.get('[type="checkbox"]').should('not.be.checked')
     }
 
-    countNumberOfTaxonomy(){
-        cy.get(totalTaxonomies).find('.c-scm-catalog__item').then (item => {
+    countNumberOfResources() {
+        cy.get(totalResources).find('.c-scm-catalog__item').then(item => {
             const itemCount = Cypress.$(item).length
             expect(item).to.have.length(itemCount)
             cy.log(itemCount)
-        } )
+        })
     }
 
-    
-        
-
-
-        
+    selectTaxonomy(taxonomyOption) {
+        cy.get(ddTaxonomy).select(taxonomyOption)
     }
+
+    filterResourceByTaxonomy() {
+        for (var i = 0; i < taxonomyItem.length; i++) {
+            this.selectTaxonomy(taxonomyItem[i])
+            this.countNumberOfResources()
+        }
+    }
+
+    selectChapter(chapterOption) {
+        cy.get(ddSection).select(chapterOption)
+
+    }
+
+    filterResourceByChapter() {
+        this.selectTaxonomy(firstTaxonomy)
+        for (var i = 0; i < chapterItem.length; i++) {
+            this.selectChapter(chapterItem[i])
+            this.countNumberOfResources()
+        }
+    }
+
+    selectAResource(resourceName) {
+        cy.get(totalResources).find(resourceName).check({ force: true })
+    }
+
+    selectExistingFolder(folderName) {
+        cy.get(ddSelectFolder).select(folderName)
+    }
+
+    clickAddButton() {
+        cy.get(btnAdd).should('be.enabled').click({ force: true })
+    }
+
+    addAResourceToExistingFolder(resourceName, folderName) {
+        this.selectAResource(resourceName)
+        this.selectExistingFolder(folderName)
+        this.clickAddButton()
+        cy.get(toastMessage).should('be.visible')
+    }
+
+    verifyAddResourceSuccessfully() {
+        cy.get(toastMessage).should('be.visible')
+    }
+
+}
+
+
+
+
+
+
+
+
 
 
 

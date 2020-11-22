@@ -5,6 +5,7 @@ import ResourceLibraryPage from '../page-objects/ResourceLibraryPage'
 //const resourceLibraryData = require('../data/ResourceLibrary.json');
 const loginData = require('../data/Backdoor.json');
 const backDoor = require('../data/Backdoor.json');
+const resourceLibraryData = require('../data/ResourceLibrary.json');
 
 // describe("Go to Resource Library Page successfully", () => {
 //   const coursePlan = new CoursePlanPage();
@@ -59,8 +60,18 @@ describe("", () => {
   //   resourceLibrary.verifyAllCheckboxesAreUnChecked()
   // });
 
-  it('Verify filter taxonomy resource function works correctly', () => {
-    resourceLibrary.countNumberOfTaxonomy()
+  // it('Verify filter resource by selecting Taxonomy works correctly', () => {
+  //   resourceLibrary.filterResourceByTaxonomy()
+  // });
+
+  // it('Verify filter resource by selecting Chapter works correctly', () => {
+  //   resourceLibrary.filterResourceByChapter()
+
+  // });
+
+  it('Add a resource to an existing folder successfully', () => {
+    resourceLibrary.addAResourceToExistingFolder(resourceLibraryData.resourceName, resourceLibraryData.folderName)
   });
+
 
 })
