@@ -22,6 +22,7 @@ const ddSelectFolder = '#field-input-section-list'
 const btnAdd = '.c-els-button--default'
 const toastMessage = '.c-els-toast__item'
 const itemSelected = '.o-els-flex-layout--center > :nth-child(1)'
+const folderValues = [ResourceLibraryData.defaultSelectedFolder, ResourceLibraryData.folderName, ResourceLibraryData.newFolder]
 
 
 class ResourceLibraryPage {
@@ -93,33 +94,57 @@ class ResourceLibraryPage {
         this.selectAResource(resourceName)
         this.selectExistingFolder(folderName)
         this.clickAddButton()
-    
+
     }
 
     verifyAddResourceSuccessfully() {
         cy.get(toastMessage).should('be.visible')
     }
 
-    verifyNumberOfSelectedItems(){
+    verifyNumberOfSelectedItems() {
         this.selectAllResources()
         cy.get(itemSelected).should('have.text', '25 items selected')
         this.unselectAllResources()
         cy.get(itemSelected).should('have.text', '0 item selected')
     }
 
-    verifyAddBtnStatus(){
-        cy.get(ddSelectFolder).select('--Select Folder--')
-        cy.get('[type="checkbox"]').should('not.be.checked').then(()=>{
-            cy.get(btnAdd).should('be.disabled')
-
+    verifyAddBtnWhenDoNotSelectResource() {
+        for (var i = 0; i < folderValues.length; i++) {
+            cy.get(ddSelectFolder).select(folderValues[i])
+            cy.get('[type="checkbox"]').should('not.be.checked').then(() => {
+                cy.get(btnAdd).should('be.disabled')
+            })
+        }
     }
-        )
+
+    verifyAddBtnWhentSelecAtResource() {
+        this.selectAResource(ResourceLibraryData.resourceName)
+        this.selectExistingFolder(ResourceLibraryData.defaultSelectedFolder)
+        cy.get(btnAdd).should('be.disabled')
+        this.selectExistingFolder(ResourceLibraryData.folderName)
+        cy.get(btnAdd).should('be.enabled')
+        this.selectExistingFolder(ResourceLibraryData.newFolder)
+        cy.get(btnAdd).should('be.enabled')
+                    
+            
+
+           
+            }
+              
+
+            }
+        
 
         
-    }
-
     
-}
+
+
+
+
+
+
+
+
 
 
 
