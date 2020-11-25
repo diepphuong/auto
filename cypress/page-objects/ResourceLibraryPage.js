@@ -24,6 +24,13 @@ const toastMessage = '.c-els-toast__item'
 const itemSelected = '.o-els-flex-layout--center > :nth-child(1)'
 const folderValues = [ResourceLibraryData.defaultSelectedFolder, ResourceLibraryData.folderName, ResourceLibraryData.newFolder]
 
+//New Folder modal
+const txtName = '[name=editSyllabusItemTitleInput]'
+const modNewFolder = 'div.c-els-modal'
+const ddlDestination = 'select#field-input-destination-dropdown'
+const ddlLocation = 'select#field-input-location-dropdown'
+const btnAddNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--primary'
+const btnCancelNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--secondary'
 
 class ResourceLibraryPage {
     verifyPageHeader() {
@@ -82,7 +89,7 @@ class ResourceLibraryPage {
         cy.get(totalResources).find(resourceName).check({ force: true })
     }
 
-    selectExistingFolder(folderName) {
+    selectFolder(folderName) {
         cy.get(ddSelectFolder).select(folderName)
     }
 
@@ -92,7 +99,7 @@ class ResourceLibraryPage {
 
     addAResourceToExistingFolder(resourceName, folderName) {
         this.selectAResource(resourceName)
-        this.selectExistingFolder(folderName)
+        this.selectFolder(folderName)
         this.clickAddButton()
 
     }
@@ -119,24 +126,51 @@ class ResourceLibraryPage {
 
     verifyAddBtnWhentSelecAtResource() {
         this.selectAResource(ResourceLibraryData.resourceName)
-        this.selectExistingFolder(ResourceLibraryData.defaultSelectedFolder)
+        this.selectFolder(ResourceLibraryData.defaultSelectedFolder)
         cy.get(btnAdd).should('be.disabled')
-        this.selectExistingFolder(ResourceLibraryData.folderName)
+        this.selectFolder(ResourceLibraryData.folderName)
         cy.get(btnAdd).should('be.enabled')
-        this.selectExistingFolder(ResourceLibraryData.newFolder)
+        this.selectFolder(ResourceLibraryData.newFolder)
         cy.get(btnAdd).should('be.enabled')
-                    
-            
+    }
 
-           
-            }
-              
+    setNewFolderName(newFolderName){
+        cy.get(txtName).type(newFolderName)
+    }
 
-            }
-        
 
-        
-    
+    createNewFolder(newFolderName){
+        this.setNewFolderName(newFolderName)
+        cy.get(btnAddNewFolder).click()
+    }
+
+    addResourceToNewFolder(resourceName, newFolderName){
+        this.selectAResource(resourceName)
+        this.selectFolder(ResourceLibraryData.newFolder)
+        this.clickAddButton()
+        this.createNewFolder(newFolderName)
+
+    }
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

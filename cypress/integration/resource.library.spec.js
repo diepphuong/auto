@@ -35,7 +35,7 @@ describe("Go to Resource Library Page successfully", () => {
 
 });
 
-describe("", () => {
+describe("Verify states of elements on Resource Library page", () => {
   const resourceLibrary = new ResourceLibraryPage()
 
   beforeEach(() => {
@@ -69,20 +69,61 @@ describe("", () => {
 
   });
 
+  it('Verify the number of selected items is displayed correctly', () => {
+    resourceLibrary.verifyNumberOfSelectedItems()
+  });
+
+  it('Verify the Add button is disable when do not select any resource or folder', () => {
+    resourceLibrary.verifyAddBtnWhenDoNotSelectResource()
+    resourceLibrary.verifyAddBtnWhentSelecAtResource()
+  });
+
+})
+
+describe("Verify resource(s) is added to folder successfully", () => {
+  const resourceLibrary = new ResourceLibraryPage()
+
+  beforeEach(() => {
+    const coursePlan = new CoursePlanPage();
+    const loginPage = new LoginPage();
+    loginPage.launchCourse(backDoor.email, backDoor.course1)
+    coursePlan.openResourcesPageByNavigationBar()
+  })
+
   it('Add a resource to an existing folder successfully', () => {
     resourceLibrary.addAResourceToExistingFolder(resourceLibraryData.resourceName, resourceLibraryData.folderName)
     resourceLibrary.verifyAddResourceSuccessfully()
   });
 
-  it('Verify the number of selected items is displayed correctly', () => {
-    resourceLibrary.verifyNumberOfSelectedItems()
+  it.only('Add a resource to a newly created folder successfully', () => {
+    resourceLibrary.addResourceToNewFolder(resourceLibraryData.resourceName, resourceLibraryData.folderName + '01')
+    resourceLibrary.verifyAddResourceSuccessfully()
   });
 
-  it.only('Verify the Add button is disable when do not select any resource or folder', () => {
-    resourceLibrary.verifyAddBtnWhenDoNotSelectResource()
-    resourceLibrary.verifyAddBtnWhentSelecAtResource()
+  it('Add multiple resources to an existing folder successfully', () => {
 
   });
+
+  it('Add multiple resources to a newly created folder successfully', () => {
+
+  });
+
+  it('Add all resources to an existing folder successfully', () => {
+
+  });
+
+  it('Add all resources to a newly created folder successfully', () => {
+
+  });
+
+  it('Cancel adding resources to a newly created folder', () => {
+
+  });
+
+
 
 
 })
+
+
+
