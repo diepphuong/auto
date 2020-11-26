@@ -93,11 +93,15 @@ describe("Verify resource(s) is added to folder successfully", () => {
   it('Add a resource to an existing folder successfully', () => {
     resourceLibrary.addAResourceToExistingFolder(resourceLibraryData.resourceName, resourceLibraryData.folderName)
     resourceLibrary.verifyAddResourceSuccessfully()
+    resourceLibrary.verifyFolderNameInToastMessage('Testing Folder')
+    resourceLibrary.verifyResourceNameInToastMessage(resourceLibraryData.realResourceName)
   });
 
   it.only('Add a resource to a newly created folder successfully', () => {
     resourceLibrary.addResourceToNewFolder(resourceLibraryData.resourceName, resourceLibraryData.folderName + '01')
     resourceLibrary.verifyAddResourceSuccessfully()
+    resourceLibrary.verifyFolderNameInToastMessage(resourceLibraryData.folderName + '01')
+    resourceLibrary.verifyResourceNameInToastMessage(resourceLibraryData.realResourceName)  
   });
 
   it('Add multiple resources to an existing folder successfully', () => {
@@ -117,7 +121,7 @@ describe("Verify resource(s) is added to folder successfully", () => {
   });
 
   it('Cancel adding resources to a newly created folder', () => {
-
+    
   });
 
 

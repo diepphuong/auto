@@ -21,6 +21,8 @@ const chapterItem = ['All', 'Chapter 47, Bowel Elimination', 'Chapter 46, Urinar
 const ddSelectFolder = '#field-input-section-list'
 const btnAdd = '.c-els-button--default'
 const toastMessage = '.c-els-toast__item'
+const toastFolderName = '.c-els-toast__item .u-els-anchorize'
+const toastResourceName = 'c-els-toast__content'
 const itemSelected = '.o-els-flex-layout--center > :nth-child(1)'
 const folderValues = [ResourceLibraryData.defaultSelectedFolder, ResourceLibraryData.folderName, ResourceLibraryData.newFolder]
 
@@ -152,6 +154,14 @@ class ResourceLibraryPage {
 
     }
 
+   verifyFolderNameInToastMessage(folderName){
+       cy.get(toastFolderName).should('have.text', folderName)
+       
+   }
+
+   verifyResourceNameInToastMessage(resourceName){
+       cy.get(toastMessage).find('strong').should('have.text',resourceName)
+   }
 
 
 
