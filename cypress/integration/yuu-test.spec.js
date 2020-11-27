@@ -1,6 +1,7 @@
 import LoginPage from '../page-objects/LoginPage'
 import CoursePlanPage from '../page-objects/CoursePlanPage'
 import ResourceLibraryPage from '../page-objects/ResourceLibraryPage'
+import YuuTest from '../page-objects/YuuTest'
 
 //const resourceLibraryData = require('../data/ResourceLibrary.json');
 const loginData = require('../data/Backdoor.json');
@@ -82,6 +83,7 @@ describe("Verify states of elements on Resource Library page", () => {
 
 describe("Verify resource(s) is added to folder successfully", () => {
   const resourceLibrary = new ResourceLibraryPage()
+  const test = new YuuTest()
 
   beforeEach(() => {
     const coursePlan = new CoursePlanPage();
@@ -105,8 +107,7 @@ describe("Verify resource(s) is added to folder successfully", () => {
   });
 
   it.only('Add multiple resources to an existing folder successfully', () => {
-    resourceLibrary.addMultipleResourcesToExistingFolder(3,resourceLibraryData.folderName)
-    resourceLibrary.verifyAddResourceSuccessfully()
+    test.verifyAddBtnWhenSelectAResource()
   });
 
   it('Add multiple resources to a newly created folder successfully', () => {
