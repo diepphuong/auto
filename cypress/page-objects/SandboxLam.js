@@ -31,7 +31,7 @@ const modNewFolder = 'div.c-els-modal'
 const ddlDestination = 'select#field-input-destination-dropdown'
 const ddlLocation = 'select#field-input-location-dropdown'
 const btnAddNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--primary'
-const btnCancelNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--secondary'
+const btnCancelNewFolder = 'css=button:contains("Cancel")'
 
 //Navigation Bar (Phuong added)
 const btnResourcesEbook = ':nth-child(2) > .c-scm-sidebar__section > .o-els-flex-layout--column > :nth-child(3) > .c-scm-sidebar__section-link > .o-els-flex-layout > :nth-child(2) > .c-scm-sidebar__section-link-text'
@@ -99,6 +99,7 @@ class SandboxLam{
   }
       
   verifyUINewFolderModal(){
+    cy.get(btnAddaFolder).click()
     cy.get(modNewFolder).should('be.visible')
     cy.get(txtName).should('be.visible')
     cy.get(ddlDestination).should('be.visible')
@@ -146,6 +147,7 @@ class SandboxLam{
   }
 
   verifyUIMoveReorderModa(itemName){
+    this.openMoveModal(itemName)
     cy.get(modMoveReorder).should('be.visible')
     cy.get(lblItemName).should('include.text',itemName)
     cy.get(tooltipDestination).should('be.visible')
@@ -153,6 +155,24 @@ class SandboxLam{
     cy.get(ddlLocation).should('be.visible')
     cy.get(btnSubmitMove).should('be.visible')
     cy.get(btnCancelMove).should('be.visible')
+  }
+
+  verifyNewFolderInvalidCase(){
+    cy.get(btnAddaFolder).click()
+
+    //empty folder name
+    cy.get(txtName).clear()
+    cy.get(btnAddNewFolder).should('be.disabled')
+
+    //select no destination when adding new folder
+    cy.get(txtName).clear().type("temp")
+    cy.get(ddlDestination).select("--Select Folder--")
+    cy.get(btnAddNewFolder).should('be.disabled')
+
+    //cannot select lower nested level
+    cy.get(txtName).clear().type("temp")
+    cy.get(ddlDestination).get('[label="- - A folder"]').should('be.disabled')
+
   }
 
 }

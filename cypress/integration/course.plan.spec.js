@@ -5,6 +5,7 @@ import CoursePlanPage from '../page-objects/CoursePlanPage'
 const backDoor = require('../data/Backdoor.json')
 const coursePlan = require('../data/CoursePlan.json')
 
+/*
 describe ('Verify Course Plan page', ()=>{
   const coursePlanPage = new CoursePlanPage()
 
@@ -27,8 +28,12 @@ describe ('Verify New Folder modal', ()=>{
     loginPage.launchCourse(backDoor.email_lam, backDoor.course_lam)
   })
 
-  it("Verify UI course plan page", () => {
-    coursePlanPage.verifyUICoursePlan()
+  it("Verify UI New Folder modal", () => {
+    coursePlanPage.verifyUINewFolderModal()
+  })
+
+  it("Verify Invalid case", () => {
+    coursePlanPage.verifyNewFolderInvalidCase()
   })
 
   it("Verify Add New Folder from top menu", () => {
@@ -43,4 +48,27 @@ describe ('Verify New Folder modal', ()=>{
     coursePlanPage.removeItemsFromCoursePlan(coursePlan.folderName)
   })
 
+})
+*/
+
+describe ('Verify Move / Reorder modal', ()=>{
+  const coursePlanPage = new CoursePlanPage()
+
+  before(()=>{
+    const loginPage = new LoginPage()
+    loginPage.launchCourse(backDoor.email_lam, backDoor.course_lam)
+    coursePlanPage.addParentFolder(coursePlan.movingFolder)
+  })
+
+  it("Verify UI Move Reorder modal", () => {
+    coursePlanPage.verifyUIMoveReorderModal(coursePlan.movingFolder)
+  })
+
+  it("Verify Move from parent level to sub level", () => {
+    coursePlanPage.moveItemsFromCoursePlan(coursePlan.movingFolder,"- Week 1","Insert here (top)")
+  })
+
+  after(()=>{
+    coursePlanPage.removeItemsFromCoursePlan(coursePlan.movingFolder)
+  })
 })

@@ -40,6 +40,13 @@ const btnResourcesEbook = ':nth-child(2) > .c-scm-sidebar__section > .o-els-flex
 const btnAddAResource = 'div.c-scm-syllabus-item--empty-folder-placeholder .c-els-menu'
 const elAddResource = 'ul.c-els-menu__list > li:nth-of-type(5) > span:nth-of-type(1) .c-els-link__text'
 
+//Move Reorder modal
+const modMoveReorder = '.c-scm-move-modal'
+const lblItemName = '.c-scm-move-modal > .o-els-container'
+const tooltipDestination = '.c-els-tooltip-container'
+const btnSubmitMove = '.c-els-button.c-els-button--default.c-els-button--primary.qe-scm-course-plan-move-modal-submit-button'
+const btnCancelMove = '.c-els-button.c-els-button--default.c-els-button--secondary.qe-scm-course-plan-move-modal-cancel-button'
+
 //data
 const coursePlan = require('../data/CoursePlan.json')
 
@@ -49,10 +56,11 @@ class CoursePlanPage{
   }
 
   confirmRemoveItem(){
+    cy.get(confirmRemoveItem).wait(1000)
     cy.get(confirmRemoveItem).click()
   }
 
- openCourseSetup() {
+  openCourseSetup() {
     cy.get(btnOpenCourseSetup).click
   }
 
@@ -94,18 +102,11 @@ class CoursePlanPage{
   }
 
   removeItemsFromCoursePlan(itemName) {
-      cy.get(divParentItem).each(($el, index, $list) => {
-        const innerText = $el.text()
-        if (innerText.includes(itemName)) {
-          cy.wrap($el).scrollIntoView().wait(1000)
-          cy.wrap($el).find(iconActionMenu).click()
-          return
-        }
-      })
-      cy.get(actionMenu).contains('Remove').click()
-      cy.get(confirmRemoveItem).click()
-      cy.get(toastMessage).should('include.text','removed')
-    }
+    this.clickActionMenu(itemName)
+    cy.get(actionMenu).contains('Remove').click()
+    this.confirmRemoveItem()
+    cy.get(toastMessage).should('include.text','removed')
+  }
 
     //Navigate from Course Plan to Resource Library
       openResourcesPageByNavigationBar() {
@@ -126,6 +127,7 @@ class CoursePlanPage{
       }
       
       verifyUINewFolderModal(){
+        cy.get(btnAddaFolder).click()
         cy.get(modNewFolder).should('be.visible')
         cy.get(txtName).should('be.visible')
         cy.get(ddlDestination).should('be.visible')
@@ -133,6 +135,74 @@ class CoursePlanPage{
         cy.get(btnAddNewFolder).should('be.visible')
         cy.get(btnCancelNewFolder).should('be.visible')
       }
+
+  clickActionMenu(itemName){
+    cy.get(divParentItem).each(($el, index, $list) => {
+    const innerText = $el.text()
+    if (innerText.includes(itemName)) {
+      cy.wrap($el).scrollIntoView().wait(1000)
+      cy.wrap($el).find(iconActionMenu).click()
+      return
+      }
+    })
+  }
+
+  moveItemsFromCoursePlan(itemName,destination,location) {
+    this.openMoveModal(itemName)
+    cy.get(ddlDestination).select(destination)
+    cy.get(ddlLocation).select(location)
+    cy.get(btnSubmitMove).click()
+    cy.get(toastMessage).should('include.text',itemName + ' was moved to')
+    cy.wait(1000)
+  }
+
+  openMoveModal(itemName) {
+    this.clickActionMenu(itemName)
+    cy.get(actionMenu).contains('Move / Reorder').click()
+    cy.get(modMoveReorder).wait(1000)
+  }
+
+  verifyAddedItem(itemName){
+    cy.get(divParentItem).each(($el, index, $list) => {
+    const innerText = $el.text()
+    if (innerText.includes(itemName)) {
+      cy.wrap($el).should('include.text',itemName)
+      return
+      }
+    })
+  }
+
+  verifyUIMoveReorderModal(itemName){
+    this.openMoveModal(itemName)
+    cy.get(modMoveReorder).should('be.visible')
+    cy.get(lblItemName).should('include.text',itemName)
+    cy.get(tooltipDestination).should('be.visible')
+    cy.get(ddlDestination).should('be.visible')
+    cy.get(ddlLocation).should('be.visible')
+    cy.get(btnSubmitMove).should('be.visible')
+    cy.get(btnCancelMove).should('be.visible')
+    cy.get(btnCancelMove).click()
+    cy.wait(1000)
+  }
+
+  verifyNewFolderInvalidCase(){
+    cy.get(btnAddaFolder).click()
+
+    //empty folder name
+    cy.get(txtName).clear()
+    cy.get(btnAddNewFolder).should('be.disabled')
+
+    //select no destination when adding new folder
+    cy.get(txtName).clear().type("temp")
+    cy.get(ddlDestination).select("--Select Folder--")
+    cy.get(btnAddNewFolder).should('be.disabled')
+
+    //cannot select lower nested level
+    cy.get(txtName).clear().type("temp")
+    cy.get(ddlDestination).get('[label="- - A folder"]').should('be.disabled')
+
+  }
+
 }
 
 export default CoursePlanPage
