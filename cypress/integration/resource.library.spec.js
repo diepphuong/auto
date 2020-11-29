@@ -1,6 +1,6 @@
 import LoginPage from '../page-objects/LoginPage'
 import CoursePlanPage from '../page-objects/CoursePlanPage'
-import ResourceLibraryPage from '../page-objects/ResourceLibraryPage'
+import ResourceLibraryPage from '../page-objects/ReSourceLibrary.js/ResourceLibraryPage'
 
 //const resourceLibraryData = require('../data/ResourceLibrary.json');
 const loginData = require('../data/Backdoor.json');
@@ -92,37 +92,49 @@ describe("Verify resource(s) is added to folder successfully", () => {
 
   it('Add a resource to an existing folder successfully', () => {
     resourceLibrary.addAResourceToExistingFolder(resourceLibraryData.resourceName, resourceLibraryData.folderName)
-    resourceLibrary.verifyAddResourceSuccessfully()
+    resourceLibrary.verifyToastMessageDisplay()
     resourceLibrary.verifyFolderNameInToastMessage('Testing Folder')
     resourceLibrary.verifyResourceNameInToastMessage(resourceLibraryData.realResourceName)
   });
 
   it('Add a resource to a newly created folder successfully', () => {
-    resourceLibrary.addResourceToNewFolder(resourceLibraryData.resourceName, resourceLibraryData.folderName + '01')
-    resourceLibrary.verifyAddResourceSuccessfully()
-    resourceLibrary.verifyFolderNameInToastMessage(resourceLibraryData.folderName + '01')
+    const newFolderName = resourceLibraryData.folderName + 'One Resource'
+    resourceLibrary.addResourceToNewFolder(resourceLibraryData.resourceName, newFolderName)
+    resourceLibrary.verifyToastMessageDisplay()
+    resourceLibrary.verifyFolderNameInToastMessage(newFolderName)
     resourceLibrary.verifyResourceNameInToastMessage(resourceLibraryData.realResourceName)  
   });
-
-  it.only('Add multiple resources to an existing folder successfully', () => {
+//not run
+  it('Add multiple resources to an existing folder successfully', () => {
     resourceLibrary.addMultipleResourcesToExistingFolder(3,resourceLibraryData.folderName)
-    resourceLibrary.verifyAddResourceSuccessfully()
+    resourceLibrary.verifyToastMessageDisplay()
+    resourceLibrary.verifyFolderNameInToastMessage('Testing Folder')
   });
-
+//not run
   it('Add multiple resources to a newly created folder successfully', () => {
-
+    const newFolderName = resourceLibraryData.folderName + 'Multiple Resources'
+    resourceLibrary.addMultipleResourcesToNewFolder(3, newFolderName)
+    resourceLibrary.verifyToastMessageDisplay()
+    resourceLibrary.verifyFolderNameInToastMessage(newFolderName)
   });
-
+//not run
   it('Add all resources to an existing folder successfully', () => {
-
+    resourceLibrary.addAllResourcesToExistingFolder(resourceLibraryData.folderName)
+    resourceLibrary.verifyToastMessageDisplay()
+    resourceLibrary.verifyFolderNameInToastMessage('Testing Folder')
   });
-
+//not run
   it('Add all resources to a newly created folder successfully', () => {
-
+    const newFolderName = resourceLibraryData.folderName + 'All Resources'
+    resourceLibrary.addAllResourcesToNewFolder(newFolderName)
+    resourceLibrary.verifyToastMessageDisplay()
+    resourceLibrary.verifyFolderNameInToastMessage(newFolderName)
   });
 
-  it('Cancel adding resources to a newly created folder', () => {
-    
+  it.only('Cancel adding resources to a newly created folder', () => {
+    const newFolderName = resourceLibraryData.folderName + 'Cancel'
+    resourceLibrary.cancelAddResourceToNewFolder(1, newFolderName)
+    resourceLibrary.verifyToastMessageNotDisplay()
   });
 
 
