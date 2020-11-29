@@ -18,10 +18,14 @@ describe ('Verify New Folder modal', ()=>{
     //sandbox.verifyAddedItem(coursePlan.folderName)
     //sandbox.removeItemsFromCoursePlan(coursePlan.folderName)
 
-    const item = 'Adaptive Lesson - 2222211111111/CP08ELSN1180'
-    sandbox.moveItemsFromCoursePlan(item)
-    sandbox.verifyUIMoveReorderModa(item)
+    //const item = 'Adaptive Lesson - 2222211111111/CP08ELSN1180'
+    //sandbox.moveItemsFromCoursePlan(item)
+    //sandbox.verifyUIMoveReorderModa(item)
 
+    //sandbox.verifyNewFolderInvalidCase()
+
+
+    
   })
 
 })
