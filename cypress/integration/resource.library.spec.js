@@ -1,4 +1,4 @@
-import LoginPage from '../page-objects/LoginPage'
+import CommonActions from '../page-objects/CommonActions'
 import CoursePlanPage from '../page-objects/CoursePlanPage'
 import ResourceLibraryPage from '../page-objects/ReSourceLibrary.js/ResourceLibraryPage'
 
@@ -10,8 +10,9 @@ const resourceLibraryData = require('../data/ResourceLibrary.json');
 describe("Go to Resource Library Page successfully", () => {
   const coursePlan = new CoursePlanPage();
   beforeEach(() => {
-    const loginPage = new LoginPage();
-    loginPage.launchCourse(backDoor.email, backDoor.course1)
+    const commonAction = new CommonActions();
+    commonAction.navigateToCoursePlan()
+    commonAction.verifyCoursePlanIsOpenSuccess()
   })
 
   it("Launch Resource Library page by clicking Resource Ebook from navigation bar", () => {
@@ -39,10 +40,9 @@ describe("Verify states of elements on Resource Library page", () => {
   const resourceLibrary = new ResourceLibraryPage()
 
   beforeEach(() => {
-    const coursePlan = new CoursePlanPage();
-    const loginPage = new LoginPage();
-    loginPage.launchCourse(backDoor.email, backDoor.course1)
-    coursePlan.openResourcesPageByNavigationBar()
+    const commonAction = new CommonActions();
+    commonAction.navigateToCResourceLibrary()
+    commonAction.verifyResourcePageIsOpenSuccess()
   })
 
   it('Verify Resource Library page header', () => {
@@ -84,10 +84,9 @@ describe("Verify resource(s) is added to folder successfully", () => {
   const resourceLibrary = new ResourceLibraryPage()
 
   beforeEach(() => {
-    const coursePlan = new CoursePlanPage();
-    const loginPage = new LoginPage();
-    loginPage.launchCourse(backDoor.email, backDoor.course1)
-    coursePlan.openResourcesPageByNavigationBar()
+    const commonAction = new CommonActions();
+    commonAction.navigateToCResourceLibrary()
+    commonAction.verifyResourcePageIsOpenSuccess()
   })
 
   it('Add a resource to an existing folder successfully', () => {
@@ -105,20 +104,20 @@ describe("Verify resource(s) is added to folder successfully", () => {
     resourceLibrary.verifyResourceNameInToastMessage(resourceLibraryData.realResourceName)  
   });
 //not run
-  it('Add multiple resources to an existing folder successfully', () => {
+  it.skip('Add multiple resources to an existing folder successfully', () => {
     resourceLibrary.addMultipleResourcesToExistingFolder(3,resourceLibraryData.folderName)
     resourceLibrary.verifyToastMessageDisplay()
     resourceLibrary.verifyFolderNameInToastMessage('Testing Folder')
   });
 //not run
-  it('Add multiple resources to a newly created folder successfully', () => {
+   it.skip('Add multiple resources to a newly created folder successfully', () => {
     const newFolderName = resourceLibraryData.folderName + 'Multiple Resources'
     resourceLibrary.addMultipleResourcesToNewFolder(3, newFolderName)
     resourceLibrary.verifyToastMessageDisplay()
     resourceLibrary.verifyFolderNameInToastMessage(newFolderName)
   });
 //not run
-  it('Add all resources to an existing folder successfully', () => {
+it.skip('Add all resources to an existing folder successfully', () => {
     resourceLibrary.addAllResourcesToExistingFolder(resourceLibraryData.folderName)
     resourceLibrary.verifyToastMessageDisplay()
     resourceLibrary.verifyFolderNameInToastMessage('Testing Folder')
@@ -131,7 +130,7 @@ describe("Verify resource(s) is added to folder successfully", () => {
     resourceLibrary.verifyFolderNameInToastMessage(newFolderName)
   });
 
-  it.only('Cancel adding resources to a newly created folder', () => {
+  it.skip('Cancel adding resources to a newly created folder', () => {
     const newFolderName = resourceLibraryData.folderName + 'Cancel'
     resourceLibrary.cancelAddResourceToNewFolder(1, newFolderName)
     resourceLibrary.verifyToastMessageNotDisplay()

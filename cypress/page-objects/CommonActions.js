@@ -19,6 +19,17 @@ class CommonActions {
     cy.url().should('contain', 'course-plan')
   }
 
+  navigateToCResourceLibrary(){
+    this.navigateToCoursePlan()
+    const coursePlan = new CoursePlanPage()
+    coursePlan.openResourcesPageByNavigationBar()
+  }
+
+  verifyResourcePageIsOpenSuccess(){
+    cy.url().should('contain', 'catalog')
+  }
+
+  
 
 }
 

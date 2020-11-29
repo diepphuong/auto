@@ -17,8 +17,9 @@ class EbookEditorPage{
     openMyBook(bookName){
       const allMyBooks = this.panel.getMyBooks()
       allMyBooks.contains(bookName).click()
-      cy.log(allMyBooks)
     }
+
+    
 
 
 }

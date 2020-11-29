@@ -16,12 +16,11 @@ describe("Create course successfully", () => {
 
     });
 
-    // it('Create Auto Course', () => {
-    //   const courseBuilderPage = new CourseBuilderPage();
-    //   courseBuilderPage.createAutoCourse()
-    //   courseBuilderPage.verifyCourseCreateSuccess()
-        
-    // });
+    it.only('Launch Resource Library Page successfully', () => {
+        const commonActions = new CommonActions();
+        commonActions.navigateToCResourceLibrary()
+        commonActions.verifyResourcePageIsOpenSuccess()
+    });
 
 
 

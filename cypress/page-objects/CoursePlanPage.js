@@ -118,7 +118,7 @@ class CoursePlanPage{
       }
 
       openResourcePageFromEmptyFolder() {
-        cy.get(btnAddAResource).wait(3000).click()
+        cy.get(btnAddAResource).wait(3000).click({force: true})
         cy.get(elAddResource).click()
       }
 

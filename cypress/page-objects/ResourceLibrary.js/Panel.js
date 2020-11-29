@@ -10,8 +10,6 @@ const simchartLink = 'div.qe-scm-catalog-action-ADD_SIMCHART .c-els-link__text'
 const myBooks = 'div.c-scm-my-resources > div .qe-scm-ebook-title'
 
 class Panel{
-
-
     getEbookLink(){
         return cy.get(eBookLink)
     }
