@@ -4,7 +4,8 @@
   "description": "Elsevier Courseware Automation Test Project",
   "main": "index.js",
   "scripts": {
-    "test": "cypress open"
+    "test": "cypress open",
+    "sonar": "node sonar-project.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,8 @@
   "homepage": "https://git.kms-technology.com/Elsevier/elsevier-cw-auto",
   "dependencies": {
     "cypress": "*",
-    "cypress-xpath": "^1.6.1"
+    "cypress-xpath": "^1.6.1",
+    "sonarqube-scanner": "^2.8.0"
   },
   "devDependencies": {
     "cypress-wait-until": "^1.7.1"
