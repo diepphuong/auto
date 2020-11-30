@@ -51,24 +51,29 @@ describe ('Verify New Folder modal', ()=>{
 })
 */
 
+
 describe ('Verify Move / Reorder modal', ()=>{
   const coursePlanPage = new CoursePlanPage()
+  const uuid = () => Cypress._.random(0, 1e6)
+  const id = uuid()
+  const name = coursePlan.movingFolder + id
 
   before(()=>{
     const loginPage = new LoginPage()
+    
     loginPage.launchCourse(backDoor.email_lam, backDoor.course_lam)
-    coursePlanPage.addParentFolder(coursePlan.movingFolder)
+    coursePlanPage.addParentFolder(name)
   })
 
   it("Verify UI Move Reorder modal", () => {
-    coursePlanPage.verifyUIMoveReorderModal(coursePlan.movingFolder)
+    coursePlanPage.verifyUIMoveReorderModal(name)
   })
 
   it("Verify Move from parent level to sub level", () => {
-    coursePlanPage.moveItemsFromCoursePlan(coursePlan.movingFolder,"- Week 1","Insert here (top)")
+    coursePlanPage.moveItemsFromCoursePlan(name,"- Week 1","Insert here (top)")
   })
 
   after(()=>{
-    coursePlanPage.removeItemsFromCoursePlan(coursePlan.movingFolder)
+    coursePlanPage.removeItemsFromCoursePlan(name)
   })
 })
