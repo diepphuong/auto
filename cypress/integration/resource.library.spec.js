@@ -1,11 +1,10 @@
+// <reference types="cypress" />
+
 import CommonActions from '../page-objects/CommonActions'
-import CoursePlanPage from '../page-objects/CoursePlanPage'
 import ResourceLibraryPage from '../page-objects/ReSourceLibrary.js/ResourceLibraryPage'
 
 //const resourceLibraryData = require('../data/ResourceLibrary.json');
-const loginData = require('../data/Backdoor.json');
-const backDoor = require('../data/Backdoor.json');
-const resourceLibraryData = require('../data/ResourceLibrary.json');
+
 
 // describe("Go to Resource Library Page successfully", () => {
 //   const coursePlan = new CoursePlanPage();
@@ -138,7 +137,8 @@ describe("Verify resource(s) is added to folder successfully", () => {
 
 
 it.only('Cancel adding resources to a newly created folder', () => {
-  resourceLibrary.verifyAddBtnWhentSelectAResource(resourceLibraryData.resourceName)
+  cy.navigateToItemEditor('eBook Reading')
+  //resourceLibrary.navigateToItemEditor('eBook Reading')
   });
 
 

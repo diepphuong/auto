@@ -2,7 +2,6 @@ import LoginPage from '../page-objects/LoginPage'
 import CourseBuilderPage from '../page-objects/CourseBuilderPage'
 
 const backDoor = require('../data/Backdoor.json');
-const courseBuilderData = require('../data/CourseBuilder.json');
 
 describe("Verify Course Builder Page when selecting build course automatically", () => {
   const courseBuilderPage = new CourseBuilderPage();
