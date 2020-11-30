@@ -25,7 +25,7 @@ const toastMessage = '.c-els-toast__item'
 const toastFolderName = '.c-els-toast__item .u-els-anchorize'
 const toastResourceName = 'c-els-toast__content'
 const itemSelected = '.o-els-flex-layout--center > :nth-child(1)'
-const folderValues = [ResourceLibraryData.defaultSelectedFolder, ResourceLibraryData.folderName, ResourceLibraryData.newFolder]
+const folderValues = [ResourceLibraryData.folderName, ResourceLibraryData.defaultSelectedFolder,  ResourceLibraryData.newFolder]
 
 //New Folder modal
 const txtName = '[name=editSyllabusItemTitleInput]'
@@ -133,15 +133,32 @@ class ResourceLibraryPage {
             })
         }
     }
+//select dropdown and find child elements
+    // verifyAddBtnWhentSelecAtResource() {
+    //     this.selectResourceByName(ResourceLibraryData.resourceName)
+    //     this.selectFolder(ResourceLibraryData.defaultSelectedFolder)
+    //     cy.get(btnAdd).should('be.disabled')
+    //     this.selectFolder(ResourceLibraryData.folderName)
+    //     cy.get(btnAdd).should('be.enabled')
+    //     this.selectFolder(ResourceLibraryData.newFolder)
+    //     cy.get(bxtnAdd).should('be.enabled')
+    // }
 
-    verifyAddBtnWhentSelecAtResource() {
-        this.selectResourceByName(ResourceLibraryData.resourceName)
-        this.selectFolder(ResourceLibraryData.defaultSelectedFolder)
-        cy.get(btnAdd).should('be.disabled')
-        this.selectFolder(ResourceLibraryData.folderName)
-        cy.get(btnAdd).should('be.enabled')
-        this.selectFolder(ResourceLibraryData.newFolder)
-        cy.get(btnAdd).should('be.enabled')
+    verifyAddBtnWhentSelectAResource(resourceName){
+        this.selectResourceByName(resourceName)
+        for (var i =0; i< folderValues.length; i++){
+            cy.get(ddSelectFolder).select(folderValues[i])
+            cy.get(ddSelectFolder).find(':selected').then(element => {
+                const text = element.text();
+                //cy.log(`Select item ${text}`);
+                if (text == '--Select Folder--'){
+                    cy.get(btnAdd).should('be.disabled')
+                } else {
+                    // cy.log(cy.get(ddSelectFolder).find(':selected'));
+                    cy.get(btnAdd).should('be.enabled')
+                }
+            });
+        }
     }
 
     setNewFolderName(newFolderName) {
