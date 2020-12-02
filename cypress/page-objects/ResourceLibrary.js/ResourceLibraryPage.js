@@ -3,6 +3,7 @@ const ResourceLibraryData = require('../../data/ResourceLibrary.json');
 
 //
 const header = '.o-els-flex-layout__item >h4'
+const iconX = '.c-els-page-cover-header__container > .o-els-flex-layout__item > button'
 
 //Checkboxes
 const chkSelectAll = "[name='checkbox_select-all']"
@@ -234,19 +235,15 @@ class ResourceLibraryPage {
         this.clickCancelButton()
     }
 
-    // openEbookEditor(){
-    //     cy.get(eBookLink).click({force: true})
-    // }
+    closeReourcePage(){
+        cy.get(iconX).click()
+    }
 
     verifyEbookAssignmentDialogExist() {
         cy.get(dialogEbookAssignment).should('be.visible')
     }
 
 
-    navigateToItemEditor(itemName) {
-        //cy.get('div.u-els-margin-bottom-1o2 .c-els-link__text').contains(itemName).click()
-        cy.navigateToItemEditor(itemName)
-    }
 
 
 }

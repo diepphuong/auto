@@ -4,7 +4,7 @@ const btnAddEAQ = '.c-els-button.c-els-button--small.c-els-button--secondary.qe-
 const btnAddAdaptiveLesson = '.c-els-button.c-els-button--small.c-els-button--secondary.qe-scm-course-plan-action-button-adaptive-lesson'
 const btnAddSimchart = '.c-els-button.c-els-button--small.c-els-button--secondary.qe-scm-course-plan-action-button-simchart'
 const btnAddSkill = '.c-els-button.c-els-button--small.c-els-button--secondary.qe-scm-course-plan-action-button-sherpath-skill'
-const btnAddMoreResources = '.c-els-button.c-els-button--small.c-els-button--secondary.qe-scm-course-plan-action-button-more-resources'
+const btnAddMoreResources = '.qe-scm-course-plan-action-button-more-resources'
 const btnAddaFolder = '.c-els-button.c-els-button--small.c-els-button--secondary.qe-scm-course-plan-action-button-add-folder'
 
 //Action menu
@@ -37,7 +37,7 @@ const btnCancelNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-butto
 const btnResourcesEbook = ':nth-child(2) > .c-scm-sidebar__section > .o-els-flex-layout--column > :nth-child(3) > .c-scm-sidebar__section-link > .o-els-flex-layout > :nth-child(2) > .c-scm-sidebar__section-link-text'
 
 //AddAResource selector from an empty folder
-const btnAddAResource = 'div.c-scm-syllabus-item--empty-folder-placeholder .c-els-menu'
+const btnAddAResource = 'div.c-scm-syllabus-item--empty-folder-placeholder .c-els-menu > button'
 const elAddResource = 'ul.c-els-menu__list > li:nth-of-type(5) > span:nth-of-type(1) .c-els-link__text'
 
 //Move Reorder modal
