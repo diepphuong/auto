@@ -6,8 +6,8 @@ const backDoor = require('../data/Backdoor.json');
 describe("Verify Course Builder Page when selecting build course automatically", () => {
   const courseBuilderPage = new CourseBuilderPage();
     beforeEach(()=>{
-      const loginPage = new LoginPage();
-      loginPage.launchCourseBuilderSuccess(backDoor.adminUsername, backDoor.adminPassword, backDoor.email, backDoor.course, backDoor.ISBN);
+      cy.launchCourse(backDoor.email, backDoor.course1)
+      cy.url().should('contain', 'course-builder')
     });
 
     it("Verify default course builder page", () => {
@@ -47,8 +47,8 @@ describe("Verify Course Builder Page when selecting build course automatically",
 describe("Verify Course Builder Page when selecting build course manually", () => {
   const courseBuilderPage = new CourseBuilderPage();
   beforeEach(()=>{
-    const loginPage = new LoginPage();
-    loginPage.launchCourseBuilderSuccess(backDoor.adminUsername, backDoor.adminPassword, backDoor.email, backDoor.course, backDoor.ISBN);
+    cy.launchCourse(backDoor.email, backDoor.course1)
+    cy.url().should('contain', 'course-builder')
   })
 
   it('Verify CB page when selecting build course manually', () => {

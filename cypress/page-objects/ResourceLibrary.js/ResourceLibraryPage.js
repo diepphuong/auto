@@ -124,7 +124,7 @@ class ResourceLibraryPage {
 
     verifyNumberOfSelectedItems() {
         this.selectAllResources()
-        cy.get(itemSelected).should('have.text', '25 items selected')
+        cy.get(itemSelected).should('have.text', '30 items selected')
         this.unselectAllResources()
         cy.get(itemSelected).should('have.text', '0 item selected')
     }
@@ -137,19 +137,19 @@ class ResourceLibraryPage {
             })
         }
     }
-    //select dropdown and find child elements
-    // verifyAddBtnWhentSelecAtResource() {
-    //     this.selectResourceByName(ResourceLibraryData.resourceName)
-    //     this.selectFolder(ResourceLibraryData.defaultSelectedFolder)
-    //     cy.get(btnAdd).should('be.disabled')
-    //     this.selectFolder(ResourceLibraryData.folderName)
-    //     cy.get(btnAdd).should('be.enabled')
-    //     this.selectFolder(ResourceLibraryData.newFolder)
-    //     cy.get(bxtnAdd).should('be.enabled')
-    // }
+    ///select dropdown and find child elements
+    ///verifyAddBtnWhentSelecAtResource() {
+    ///     this.selectResourceByName(ResourceLibraryData.resourceName)
+    ///    this.selectFolder(ResourceLibraryData.defaultSelectedFolder)
+    ///     cy.get(btnAdd).should('be.disabled')
+    ///     this.selectFolder(ResourceLibraryData.folderName)
+    ///     cy.get(btnAdd).should('be.enabled')
+    ///     this.selectFolder(ResourceLibraryData.newFolder)
+    ///     cy.get(bxtnAdd).should('be.enabled')
+    /// }
 
-    verifyAddBtnWhentSelectAResource(resourceName) {
-        this.selectResourceByName(resourceName)
+    verifyAddBtnWhentSelectAResource(numOfResource) {
+        this.selectMultipleResources(numOfResource)
         for (var i = 0; i < folderValues.length; i++) {
             cy.get(ddSelectFolder).select(folderValues[i])
             cy.get(ddSelectFolder).find(':selected').then(element => {
@@ -188,8 +188,8 @@ class ResourceLibraryPage {
 
     }
 
-    verifyResourceNameInToastMessage(resourceName) {
-        cy.get(toastMessage).find('strong').should('have.text', resourceName)
+    verifyTextInToastMessage(text) {
+        cy.get(toastMessage).find('strong').should('have.text', text)
     }
 
     selectMultipleResources(numOfResource) {

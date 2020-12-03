@@ -1,44 +1,42 @@
 import ResourceLibraryPage from '../page-objects/ResourceLibrary.js/ResourceLibraryPage'
 import EbookEditorPage from '../page-objects/ResourceLibrary.js/EbookEditorPage'
-import CommonActions from '../page-objects/CommonActions';
-//import Panel from '../page-objects/ReSourceLibrary.js/Panel'
 
 
-//const resourceLibraryData = require('../data/ResourceLibrary.json');
+const backDoor = require('../data/Backdoor.json');
+const resourceData = require('../data/ResourceLibrary.json');
 
 
-describe("Open Ebook Editor successfully", () => {
-  //const eBook = new EbookEditorPage()
-  const resourceLibrary = new ResourceLibraryPage()
-  beforeEach(() => {
-    const commonAction = new CommonActions();
-    commonAction.navigateToCResourceLibrary()
-    commonAction.verifyResourcePageIsOpenSuccess()
-  })
+// describe("Open Ebook Editor successfully", () => {
+//   const eBook = new EbookEditorPage()
+//   beforeEach(() => {
+//     cy.launchCourse(backDoor.email, backDoor.course1)
+//     cy.url().should('contain', 'course-plan')
+//     cy.clickALinkText(resourceData.linkResourceLibrary)
+//     cy.url().should('contain', 'catalog')
 
-  it("Open Ebook Editor successfully", () => {
-    resourceLibrary.openEbookEditor()
-    resourceLibrary.verifyEbookEditorOpenSuccess()
-  })
-})
+//   })
+
+//   it("Open Ebook Editor successfully", () => {
+//     cy.navigateToItemEditor('eBook Reading')
+//     eBook.verifyEbookEditorOpenSuccess()
+//   })
+// })
 
 describe('Create an ebook assignment successfully', () => {
   const eBook = new EbookEditorPage()
   beforeEach(() => {
-    const commonAction = new CommonActions();
-    const ebook = new EbookEditorPage()
-    commonAction.navigateToCResourceLibrary()
-    ebook.openEbookEditor()
-    eBook.verifyEbookEditorOpenSuccess()
+    cy.launchCourse(backDoor.email, backDoor.course1)
+    cy.clickALinkText(resourceData.linkResourceLibrary)
+    cy.navigateToItemEditor('eBook Reading')
   })
 
   it("Select an eBook by name", () => {
-    eBook.verifyEbookAssignmentDialogExist()
+    eBook.verifyEbookEditorOpenSuccess()
     eBook.selectEbookByName('Fake Potter Ebook')
     eBook.verifyEbookAssignmentDialogNotExist()
   })
 
-  it.only("Choose Reading successfully", () => {
+  it("Choose Reading successfully", () => {
     eBook.verifyChooseReadingCorrectly('Fake Potter Ebook', 'Chapter 47, Bowel Elimination', '2-22')
   })
 })
