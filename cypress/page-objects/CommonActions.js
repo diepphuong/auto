@@ -3,9 +3,7 @@ import LoginPage from './LoginPage'
 import CoursePlanPage from './CoursePlanPage'
 
 //Import data
-const loginData = require('../data/Backdoor.json');
 const backDoor = require('../data/Backdoor.json');
-const resourceLibraryData = require('../data/ResourceLibrary.json');
 
 
 class CommonActions {

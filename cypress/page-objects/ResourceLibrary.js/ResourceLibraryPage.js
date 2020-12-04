@@ -1,8 +1,9 @@
-
+// <reference types="cypress" />
 const ResourceLibraryData = require('../../data/ResourceLibrary.json');
 
 //
 const header = '.o-els-flex-layout__item >h4'
+const iconX = '.c-els-page-cover-header__container > .o-els-flex-layout__item > button'
 
 //Checkboxes
 const chkSelectAll = "[name='checkbox_select-all']"
@@ -25,7 +26,7 @@ const toastMessage = '.c-els-toast__item'
 const toastFolderName = '.c-els-toast__item .u-els-anchorize'
 const toastResourceName = 'c-els-toast__content'
 const itemSelected = '.o-els-flex-layout--center > :nth-child(1)'
-const folderValues = [ResourceLibraryData.folderName, ResourceLibraryData.defaultSelectedFolder,  ResourceLibraryData.newFolder]
+const folderValues = [ResourceLibraryData.folderName, ResourceLibraryData.defaultSelectedFolder, ResourceLibraryData.newFolder]
 
 //New Folder modal
 const txtName = '[name=editSyllabusItemTitleInput]'
@@ -35,8 +36,11 @@ const ddlLocation = 'select#field-input-location-dropdown'
 const btnAddNewFolder = '.o-els-flex-layout__item > .c-els-button.c-els-button--small.c-els-button--primary'
 const btnCancelNewFolder = 'div.o-els-flex-layout--wrap .c-els-button--secondary'
 
-//Hypry links
-const linkEbook = 'div.qe-scm-catalog-action-ADD_EBOOK_READING .c-els-link__text'
+//Links
+const eBookLink = 'div.qe-scm-catalog-action-ADD_EBOOK_READING .c-els-link__text'
+const eAQLink = 'div.qe-scm-catalog-action-ADD_ADAPTIVE_QUIZ .c-els-link__text'
+const adaptiveLessonLink = 'div.qe-scm-catalog-action-ADD_ADAPTIVE_LESSON .c-els-link__text'
+const simchartLink = 'div.qe-scm-catalog-action-ADD_SIMCHART .c-els-link__text'
 
 class ResourceLibraryPage {
     verifyPageHeader() {
@@ -120,7 +124,7 @@ class ResourceLibraryPage {
 
     verifyNumberOfSelectedItems() {
         this.selectAllResources()
-        cy.get(itemSelected).should('have.text', '25 items selected')
+        cy.get(itemSelected).should('have.text', '30 items selected')
         this.unselectAllResources()
         cy.get(itemSelected).should('have.text', '0 item selected')
     }
@@ -133,25 +137,25 @@ class ResourceLibraryPage {
             })
         }
     }
-//select dropdown and find child elements
-    // verifyAddBtnWhentSelecAtResource() {
-    //     this.selectResourceByName(ResourceLibraryData.resourceName)
-    //     this.selectFolder(ResourceLibraryData.defaultSelectedFolder)
-    //     cy.get(btnAdd).should('be.disabled')
-    //     this.selectFolder(ResourceLibraryData.folderName)
-    //     cy.get(btnAdd).should('be.enabled')
-    //     this.selectFolder(ResourceLibraryData.newFolder)
-    //     cy.get(bxtnAdd).should('be.enabled')
-    // }
+    ///select dropdown and find child elements
+    ///verifyAddBtnWhentSelecAtResource() {
+    ///     this.selectResourceByName(ResourceLibraryData.resourceName)
+    ///    this.selectFolder(ResourceLibraryData.defaultSelectedFolder)
+    ///     cy.get(btnAdd).should('be.disabled')
+    ///     this.selectFolder(ResourceLibraryData.folderName)
+    ///     cy.get(btnAdd).should('be.enabled')
+    ///     this.selectFolder(ResourceLibraryData.newFolder)
+    ///     cy.get(bxtnAdd).should('be.enabled')
+    /// }
 
-    verifyAddBtnWhentSelectAResource(resourceName){
-        this.selectResourceByName(resourceName)
-        for (var i =0; i< folderValues.length; i++){
+    verifyAddBtnWhentSelectAResource(numOfResource) {
+        this.selectMultipleResources(numOfResource)
+        for (var i = 0; i < folderValues.length; i++) {
             cy.get(ddSelectFolder).select(folderValues[i])
             cy.get(ddSelectFolder).find(':selected').then(element => {
                 const text = element.text();
                 //cy.log(`Select item ${text}`);
-                if (text == '--Select Folder--'){
+                if (text == '--Select Folder--') {
                     cy.get(btnAdd).should('be.disabled')
                 } else {
                     // cy.log(cy.get(ddSelectFolder).find(':selected'));
@@ -184,8 +188,8 @@ class ResourceLibraryPage {
 
     }
 
-    verifyResourceNameInToastMessage(resourceName) {
-        cy.get(toastMessage).find('strong').should('have.text', resourceName)
+    verifyTextInToastMessage(text) {
+        cy.get(toastMessage).find('strong').should('have.text', text)
     }
 
     selectMultipleResources(numOfResource) {
@@ -194,7 +198,7 @@ class ResourceLibraryPage {
         }
     }
 
-    addMultipleResourcesToExistingFolder(numOfResource, folderName){
+    addMultipleResourcesToExistingFolder(numOfResource, folderName) {
         this.selectMultipleResources(numOfResource)
         this.selectFolder(folderName)
         this.clickAddButton()
@@ -207,13 +211,13 @@ class ResourceLibraryPage {
         this.createNewFolder(newFolderName)
     }
 
-    addAllResourcesToExistingFolder(folderName){
+    addAllResourcesToExistingFolder(folderName) {
         this.selectAllResources()
         this.selectFolder(folderName)
         this.clickAddButton()
     }
 
-    addAllResourcesToNewFolder(newFolderName){
+    addAllResourcesToNewFolder(newFolderName) {
         this.selectAllResources()
         this.selectFolder(ResourceLibraryData.newFolder)
         this.clickAddButton()
@@ -224,12 +228,22 @@ class ResourceLibraryPage {
         cy.get(btnCancelNewFolder).should('be.enabled').click({ force: true })
     }
 
-    cancelAddResourceToNewFolder(numOfResource){
+    cancelAddResourceToNewFolder(numOfResource) {
         this.selectMultipleResources(numOfResource)
         this.selectFolder(ResourceLibraryData.newFolder)
         this.clickAddButton()
         this.clickCancelButton()
     }
+
+    closeReourcePage(){
+        cy.get(iconX).click()
+    }
+
+    verifyEbookAssignmentDialogExist() {
+        cy.get(dialogEbookAssignment).should('be.visible')
+    }
+
+
 
 
 }

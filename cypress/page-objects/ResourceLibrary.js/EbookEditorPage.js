@@ -1,4 +1,3 @@
-import Panel from './Panel'
 
 //Ebook_select_modal
 const dialogEbookAssignment = '.c-els-modal__window'
@@ -13,27 +12,22 @@ const btnNext = '.c-els-button--primary'
 const textOverview = '.c-els-list__item'
 
 class EbookEditorPage { 
-  constructor() {
-    this.panel = new Panel();
-  }
 
   verifyEbookEditorOpenSuccess() {
     cy.url().should('contain', 'ebook-assignment-editor')
   }
 
-  openEbookEditor() {
-    const eBookLink = this.panel.getEbookLink()
-    eBookLink.click()
-  }
+  // openEbookEditor() {
+  //   const eBookLink = this.panel.getEbookLink()
+  //   eBookLink.click()
+  // }
 
-  openMyBook(bookName) {
-    const allMyBooks = this.panel.getMyBooks()
-    allMyBooks.contains(bookName).click()
-  }
+  // openMyBook(bookName) {
+  //   const allMyBooks = this.panel.getMyBooks()
+  //   allMyBooks.contains(bookName).click()
+  // }
 
-  verifyEbookAssignmentDialogExist() {
-    cy.get(dialogEbookAssignment).should('be.visible')
-  }
+ 
 
   selectEbookByName(ebookName) {
     cy.get(ddSelectEbook).select(ebookName)

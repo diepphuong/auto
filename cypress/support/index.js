@@ -16,4 +16,5 @@
 
 // Import setup.js using ES2015 syntax:
 import './setup';
+import '../support/commands';
 Cypress.moment.defaultFormat = "MM-DD-YYYY";
