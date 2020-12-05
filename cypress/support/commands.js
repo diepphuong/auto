@@ -29,3 +29,12 @@ Cypress.Commands.add('launchCourse', (email, courseName) => {
     cy.get('#launchBtn').click()
 
 })
+
+Cypress.Commands.add('moveItemToFolder', (destination, location) => {
+        cy.get('select#field-input-destination-dropdown').select(destination)
+        cy.get('select#field-input-location-dropdown').select(location)
+        cy.get('.c-els-button.c-els-button--default.c-els-button--primary.qe-scm-course-plan-move-modal-submit-button').click()
+        // cy.get('.c-els-toast__content').should('include.text',itemName + ' was moved to')
+        // cy.wait(1000)
+      
+})

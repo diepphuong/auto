@@ -10,6 +10,7 @@ const btnNext = '.c-els-button--primary'
 
 //Assignment
 const textOverview = '.c-els-list__item'
+const btnSaveAndComplete = '.c-els-button--primary'
 
 class EbookEditorPage { 
 
@@ -65,8 +66,18 @@ class EbookEditorPage {
     cy.get(textOverview).should('have.text',chapterName + '; Pages: ' + pageRange)
   }
 
+  clickSaveAndComplete(){
+    cy.get(btnSaveAndComplete).click()
+  }
 
-
+  createEbookFromResourcePage(ebookName, chapterName, pageRange){
+    this.selectEbookByName(ebookName)
+    this.selectChapterByName(chapterName)
+    this.setPageRange(pageRange)
+    this.clickNextStep()
+    this.clickSaveAndComplete()
+    
+  }
 
 
 }

@@ -33,3 +33,14 @@ declare namespace Cypress {
       launchCourse(email: String, courseName: String): Chainable<any>
     }
   }
+
+  declare namespace Cypress {
+    interface Chainable<Subject> {
+      /**
+       * Select destination & location to locate newly created items
+       * @example
+       * cy.moveItemToFolder('destination','location")
+       */
+      moveItemToFolder(destination: String, location: String): Chainable<any>
+    }
+  }
