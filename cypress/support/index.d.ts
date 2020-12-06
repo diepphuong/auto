@@ -22,18 +22,19 @@ declare namespace Cypress {
     }
   }
 
-
   declare namespace Cypress {
     interface Chainable<Subject> {
       /**
-       * Launch existing course from Backdoor with 2 required parameters "email" & "courseName"
+       * select children elements of an dropdown list by index
        * @example
-       * cy.launchCourse('vip@yopmail.com','Course1")
+       * cy.get('#field-input-location-dropdown').selectItembyIndex(0)
        */
-      launchCourse(email: String, courseName: String): Chainable<any>
+      selectItemByIndex(index: Number): Chainable<any>
     }
   }
 
+ 
+  
   declare namespace Cypress {
     interface Chainable<Subject> {
       /**
@@ -42,5 +43,18 @@ declare namespace Cypress {
        * cy.moveItemToFolder('destination','location")
        */
       moveItemToFolder(destination: String, location: String): Chainable<any>
+    }
+  }
+
+  declare namespace Cypress {
+    interface Chainable<Subject = any> {
+      /**
+       * Select an element via text & partial text
+       * This custom command can be yelded from previous subject
+       * @example
+       * cy.get('#field-input-destination-dropdown').selectContaining('Testing Folder')
+       */
+    
+      selectContaining(text: string | string[], subject): Chainable<Subject>;
     }
   }

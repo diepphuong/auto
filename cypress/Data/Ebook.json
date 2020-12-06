@@ -1,4 +1,8 @@
 {
+    "bookName" : "",
+    "chapter": "",
+    "defaultpageRange": "",
     "destination" : "- Testing Folder",
-    "location" : "Insert here"
+    "location" : "Insert here",
+    "pageRange": [".",".2","2","2.","2.1","2.3"]
 }

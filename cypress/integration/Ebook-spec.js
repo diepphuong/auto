@@ -42,11 +42,19 @@ describe('Create an ebook assignment successfully', () => {
   //   eBook.verifyChooseReadingCorrectly('Fake Potter Ebook', 'Chapter 47, Bowel Elimination', '2-22')
   // })
 
-  it.only('Create eBook from Resource Library page', () => {
-    eBook.createEbookFromResourcePage('Fake Potter Ebook', 'Chapter 47, Bowel Elimination', '2-22')
+  it('Create eBook from Resource Library page', () => {
+    eBook.createEbookFromResourcePage(ebookData.bookName, ebookData.chapter, ebookData.defaultpageRange)
     coursePlan.verifyMoveModalDisplay()
-    cy.moveItemToFolder(ebookData.destination, ebookData.location)
+    cy.moveItemToFolder(ebookData.destination,0)
+    
+    
   });
+///Not Completed Yet
+  // it.only('Test', () => {
+  //   eBook.selectEbookByName('Fake Potter Ebook')
+  //   eBook.selectChapterByName('Chapter 47, Bowel Elimination')
+  //   eBook.verifyPagerange()
+  // });
 })
 
 

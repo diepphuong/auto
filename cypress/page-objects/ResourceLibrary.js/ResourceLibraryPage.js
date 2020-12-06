@@ -8,6 +8,8 @@ const iconX = '.c-els-page-cover-header__container > .o-els-flex-layout__item > 
 //Checkboxes
 const chkSelectAll = "[name='checkbox_select-all']"
 const allResourceSelector = '.c-scm-catalog__item-list .c-els-field__input'
+const resourceLabel = '.u-els-overflow-auto'
+const catalogItem = 'div.c-scm-catalog__item'
 
 //Filter section
 const ddTaxonomy = '#field-input-taxonomy-list'
@@ -24,7 +26,7 @@ const ddSelectFolder = '#field-input-section-list'
 const btnAdd = '.c-els-button--default'
 const toastMessage = '.c-els-toast__item'
 const toastFolderName = '.c-els-toast__item .u-els-anchorize'
-const toastResourceName = 'c-els-toast__content'
+const toastContent = '.c-els-toast__content'
 const itemSelected = '.o-els-flex-layout--center > :nth-child(1)'
 const folderValues = [ResourceLibraryData.folderName, ResourceLibraryData.defaultSelectedFolder, ResourceLibraryData.newFolder]
 
@@ -63,11 +65,12 @@ class ResourceLibraryPage {
         cy.get('[type="checkbox"]').should('not.be.checked')
     }
 
-    countNumberOfResources() {
+    countNumberOfResources(totalResourceItems) {
         cy.get(totalResources).find('.c-scm-catalog__item').then(item => {
             const itemCount = Cypress.$(item).length
             expect(item).to.have.length(itemCount)
             cy.log(itemCount)
+            expect(itemCount).to.equal(totalResourceItems)
         })
     }
 
@@ -96,23 +99,21 @@ class ResourceLibraryPage {
     }
 
     selectResourceByName(resourceName) {
-        cy.get(totalResources).find(resourceName).check({ force: true })
+        cy.get(resourceLabel).contains(resourceName)
+            .parents(catalogItem)
+            .find('input')  // select it's input
+            .check({force:true});
     }
 
     selectFolder(folderName) {
-        cy.get(ddSelectFolder).select(folderName)
+        cy.get(ddSelectFolder).selectContaining(folderName)
     }
 
     clickAddButton() {
         cy.get(btnAdd).should('be.enabled').click({ force: true })
     }
 
-    addAResourceToExistingFolder(resourceName, folderName) {
-        this.selectResourceByName(resourceName)
-        this.selectFolder(folderName)
-        this.clickAddButton()
-
-    }
+    
 
     verifyToastMessageDisplay() {
         cy.get(toastMessage).should('be.visible')
@@ -148,8 +149,8 @@ class ResourceLibraryPage {
     ///     cy.get(bxtnAdd).should('be.enabled')
     /// }
 
-    verifyAddBtnWhentSelectAResource(numOfResource) {
-        this.selectMultipleResources(numOfResource)
+    verifyAddBtnWhentSelectAResource(resourceName) {
+        this.selectResourceByName(resourceName)
         for (var i = 0; i < folderValues.length; i++) {
             cy.get(ddSelectFolder).select(folderValues[i])
             cy.get(ddSelectFolder).find(':selected').then(element => {
@@ -175,8 +176,9 @@ class ResourceLibraryPage {
         cy.get(btnAddNewFolder).click()
     }
 
-    addResourceToNewFolder(resourceName, newFolderName) {
-        this.selectResourceByName(resourceName)
+    addResourceToNewFolder(numOfResource, newFolderName) {
+        //this.selectResourceByName(resourceName)
+        this.selectMultipleResources(numOfResource)
         this.selectFolder(ResourceLibraryData.newFolder)
         this.clickAddButton()
         this.createNewFolder(newFolderName)
@@ -188,8 +190,8 @@ class ResourceLibraryPage {
 
     }
 
-    verifyTextInToastMessage(text) {
-        cy.get(toastMessage).find('strong').should('have.text', text)
+    verifyResourceNameInToastMessage(text) {
+        cy.get(toastContent).find('strong').should('have.text', text)
     }
 
     selectMultipleResources(numOfResource) {
@@ -198,50 +200,83 @@ class ResourceLibraryPage {
         }
     }
 
-    addMultipleResourcesToExistingFolder(numOfResource, folderName) {
-        this.selectMultipleResources(numOfResource)
-        this.selectFolder(folderName)
-        this.clickAddButton()
-    }
-
-    addMultipleResourcesToNewFolder(numOfResource, newFolderName) {
-        this.selectMultipleResources(numOfResource)
-        this.selectFolder(ResourceLibraryData.newFolder)
-        this.clickAddButton()
-        this.createNewFolder(newFolderName)
-    }
-
-    addAllResourcesToExistingFolder(folderName) {
-        this.selectAllResources()
-        this.selectFolder(folderName)
-        this.clickAddButton()
-    }
-
-    addAllResourcesToNewFolder(newFolderName) {
-        this.selectAllResources()
-        this.selectFolder(ResourceLibraryData.newFolder)
-        this.clickAddButton()
-        this.createNewFolder(newFolderName)
-    }
-
     clickCancelButton() {
         cy.get(btnCancelNewFolder).should('be.enabled').click({ force: true })
     }
 
-    cancelAddResourceToNewFolder(numOfResource) {
-        this.selectMultipleResources(numOfResource)
-        this.selectFolder(ResourceLibraryData.newFolder)
-        this.clickAddButton()
-        this.clickCancelButton()
-    }
-
-    closeReourcePage(){
+    closeReourcePage() {
         cy.get(iconX).click()
     }
 
     verifyEbookAssignmentDialogExist() {
         cy.get(dialogEbookAssignment).should('be.visible')
     }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // addMultipleResourcesToExistingFolder(numOfResource, folderName) {
+    //     this.selectMultipleResources(numOfResource)
+    //     this.selectFolder(folderName)
+    //     this.clickAddButton()
+    // }
+
+    // addMultipleResourcesToNewFolder(numOfResource, newFolderName) {
+    //     this.selectMultipleResources(numOfResource)
+    //     this.selectFolder(ResourceLibraryData.newFolder)
+    //     this.clickAddButton()
+    //     this.createNewFolder(newFolderName)
+    // }
+
+    // addAllResourcesToExistingFolder(folderName) {
+    //     this.selectAllResources()
+    //     this.selectFolder(folderName)
+    //     this.clickAddButton()
+    // }
+
+    // addAllResourcesToNewFolder(newFolderName) {
+    //     this.selectAllResources()
+    //     this.selectFolder(ResourceLibraryData.newFolder)
+    //     this.clickAddButton()
+    //     this.createNewFolder(newFolderName)
+    // }
+
+    // addAResourceToExistingFolder(numOfResource, folderName) {
+    //     //this.selectResourceByName(resourceName)
+    //     this.selectMultipleResources(numOfResource)
+    //     this.selectFolder(folderName)
+    //     this.clickAddButton()
+
+    // }
+
+    
+
+    // cancelAddResourceToNewFolder(numOfResource) {
+    //     this.selectMultipleResources(numOfResource)
+    //     this.selectFolder(ResourceLibraryData.newFolder)
+    //     this.clickAddButton()
+    //     this.clickCancelButton()
+    // }
+
+    
 
 
 
