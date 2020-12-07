@@ -108,33 +108,33 @@ class CoursePlanPage{
     cy.get(toastMessage).should('include.text','removed')
   }
 
-    //Navigate from Course Plan to Resource Library
-      openResourcesPageByNavigationBar() {
-        cy.get(btnResourcesEbook).click({ force: true })
-      }
+  //Navigate from Course Plan to Resource Library
+  openResourcesPageByNavigationBar() {
+    cy.get(btnResourcesEbook).click({ force: true })
+  }
 
-      openResourcesPageByTopMenu() {
-        cy.get(btnAddMoreResources).click({ force: true })
-      }
+  openResourcesPageByTopMenu() {
+    cy.get(btnAddMoreResources).click({ force: true })
+  }
 
-      openResourcePageFromEmptyFolder() {
-        cy.get(btnAddAResource).wait(3000).click({force: true})
-        cy.get(elAddResource).click()
-      }
+  openResourcePageFromEmptyFolder() {
+    cy.get(btnAddAResource).wait(3000).click({force: true})
+    cy.get(elAddResource).click()
+  }
 
-      verifyResourcePageIsOpenSuccess() {
-        cy.url().should('contain', 'catalog')
-      }
+  verifyResourcePageIsOpenSuccess() {
+    cy.url().should('contain', 'catalog')
+  }
       
-      verifyUINewFolderModal(){
-        cy.get(btnAddaFolder).click()
-        cy.get(modNewFolder).should('be.visible')
-        cy.get(txtName).should('be.visible')
-        cy.get(ddlDestination).should('be.visible')
-        cy.get(ddlLocation).should('be.visible')
-        cy.get(btnAddNewFolder).should('be.visible')
-        cy.get(btnCancelNewFolder).should('be.visible')
-      }
+  verifyUINewFolderModal(){
+    cy.get(btnAddaFolder).click()
+    cy.get(modNewFolder).should('be.visible')
+    cy.get(txtName).should('be.visible')
+    cy.get(ddlDestination).should('be.visible')
+    cy.get(ddlLocation).should('be.visible')
+    cy.get(btnAddNewFolder).should('be.visible')
+    cy.get(btnCancelNewFolder).should('be.visible')
+  }
 
   clickActionMenu(itemName){
     cy.get(divParentItem).each(($el, index, $list) => {

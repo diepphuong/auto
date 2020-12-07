@@ -24,7 +24,11 @@ describe ('Verify New Folder modal', ()=>{
 
     //sandbox.verifyNewFolderInvalidCase()
 
-
+    const item = "Sim 01"
+  
+    sandbox.wait(3000)
+    sandbox.moveItemsFromCoursePlan(item,"- Week 1","Insert here (top)")
+    sandbox.verifyItemOrder("Week 1", item, 0)
     
   })
 
