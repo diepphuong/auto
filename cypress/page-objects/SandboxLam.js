@@ -53,6 +53,11 @@ const tooltipDestination = '.c-els-tooltip-container'
 const btnSubmitMove = '.c-els-button.c-els-button--default.c-els-button--primary.qe-scm-course-plan-move-modal-submit-button'
 const btnCancelMove = '.c-els-button.c-els-button--default.c-els-button--secondary.qe-scm-course-plan-move-modal-cancel-button'
 
+//New Dec 04 2020
+//Content page
+const folderItem = '.c-scm-syllabus-item--folder'
+const syllabusItem = '.c-scm-syllabus-item'
+
 class SandboxLam{
 
   confirmRemoveItem(){
@@ -123,11 +128,12 @@ class SandboxLam{
   }
 
   moveItemsFromCoursePlan(itemName,destination,location) {
-    this.clickActionMenu(itemName)
     this.openMoveModal(itemName)
-    cy.get(ddlDestination).should('include.text',coursePlan.defaultDestination).select(destination)
-    cy.get(ddlLocation).should('include.text',coursePlan.defaultLocation).select(location)
+    cy.get(ddlDestination).select(destination)
+    cy.get(ddlLocation).select(location)
     cy.get(btnSubmitMove).click()
+    cy.get(toastMessage).should('include.text',itemName + ' was moved to')
+    cy.wait(1000)
   }
 
   openMoveModal(itemName) {
@@ -173,6 +179,24 @@ class SandboxLam{
     cy.get(txtName).clear().type("temp")
     cy.get(ddlDestination).get('[label="- - A folder"]').should('be.disabled')
 
+  }
+
+  //New Dev 04 2020
+  verifyItemOrder(folder,item,loc){
+    cy.wait(3000)
+    cy.get(folderItem).each(($fd, index, $list) => {
+      const innerText = $fd.text()
+      if (innerText.includes(folder)) {
+        cy.wrap($fd).scrollIntoView().wait(1000)
+        cy.wrap($fd).find(syllabusItem)
+        .eq(loc).should('contain.text',item)
+        return
+      }
+    })
+  }
+
+  wait(second){
+    cy.wait(second)
   }
 
 }
