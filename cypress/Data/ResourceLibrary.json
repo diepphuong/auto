@@ -1,9 +1,11 @@
 {
 "url": "catalog",
-"resourceName" : "[name='checkbox_2222211111111/CP08ELSN1175']",
-"folderName": "– Testing Folder",
+"resourceName01" : "[name='checkbox_2222211111111/CP08ELSN1175']",
+"resourceName": "Adaptive Lesson - 2222211111111/CP08ELSN1175",
+"folderName": "Testing Folder",
 "defaultSelectedFolder" : "--Select Folder--",
 "newFolder": "New Folder",
 "realResourceName": "Adaptive Lesson - 2222211111111/CP08ELSN1175",
-"linkResourceLibrary" : "Resources & eBooks"
+"linkResourceLibrary" : "Resources & eBooks",
+"totalResources" : 30
 }

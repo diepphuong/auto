@@ -1,9 +1,10 @@
-import ResourceLibraryPage from '../page-objects/ResourceLibrary.js/ResourceLibraryPage'
+import CoursePlanPage from '../page-objects/CoursePlanPage'
 import EbookEditorPage from '../page-objects/ResourceLibrary.js/EbookEditorPage'
 
 
 const backDoor = require('../data/Backdoor.json');
 const resourceData = require('../data/ResourceLibrary.json');
+const ebookData = require('../data/Ebook.json')
 
 
 // describe("Open Ebook Editor successfully", () => {
@@ -24,21 +25,36 @@ const resourceData = require('../data/ResourceLibrary.json');
 
 describe('Create an ebook assignment successfully', () => {
   const eBook = new EbookEditorPage()
+  const coursePlan = new CoursePlanPage()
   beforeEach(() => {
     cy.launchCourse(backDoor.email, backDoor.course1)
     cy.clickALinkText(resourceData.linkResourceLibrary)
     cy.navigateToItemEditor('eBook Reading')
   })
 
-  it("Select an eBook by name", () => {
-    eBook.verifyEbookEditorOpenSuccess()
-    eBook.selectEbookByName('Fake Potter Ebook')
-    eBook.verifyEbookAssignmentDialogNotExist()
-  })
+  // it("Select an eBook by name", () => {
+  //   eBook.verifyEbookEditorOpenSuccess()
+  //   eBook.selectEbookByName('Fake Potter Ebook')
+  //   eBook.verifyEbookAssignmentDialogNotExist()
+  // })
 
-  it("Choose Reading successfully", () => {
-    eBook.verifyChooseReadingCorrectly('Fake Potter Ebook', 'Chapter 47, Bowel Elimination', '2-22')
-  })
+  // it("Choose Reading successfully", () => {
+  //   eBook.verifyChooseReadingCorrectly('Fake Potter Ebook', 'Chapter 47, Bowel Elimination', '2-22')
+  // })
+
+  it('Create eBook from Resource Library page', () => {
+    eBook.createEbookFromResourcePage(ebookData.bookName, ebookData.chapter, ebookData.defaultpageRange)
+    coursePlan.verifyMoveModalDisplay()
+    cy.moveItemToFolder(ebookData.destination,0)
+    
+    
+  });
+///Not Completed Yet
+  // it.only('Test', () => {
+  //   eBook.selectEbookByName('Fake Potter Ebook')
+  //   eBook.selectChapterByName('Chapter 47, Bowel Elimination')
+  //   eBook.verifyPagerange()
+  // });
 })
 
 

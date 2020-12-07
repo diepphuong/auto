@@ -203,6 +203,10 @@ class CoursePlanPage{
 
   }
 
+  verifyMoveModalDisplay(){
+    cy.get(modMoveReorder).should('be.visible')
+  }
+
 }
 
 export default CoursePlanPage

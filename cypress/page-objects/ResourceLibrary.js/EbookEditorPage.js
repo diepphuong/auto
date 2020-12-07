@@ -6,10 +6,12 @@ const btnSelect = '.c-els-button--small'
 
 //Choose-Reading
 const txtPageRange = '[placeholder="Pages"]'
+const errorInvalid = '#field-message-undefined'
 const btnNext = '.c-els-button--primary'
 
 //Assignment
 const textOverview = '.c-els-list__item'
+const btnSaveAndComplete = '.c-els-button--primary'
 
 class EbookEditorPage { 
 
@@ -65,10 +67,37 @@ class EbookEditorPage {
     cy.get(textOverview).should('have.text',chapterName + '; Pages: ' + pageRange)
   }
 
+  clickSaveAndComplete(){
+    cy.get(btnSaveAndComplete).click()
+  }
+
+  createEbookFromResourcePage(ebookName, chapterName, pageRange){
+    this.selectEbookByName(ebookName)
+    this.selectChapterByName(chapterName)
+    this.setPageRange(pageRange)
+    this.clickNextStep()
+    this.clickSaveAndComplete()
+    
+  }
+///Not Completed Yet
+  // verifyPagerange(pageRanges){
+  //   // for (var i = 0; i< pageRanges.length; i++){
+  //   //   cy.get(txtPageRange).type(pageRanges[i]).should('have.text', pageRanges[i])
+  //   cy.get(txtPageRange).type(".").should('have.text',".")
+  //     if (cy.get(txtPageRange).contains('') || cy.get(txtPageRange).contains('.')
+  //     || cy.get(txtPageRange).contains('.2')|| cy.get(txtPageRange).contains('2.1')
+  //     ||cy.get(txtPageRange).contains('2.')){
+  //       cy.get(errorInvalid).should('be.visible').should('have.text','Invalid page range')
+  //     } else{
+  //       cy.get(errorInvalid).should('not.be.visible')
+  //     }
+  //   //}
+    
 
 
 
 
+  
 }
 
 export default EbookEditorPage;

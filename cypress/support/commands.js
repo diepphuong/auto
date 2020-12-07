@@ -29,3 +29,28 @@ Cypress.Commands.add('launchCourse', (email, courseName) => {
     cy.get('#launchBtn').click()
 
 })
+
+Cypress.Commands.add('selectContaining', {prevSubject: 'subject'}, (subject,text) => {
+    return cy.wrap(subject).contains('option',text).then(
+      option => cy.get(subject).select(option.text().trim())
+    );
+  });
+
+  Cypress.Commands.add('selectItembyIndex',{ prevSubject: 'subject' },(subject, index) => {
+      cy.wrap(subject)
+        .children('option')
+        .eq(index)
+        .then(e => {
+          cy.wrap(subject).select(e.val())
+        })
+    }
+  )
+
+Cypress.Commands.add('moveItemToFolder', (destination, locationIndex) => {
+        cy.get('#field-input-destination-dropdown').selectContaining(destination)
+        cy.get('#field-input-location-dropdown').selectItembyIndex(locationIndex)
+        cy.get('.c-els-button.c-els-button--default.c-els-button--primary.qe-scm-course-plan-move-modal-submit-button').click()
+        cy.get('.c-els-toast__content').should('be.visible')
+        // cy.wait(1000)
+      
+})

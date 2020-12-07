@@ -37,7 +37,7 @@ const backDoor = require('../data/Backdoor.json');
 
 // });
 
-//});
+// });
 
 // describe("Verify states of elements on Resource Library page", () => {
 //   const resourcePage = new ResourceLibraryPage()
@@ -93,57 +93,87 @@ describe("Verify resource(s) is added to folder successfully", () => {
     cy.url().should('contain', 'catalog')
   })
 
-  // it('Add a resource to an existing folder successfully', () => {
-  //   resourcePage.addAResourceToExistingFolder(resourceData.resourceName, resourceData.folderName)
-  //   resourcePage.verifyToastMessageDisplay()
-  //   resourcePage.verifyFolderNameInToastMessage('Testing Folder')
-    // resourcePage.verifyTextInToastMessage(resourceData.realResourceName)
-  // });
+  it('Add a resource to an existing folder successfully', () => {
+    //resourcePage.addAResourceToExistingFolder(1, resourceData.folderName)
+    //resourcePage.selectMultipleResources(1)
+    resourcePage.selectResourceByName(resourceData.resourceName)
+    resourcePage.selectFolder(resourceData.folderName)
+    resourcePage.clickAddButton()
+    resourcePage.verifyToastMessageDisplay()
+    resourcePage.verifyFolderNameInToastMessage(resourceData.folderName)
+    resourcePage.verifyResourceNameInToastMessage(resourceData.resourceName)
+  });
 
-  // it('Add a resource to a newly created folder successfully', () => {
-  //   const newFolderName = resourceData.folderName + 'One Resource'
-  //   resourcePage.addResourceToNewFolder(resourceData.resourceName, newFolderName)
-  //   resourcePage.verifyToastMessageDisplay()
-  //   resourcePage.verifyFolderNameInToastMessage(newFolderName)
-   // resourcePage.verifyTextInToastMessage(resourceData.realResourceName)
-  // });
-  //not run
-  // it('Add multiple resources to an existing folder successfully', () => {
-  //   resourcePage.addMultipleResourcesToExistingFolder(numOfResource, resourceData.folderName)
-  //   resourcePage.verifyToastMessageDisplay()
-  //   resourcePage.verifyTextInToastMessage(numOfResource + ' resources')
-  //   resourcePage.verifyFolderNameInToastMessage('Testing Folder')
-  // });
-  // //not run
-  // it('Add multiple resources to a newly created folder successfully', () => {
-  //   const newFolderName = resourceData.folderName + 'Multiple Resources'
-  //   resourcePage.addMultipleResourcesToNewFolder(numOfResource, newFolderName)
-  //   resourcePage.verifyToastMessageDisplay()
-  //   resourcePage.verifyTextInToastMessage(numOfResource + ' resources')
-  //   resourcePage.verifyFolderNameInToastMessage(newFolderName)
-  // });
-  // //not run
-  // it('Add all resources to an existing folder successfully', () => {
-  //   resourcePage.addAllResourcesToExistingFolder(resourceData.folderName)
-  //   resourcePage.verifyToastMessageDisplay()
-  //   resourcePage.verifyTextInToastMessage('30 resources')
-  //   resourcePage.verifyFolderNameInToastMessage('Testing Folder')
-  // });
-  // //not run
-  // it('Add all resources to a newly created folder successfully', () => {
-  //   const newFolderName = resourceData.folderName + 'All Resources'
-  //   resourcePage.addAllResourcesToNewFolder(newFolderName)
-  //   resourcePage.verifyToastMessageDisplay()
-  //   resourcePage.verifyTextInToastMessage('30 resources')
-  //   resourcePage.verifyFolderNameInToastMessage(newFolderName)
-  // });
+  it('Add a resource to a newly created folder successfully', () => {
+    const newFolderName = resourceData.folderName + 'One Resource'
+    //resourcePage.addResourceToNewFolder(1, newFolderName)
+    //resourcePage.selectMultipleResources(1)
+    resourcePage.selectResourceByName(resourceData.resourceName)
+    resourcePage.selectFolder(resourceData.newFolder)
+    resourcePage.clickAddButton()
+    resourcePage.createNewFolder(newFolderName)
+    resourcePage.verifyToastMessageDisplay()
+    resourcePage.verifyFolderNameInToastMessage(newFolderName)
+    resourcePage.verifyResourceNameInToastMessage(resourceData.resourceName)
+  });
 
-  // it('Cancel adding resources to a newly created folder', () => {
-  //   const newFolderName = resourceData.folderName + 'Cancel'
-  //   resourcePage.cancelAddResourceToNewFolder(1, newFolderName)
-  //   resourcePage.verifyToastMessageNotDisplay()
-  // });
+  it('Add multiple resources to an existing folder successfully', () => {
+    //resourcePage.addMultipleResourcesToExistingFolder(numOfResource, resourceData.folderName)
+    resourcePage.selectMultipleResources(numOfResource)
+    resourcePage.selectFolder(resourceData.folderName)
+    resourcePage.clickAddButton()
+    resourcePage.verifyToastMessageDisplay()
+    resourcePage.verifyResourceNameInToastMessage(numOfResource + ' resources')
+    resourcePage.verifyFolderNameInToastMessage(resourceData.folderName)
+  });
 
+  it('Add multiple resources to a newly created folder successfully', () => {
+    const newFolderName = resourceData.folderName + 'Multiple Resources'
+    //resourcePage.addMultipleResourcesToNewFolder(numOfResource, newFolderName)
+    resourcePage.selectMultipleResources(numOfResource)
+    resourcePage.selectFolder(resourceData.newFolder)
+    resourcePage.clickAddButton()
+    resourcePage.createNewFolder(newFolderName)
+    resourcePage.verifyToastMessageDisplay()
+    resourcePage.verifyResourceNameInToastMessage(numOfResource + ' resources')
+    resourcePage.verifyFolderNameInToastMessage(newFolderName)
+  });
+
+  it('Add all resources to an existing folder successfully', () => {
+    //resourcePage.addAllResourcesToExistingFolder(resourceData.folderName)
+    resourcePage.selectAllResources()
+    resourcePage.selectFolder(resourceData.folderName)
+    resourcePage.clickAddButton()
+    resourcePage.verifyToastMessageDisplay()
+    resourcePage.verifyResourceNameInToastMessage('30 resources')
+    resourcePage.verifyFolderNameInToastMessage(resourceData.folderName)
+  });
+
+  it('Add all resources to a newly created folder successfully', () => {
+    const newFolderName = resourceData.folderName + 'All Resources'
+    //resourcePage.addAllResourcesToNewFolder(newFolderName)
+    resourcePage.selectAllResources()
+    resourcePage.selectFolder(resourceData.newFolder)
+    resourcePage.clickAddButton()
+    resourcePage.createNewFolder(newFolderName)
+    resourcePage.verifyToastMessageDisplay()
+    resourcePage.verifyResourceNameInToastMessage('30 resources')
+    resourcePage.verifyFolderNameInToastMessage(newFolderName)
+  });
+
+  it('Cancel adding resources to a newly created folder', () => {
+    //resourcePage.cancelAddResourceToNewFolder(1, newFolderName)
+    resourcePage.selectMultipleResources(numOfResource)
+    resourcePage.selectFolder(resourceData.newFolder)
+    resourcePage.clickAddButton()
+    resourcePage.clickCancelButton()
+    resourcePage.verifyToastMessageNotDisplay()
+  });
+
+  it.only('test', () => {
+    resourcePage.countNumberOfResources(resourceData.totalResources)
+    
+  });
 
 })
 
