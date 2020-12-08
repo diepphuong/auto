@@ -54,3 +54,7 @@ Cypress.Commands.add('moveItemToFolder', (destination, locationIndex) => {
   // cy.wait(1000)
 
 })
+
+Cypress.Commands.add('verifyToastMessageExist',()=>{
+    cy.get(toastMessage).should('be.visible')
+})

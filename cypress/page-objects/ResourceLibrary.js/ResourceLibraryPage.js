@@ -113,8 +113,6 @@ class ResourceLibraryPage {
         cy.get(btnAdd).should('be.enabled').click({ force: true })
     }
 
-    
-
     verifyToastMessageDisplay() {
         cy.get(toastMessage).should('be.visible')
     }

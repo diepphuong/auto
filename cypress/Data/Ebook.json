@@ -1,8 +1,9 @@
 {
-    "bookName" : "",
-    "chapter": "",
-    "defaultpageRange": "",
+    "bookName" : "Fake Potter Ebook",
+    "chapterName": "Chapter 47, Bowel Elimination",
+    "defaultpageRange": "2-22",
     "destination" : "- Testing Folder",
     "location" : "Insert here",
-    "pageRange": [".",".2","2","2.","2.1","2.3"]
+    "pageRanges" : ["2", "2-3", "-2", "2-", "2-1", "-"],
+    "multipleChapters" :[["Chapter 12","12-15"],["Chapter 13","13-40",["Chapter 14","14-16"]]]
 }

@@ -30,35 +30,33 @@ describe('Create an ebook assignment successfully', () => {
     cy.launchCourse(backDoor.email, backDoor.course1)
     cy.clickALinkText(resourceData.linkResourceLibrary)
     cy.navigateToItemEditor('eBook Reading')
+    eBook.verifyEbookEditorOpenSuccess()
   })
 
-  // it("Select an eBook by name", () => {
-  //   eBook.verifyEbookEditorOpenSuccess()
-  //   eBook.selectEbookByName('Fake Potter Ebook')
-  //   eBook.verifyEbookAssignmentDialogNotExist()
-  // })
+  it("Select an eBook by name", () => {
+    eBook.selectEbookByName(ebookData.bookName)
+    eBook.verifyEbookAssignmentDialogNotExist()
+  })
 
   it('Validate valid/ invalid page range value', () => {
-    eBook.selectEbookByName('Fake Potter Ebook')
-    eBook.selectChapterByName('Chapter 47, Bowel Elimination')
-    eBook.verifyPagerange()
+    eBook.selectEbookByName(ebookData.bookName)
+    eBook.selectChapterByName(ebookData.chapterName)
+    eBook.verifyPagerange(ebookData.pageRanges)
   });
 
-  // it("Choose Reading successfully", () => {
-  //   eBook.verifyChooseReadingCorrectly('Fake Potter Ebook', 'Chapter 47, Bowel Elimination', '2-22')
-  // })
+  it("Choose Reading successfully", () => {
+    eBook.verifyChooseReadingCorrectly(ebookData.bookName, ebookData.chapterName, '2-22')
+  })
 
-  it('Create eBook from Resource Library page', () => {
-    eBook.createEbookFromResourcePage(ebookData.bookName, ebookData.chapter, ebookData.defaultpageRange)
+  it.only('Create eBook from Resource Library page successfully', () => {
+    eBook.createEbookFromResourcePage(ebookData.bookName, ebookData.chapterName, ebookData.defaultpageRange)
     coursePlan.verifyMoveModalDisplay()
-    cy.moveItemToFolder(ebookData.destination,0)
-    
-    
+    cy.moveItemToFolder(ebookData.destination, 0)
   });
 
-  it.only('test', () => {
-    
-  });
+  // it('test', () => {
+
+  // });
 })
 
 

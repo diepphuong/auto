@@ -1,43 +1,43 @@
 // <reference types="cypress" />
 
 import ResourceLibraryPage from '../page-objects/ReSourceLibrary.js/ResourceLibraryPage'
-
+import CoursePlanPage from '../page-objects/CoursePlanPage'
 const backDoor = require('../data/Backdoor.json');
 
 
-// describe("Go to Resource Library Page successfully", () => {
-//   const coursePlan = new CoursePlanPage()
-//   const resourcePage = new ResourceLibraryPage()
-//   before(() => {
-//     cy.launchCourse(backDoor.email, backDoor.course1)
-//     cy.url().should('contain', 'course-plan')
+describe("Go to Resource Library Page successfully", () => {
+  const coursePlan = new CoursePlanPage()
+  const resourcePage = new ResourceLibraryPage()
+  before(() => {
+    cy.launchCourse(backDoor.email, backDoor.course1)
+    cy.url().should('contain', 'course-plan')
 
-//   })
+  })
 
-//   afterEach(() => {
-//     resourcePage.closeReourcePage()
-//   })
+  afterEach(() => {
+    resourcePage.closeReourcePage()
+  })
 
-//   it("Launch Resource Library page by clicking Resource Ebook from navigation bar", () => {
-//     coursePlan.openResourcesPageByNavigationBar()
-//     coursePlan.verifyResourcePageIsOpenSuccess()
-//   });
+  it("Launch Resource Library page by clicking Resource Ebook from navigation bar", () => {
+    coursePlan.openResourcesPageByNavigationBar()
+    coursePlan.verifyResourcePageIsOpenSuccess()
+  });
 
-//   it("Launch RL page by clicking Addmoreresources from Top menu", () => {
-//     coursePlan.openResourcesPageByTopMenu()
-//     coursePlan.verifyResourcePageIsOpenSuccess()
-//   });
+  it("Launch RL page by clicking Addmoreresources from Top menu", () => {
+    coursePlan.openResourcesPageByTopMenu()
+    coursePlan.verifyResourcePageIsOpenSuccess()
+  });
 
-//   it('Launch RL page by clicking AddAResource from an empty folder', () => {
-//     coursePlan.openResourcePageFromEmptyFolder()
-//     coursePlan.verifyResourcePageIsOpenSuccess()
-//   });
+  it.skip('Launch RL page by clicking AddAResource from an empty folder', () => {
+    coursePlan.openResourcePageFromEmptyFolder()
+    coursePlan.verifyResourcePageIsOpenSuccess()
+  });
 
 // it('Launch RL page by clicking AddAResource from action menu', () => {
 
 // });
 
-// });
+});
 
 describe("Verify states of elements on Resource Library page", () => {
   const resourcePage = new ResourceLibraryPage()
@@ -64,11 +64,11 @@ it('Verify All resources are NOT checked when checkbox SelectAll is NOT checked'
 });
 
 it('Verify filter resource by selecting Taxonomy works correctly', () => {
-  resourcePage.filterResourceByTaxonomy()
+  resourcePage.filterResourceByTaxonomy(30)
 });
 
 it('Verify filter resource by selecting Chapter works correctly', () => {
-  resourcePage.filterResourceByChapter()
+  resourcePage.filterResourceByChapter(14)
 
 });
 
@@ -76,7 +76,7 @@ it('Verify filter resource by selecting Chapter works correctly', () => {
     resourcePage.verifyNumberOfSelectedItems()
   });
 
-  it.only('Verify the Add button is disable when do not select any resource or folder', () => {
+  it('Verify the Add button is disable when do not select any resource or folder', () => {
     //resourcePage.verifyAddBtnWhenDoNotSelectResource()
     resourcePage.verifyAddBtnWhentSelectAResource(resourceData.resourceName)
   });
