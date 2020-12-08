@@ -7,21 +7,21 @@ const resourceData = require('../data/ResourceLibrary.json');
 const ebookData = require('../data/Ebook.json')
 
 
-// describe("Open Ebook Editor successfully", () => {
-//   const eBook = new EbookEditorPage()
-//   beforeEach(() => {
-//     cy.launchCourse(backDoor.email, backDoor.course1)
-//     cy.url().should('contain', 'course-plan')
-//     cy.clickALinkText(resourceData.linkResourceLibrary)
-//     cy.url().should('contain', 'catalog')
+describe("Open Ebook Editor successfully", () => {
+  const eBook = new EbookEditorPage()
+  beforeEach(() => {
+    cy.launchCourse(backDoor.email, backDoor.course1)
+    cy.url().should('contain', 'course-plan')
+    cy.clickALinkText(resourceData.linkResourceLibrary)
+    cy.url().should('contain', 'catalog')
 
-//   })
+  })
 
-//   it("Open Ebook Editor successfully", () => {
-//     cy.navigateToItemEditor('eBook Reading')
-//     eBook.verifyEbookEditorOpenSuccess()
-//   })
-// })
+  it("Open Ebook Editor successfully", () => {
+    cy.navigateToItemEditor('eBook Reading')
+    eBook.verifyEbookEditorOpenSuccess()
+  })
+})
 
 describe('Create an ebook assignment successfully', () => {
   const eBook = new EbookEditorPage()
@@ -38,6 +38,12 @@ describe('Create an ebook assignment successfully', () => {
   //   eBook.verifyEbookAssignmentDialogNotExist()
   // })
 
+  it('Validate valid/ invalid page range value', () => {
+    eBook.selectEbookByName('Fake Potter Ebook')
+    eBook.selectChapterByName('Chapter 47, Bowel Elimination')
+    eBook.verifyPagerange()
+  });
+
   // it("Choose Reading successfully", () => {
   //   eBook.verifyChooseReadingCorrectly('Fake Potter Ebook', 'Chapter 47, Bowel Elimination', '2-22')
   // })
@@ -49,12 +55,10 @@ describe('Create an ebook assignment successfully', () => {
     
     
   });
-///Not Completed Yet
-  // it.only('Test', () => {
-  //   eBook.selectEbookByName('Fake Potter Ebook')
-  //   eBook.selectChapterByName('Chapter 47, Bowel Elimination')
-  //   eBook.verifyPagerange()
-  // });
+
+  it.only('test', () => {
+    
+  });
 })
 
 

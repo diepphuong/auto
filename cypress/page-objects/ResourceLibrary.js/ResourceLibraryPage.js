@@ -132,7 +132,7 @@ class ResourceLibraryPage {
 
     verifyAddBtnWhenDoNotSelectResource() {
         for (var i = 0; i < folderValues.length; i++) {
-            cy.get(ddSelectFolder).select(folderValues[i])
+            cy.get(ddSelectFolder).selectContaining(folderValues[i])
             cy.get('[type="checkbox"]').should('not.be.checked').then(() => {
                 cy.get(btnAdd).should('be.disabled')
             })
@@ -152,10 +152,10 @@ class ResourceLibraryPage {
     verifyAddBtnWhentSelectAResource(resourceName) {
         this.selectResourceByName(resourceName)
         for (var i = 0; i < folderValues.length; i++) {
-            cy.get(ddSelectFolder).select(folderValues[i])
+            cy.get(ddSelectFolder).selectContaining(folderValues[i])
             cy.get(ddSelectFolder).find(':selected').then(element => {
                 const text = element.text();
-                //cy.log(`Select item ${text}`);
+                cy.log(`Select item ${text}`);
                 if (text == '--Select Folder--') {
                     cy.get(btnAdd).should('be.disabled')
                 } else {

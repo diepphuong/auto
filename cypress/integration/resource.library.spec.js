@@ -39,49 +39,49 @@ const backDoor = require('../data/Backdoor.json');
 
 // });
 
-// describe("Verify states of elements on Resource Library page", () => {
-//   const resourcePage = new ResourceLibraryPage()
-//   const resourceData = require('../data/ResourceLibrary.json');
-//   beforeEach(() => {
-//     cy.launchCourse(backDoor.email, backDoor.course1)
-//     cy.clickALinkText(resourceData.linkResourceLibrary)
-//     cy.url().should('contain', 'catalog')
-//   })
+describe("Verify states of elements on Resource Library page", () => {
+  const resourcePage = new ResourceLibraryPage()
+  const resourceData = require('../data/ResourceLibrary.json');
+  beforeEach(() => {
+    cy.launchCourse(backDoor.email, backDoor.course1)
+    cy.clickALinkText(resourceData.linkResourceLibrary)
+    cy.url().should('contain', 'catalog')
+  })
 
-// it('Verify Resource Library page header', () => {
-//   resourcePage.verifyPageHeader()
+it('Verify Resource Library page header', () => {
+  resourcePage.verifyPageHeader()
 
-// });
+});
 
-// it('Verify All resources are checked when checkbox SelectAll is checked', () => {
-//   resourcePage.selectAllResources()
-//   resourcePage.verifyAllCheckboxesAreChecked()
-// });
+it('Verify All resources are checked when checkbox SelectAll is checked', () => {
+  resourcePage.selectAllResources()
+  resourcePage.verifyAllCheckboxesAreChecked()
+});
 
-// it('Verify All resources are NOT checked when checkbox SelectAll is NOT checked', () => {
-//   resourcePage.unselectAllResources()
-//   resourcePage.verifyAllCheckboxesAreUnChecked()
-// });
+it('Verify All resources are NOT checked when checkbox SelectAll is NOT checked', () => {
+  resourcePage.unselectAllResources()
+  resourcePage.verifyAllCheckboxesAreUnChecked()
+});
 
-// it('Verify filter resource by selecting Taxonomy works correctly', () => {
-//   resourcePage.filterResourceByTaxonomy()
-// });
+it('Verify filter resource by selecting Taxonomy works correctly', () => {
+  resourcePage.filterResourceByTaxonomy()
+});
 
-// it('Verify filter resource by selecting Chapter works correctly', () => {
-//   resourcePage.filterResourceByChapter()
+it('Verify filter resource by selecting Chapter works correctly', () => {
+  resourcePage.filterResourceByChapter()
 
-// });
+});
 
-//   it('Verify the number of selected items is displayed correctly', () => {
-//     resourcePage.verifyNumberOfSelectedItems()
-//   });
+  it('Verify the number of selected items is displayed correctly', () => {
+    resourcePage.verifyNumberOfSelectedItems()
+  });
 
-//   it('Verify the Add button is disable when do not select any resource or folder', () => {
-//     resourcePage.verifyAddBtnWhenDoNotSelectResource()
-//     resourcePage.verifyAddBtnWhentSelectAResource(2)
-//   });
+  it.only('Verify the Add button is disable when do not select any resource or folder', () => {
+    //resourcePage.verifyAddBtnWhenDoNotSelectResource()
+    resourcePage.verifyAddBtnWhentSelectAResource(resourceData.resourceName)
+  });
 
-// })
+})
 
 describe("Verify resource(s) is added to folder successfully", () => {
   const resourcePage = new ResourceLibraryPage()
@@ -170,9 +170,9 @@ describe("Verify resource(s) is added to folder successfully", () => {
     resourcePage.verifyToastMessageNotDisplay()
   });
 
-  it.only('test', () => {
+  it('test', () => {
     resourcePage.countNumberOfResources(resourceData.totalResources)
-    
+   
   });
 
 })
