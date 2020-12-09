@@ -77,7 +77,7 @@ it('Verify filter resource by selecting Chapter works correctly', () => {
   });
 
   it('Verify the Add button is disable when do not select any resource or folder', () => {
-    //resourcePage.verifyAddBtnWhenDoNotSelectResource()
+    resourcePage.verifyAddBtnWhenDoNotSelectResource()
     resourcePage.verifyAddBtnWhentSelectAResource(resourceData.resourceName)
   });
 
@@ -170,9 +170,14 @@ describe("Verify resource(s) is added to folder successfully", () => {
     resourcePage.verifyToastMessageNotDisplay()
   });
 
-  it('test', () => {
-    resourcePage.countNumberOfResources(resourceData.totalResources)
-   
+  it.only('test', () => {
+    resourcePage.selectResourceByName(resourceData.resourceName)
+    resourcePage.selectFolder(resourceData.folderName)
+    resourcePage.clickAddButton()
+    resourcePage.verifyToastMessageDisplay()
+    resourcePage.navigateToAddedResourceFolder()
+    cy.url().should('contain', 'course-plan')
+    //cy.scrollToTargetPosition(resourceData.folderName)
   });
 
 })

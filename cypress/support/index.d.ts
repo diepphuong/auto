@@ -33,14 +33,12 @@ declare namespace Cypress {
     }
   }
 
- 
-  
   declare namespace Cypress {
     interface Chainable<Subject> {
       /**
        * Select destination & location to locate newly created items
        * @example
-       * cy.moveItemToFolder('destination','location")
+       * cy.moveItemToFolder('destination','location')
        */
       moveItemToFolder(destination: String, location: String): Chainable<any>
     }
@@ -56,5 +54,17 @@ declare namespace Cypress {
        */
     
       selectContaining(text: string | string[], subject): Chainable<Subject>;
+    }
+  }
+
+  declare namespace Cypress {
+    interface Chainable<Subject = any> {
+      /**
+       * Select multiple Chapters & corresponding page ranges
+       * @example
+       * cy.setChapterAndPageRange(chapterName,pageRange)
+       */
+    
+      setChapterAndPageRange(chapterName: string, pageRange: string): Chainable<Subject>;
     }
   }

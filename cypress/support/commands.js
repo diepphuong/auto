@@ -55,6 +55,21 @@ Cypress.Commands.add('moveItemToFolder', (destination, locationIndex) => {
 
 })
 
-Cypress.Commands.add('verifyToastMessageExist',()=>{
-    cy.get(toastMessage).should('be.visible')
+Cypress.Commands.add('setChapterAndPageRange', (chapterName, pageRange) => {
+  cy.get('.c-els-ebook-pages .o-els-container').each(($el, index, $list) => {
+    const innerText = $el.text()
+    if (innerText.includes(chapterName)) {
+      cy.wrap($el).find('input').click({ force: true })
+      cy.wrap($el).find('[placeholder="Pages"]').type(pageRange)
+    }
+  })
+})
+Cypress.Commands.add('scrollToTargetPosition', (targetPosition) => {
+  cy.get('div.c-scm-syllabus-item__heading').each(($el, index, $list) => {
+    const innerText = $el.text()
+    if (innerText.includes(targetPosition)) {
+      cy.wrap($el).scrollIntoView().wait(1000)
+    }
+
+  })
 })

@@ -43,15 +43,17 @@ class EbookEditorPage {
 
   chooseReading(ebookName, chapterName, pageRange) {
     this.selectEbookByName(ebookName)
-    this.selectChapterByName(chapterName)
-    this.setPageRange(pageRange)
+    //this.selectChapterByName(chapterName)
+    //this.setPageRange(pageRange)
+    cy.setChapterAndPageRange(chapterName,pageRange)
     this.clickNextStep()
   }
 
   verifyChooseReadingCorrectly(ebookName, chapterName, pageRange) {
     this.selectEbookByName(ebookName)
-    this.selectChapterByName(chapterName)
-    this.setPageRange(pageRange)
+    // this.selectChapterByName(chapterName)
+    // this.setPageRange(pageRange)
+    cy.setChapterAndPageRange(chapterName,pageRange)
     this.clickNextStep()
     cy.get(textOverview).should('have.text', chapterName + '; Pages: ' + pageRange)
   }
@@ -62,8 +64,7 @@ class EbookEditorPage {
 
   createEbookFromResourcePage(ebookName, chapterName, pageRange) {
     this.selectEbookByName(ebookName)
-    this.selectChapterByName(chapterName)
-    this.setPageRange(pageRange)
+    cy.setChapterAndPageRange(chapterName,pageRange)
     this.clickNextStep()
     this.clickSaveAndComplete()
   }
@@ -84,8 +85,9 @@ class EbookEditorPage {
     }
   }
 
+// multipleSelectChaptesAndPageRange(){
 
-
+// }
 
 
 

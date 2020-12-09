@@ -29,6 +29,7 @@ const toastFolderName = '.c-els-toast__item .u-els-anchorize'
 const toastContent = '.c-els-toast__content'
 const itemSelected = '.o-els-flex-layout--center > :nth-child(1)'
 const folderValues = [ResourceLibraryData.folderName, ResourceLibraryData.defaultSelectedFolder, ResourceLibraryData.newFolder]
+const folderLink = '.c-els-toast__content .u-els-anchorize'
 
 //New Folder modal
 const txtName = '[name=editSyllabusItemTitleInput]'
@@ -136,16 +137,6 @@ class ResourceLibraryPage {
             })
         }
     }
-    ///select dropdown and find child elements
-    ///verifyAddBtnWhentSelecAtResource() {
-    ///     this.selectResourceByName(ResourceLibraryData.resourceName)
-    ///    this.selectFolder(ResourceLibraryData.defaultSelectedFolder)
-    ///     cy.get(btnAdd).should('be.disabled')
-    ///     this.selectFolder(ResourceLibraryData.folderName)
-    ///     cy.get(btnAdd).should('be.enabled')
-    ///     this.selectFolder(ResourceLibraryData.newFolder)
-    ///     cy.get(bxtnAdd).should('be.enabled')
-    /// }
 
     verifyAddBtnWhentSelectAResource(resourceName) {
         this.selectResourceByName(resourceName)
@@ -210,8 +201,10 @@ class ResourceLibraryPage {
         cy.get(dialogEbookAssignment).should('be.visible')
     }
 
+    navigateToAddedResourceFolder(){
+        cy.get(folderLink).click({force: true})
+    }
     
-
 
 
 
@@ -280,33 +273,5 @@ class ResourceLibraryPage {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export default ResourceLibraryPage;

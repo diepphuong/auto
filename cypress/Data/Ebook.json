@@ -5,5 +5,5 @@
     "destination" : "- Testing Folder",
     "location" : "Insert here",
     "pageRanges" : ["2", "2-3", "-2", "2-", "2-1", "-"],
-    "multipleChapters" :[["Chapter 12","12-15"],["Chapter 13","13-40",["Chapter 14","14-16"]]]
+    "multipleChapters" :[["Chapter 12, Vital Signs","12-15"],["Chapter 13, Physical Assessment","13-40"],["Chapter 14, Oxygenation","14-16"]]
 }
