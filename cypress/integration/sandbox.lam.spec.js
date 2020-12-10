@@ -24,12 +24,18 @@ describe ('Verify New Folder modal', ()=>{
 
     //sandbox.verifyNewFolderInvalidCase()
 
-    const item = "Sim 01"
-  
     sandbox.wait(3000)
-    sandbox.moveItemsFromCoursePlan(item,"- Week 1","Insert here (top)")
-    sandbox.verifyItemOrder("Week 1", item, 0)
-    
+    /*root folder
+    const item = "Sim 01"
+    sandbox.moveItemsFromCoursePlan(item,"Week 1",0)
+    sandbox.verifyItemOrderRootFolder("Week 1", item, 0)
+    sandbox.moveItemsFromCoursePlan(item,"Week 1",2)
+    */
+
+    const item = "Adaptive Lesson - 2222233333333/PT10ELSN1025"
+    sandbox.moveItemsFromCoursePlan(item,"Sub Folder",0)
+    sandbox.verifyItemOrderSubFolder("Sub Folder", item, 0, "yes")
+    sandbox.moveItemsFromCoursePlan(item,"Sub Folder",2)
   })
 
 })
