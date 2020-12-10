@@ -57,6 +57,7 @@ describe ('Verify Move / Reorder modal', ()=>{
   const uuid = () => Cypress._.random(0, 1e6)
   const id = uuid()
   const name = coursePlan.movingFolder + id
+  const item = coursePlan.movingItem
 
   before(()=>{
     const loginPage = new LoginPage()
@@ -71,7 +72,18 @@ describe ('Verify Move / Reorder modal', ()=>{
 
   it("Verify Move from parent level to sub level", () => {
     coursePlanPage.moveItemsFromCoursePlan(name,"- Week 1","Insert here (top)")
+    coursePlanPage.verifyItemOrder("Week 1", name, 0)
   })
+
+  it("Verify Reorder item in the parent folder", () => {
+    coursePlanPage.moveItemsFromCoursePlan(item,"- Week 1","Insert here (top)")
+    coursePlanPage.verifyItemOrder("Week 1", item, 0)
+  })
+
+  /*it("Verify Reorder item in the sub folder", () => {
+    coursePlanPage.moveItemsFromCoursePlan(item,"- Week 1","Insert here (top)")
+    coursePlanPage.verifyItemOrder("Week 1", item, 0)
+  })*/
 
   after(()=>{
     coursePlanPage.removeItemsFromCoursePlan(name)
