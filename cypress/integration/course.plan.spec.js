@@ -19,7 +19,8 @@ describe ('Verify Course Plan page', ()=>{
   })
 
 })
-
+*/
+/*
 describe ('Verify New Folder modal', ()=>{
   const coursePlanPage = new CoursePlanPage()
 
@@ -51,13 +52,13 @@ describe ('Verify New Folder modal', ()=>{
 })
 */
 
-
 describe ('Verify Move / Reorder modal', ()=>{
   const coursePlanPage = new CoursePlanPage()
   const uuid = () => Cypress._.random(0, 1e6)
   const id = uuid()
   const name = coursePlan.movingFolder + id
   const item = coursePlan.movingItem
+  const subitem = coursePlan.movingSubItem
 
   before(()=>{
     const loginPage = new LoginPage()
@@ -71,19 +72,23 @@ describe ('Verify Move / Reorder modal', ()=>{
   })
 
   it("Verify Move from parent level to sub level", () => {
-    coursePlanPage.moveItemsFromCoursePlan(name,"- Week 1","Insert here (top)")
-    coursePlanPage.verifyItemOrder("Week 1", name, 0)
+    coursePlanPage.moveItemsFromCoursePlan(name,"Week 1",0)
+    coursePlanPage.verifyItemOrderRootFolder("Week 1", name, 0)
   })
 
   it("Verify Reorder item in the parent folder", () => {
-    coursePlanPage.moveItemsFromCoursePlan(item,"- Week 1","Insert here (top)")
-    coursePlanPage.verifyItemOrder("Week 1", item, 0)
+    coursePlanPage.moveItemsFromCoursePlan(item,"Week 1",0)
+    coursePlanPage.verifyItemOrderRootFolder("Week 1", item, 0)
+    coursePlanPage.moveItemsFromCoursePlan(item,"Week 1",2)
+    coursePlanPage.verifyItemOrderRootFolder("Week 1", item, 2)
   })
 
-  /*it("Verify Reorder item in the sub folder", () => {
-    coursePlanPage.moveItemsFromCoursePlan(item,"- Week 1","Insert here (top)")
-    coursePlanPage.verifyItemOrder("Week 1", item, 0)
-  })*/
+  it("Verify Reorder item in the sub folder", () => {
+    coursePlanPage.moveItemsFromCoursePlan(subitem,"Sub Folder",0)
+    coursePlanPage.verifyItemOrderSubFolder("Sub Folder", subitem, 0)
+    coursePlanPage.moveItemsFromCoursePlan(subitem,"Sub Folder",2)
+    coursePlanPage.verifyItemOrderSubFolder("Sub Folder", subitem, 1)
+  })
 
   after(()=>{
     coursePlanPage.removeItemsFromCoursePlan(name)

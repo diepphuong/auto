@@ -34,7 +34,7 @@ describe ('Verify New Folder modal', ()=>{
 
     const item = "Adaptive Lesson - 2222233333333/PT10ELSN1025"
     sandbox.moveItemsFromCoursePlan(item,"Sub Folder",0)
-    sandbox.verifyItemOrderSubFolder("Sub Folder", item, 0, "yes")
+    sandbox.verifyItemOrderSubFolder("Sub Folder", item, 0)
     sandbox.moveItemsFromCoursePlan(item,"Sub Folder",2)
   })
 

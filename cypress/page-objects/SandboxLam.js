@@ -43,9 +43,6 @@ const elAddResource = 'ul.c-els-menu__list > li:nth-of-type(5) > span:nth-of-typ
 //data
 const coursePlan = require('../data/CoursePlan.json')
 
-/* 
-##### New #####
-*/
 //Move Reorder modal
 const modMoveReorder = '.c-scm-move-modal'
 const lblItemName = '.c-scm-move-modal > .o-els-container'
@@ -113,9 +110,6 @@ class SandboxLam{
     cy.get(btnCancelNewFolder).should('be.visible')
   }
 
-/* 
-##### New #####
-*/
   clickActionMenu(itemName){
     cy.get(divParentItem).each(($el, index, $list) => {
     const innerText = $el.text()
