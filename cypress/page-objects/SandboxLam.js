@@ -55,7 +55,7 @@ const btnCancelMove = '.c-els-button.c-els-button--default.c-els-button--seconda
 
 //New Dec 04 2020
 //Content page
-const folderItem = '.c-scm-syllabus-item--folder'
+const folderItem = '.c-scm-syllabus-item.c-scm-syllabus-item--folder'
 const syllabusItem = '.c-scm-syllabus-item'
 
 class SandboxLam{
@@ -129,8 +129,8 @@ class SandboxLam{
 
   moveItemsFromCoursePlan(itemName,destination,location) {
     this.openMoveModal(itemName)
-    cy.get(ddlDestination).select(destination)
-    cy.get(ddlLocation).select(location)
+    cy.get(ddlDestination).selectContaining(destination)
+    cy.get(ddlLocation).selectItembyIndex(location)
     cy.get(btnSubmitMove).click()
     cy.get(toastMessage).should('include.text',itemName + ' was moved to')
     cy.wait(1000)
@@ -182,14 +182,28 @@ class SandboxLam{
   }
 
   //New Dev 04 2020
-  verifyItemOrder(folder,item,loc){
-    cy.wait(3000)
+  verifyItemOrderRootFolder(folder,item,location){
+    cy.wait(1000)
     cy.get(folderItem).each(($fd, index, $list) => {
       const innerText = $fd.text()
       if (innerText.includes(folder)) {
         cy.wrap($fd).scrollIntoView().wait(1000)
         cy.wrap($fd).find(syllabusItem)
-        .eq(loc).should('contain.text',item)
+        .eq(location).should('contain.text',item)
+        return
+      }
+    })
+  }
+
+  verifyItemOrderSubFolder(folder,item,location,subfolder='no'){
+    cy.wait(1000)
+    cy.get(folderItem).not('.c-scm-syllabus-item--root')
+      .each(($fd, index, $list) => {
+        const innerText = $fd.text()
+      if (innerText.includes(folder)) {
+        cy.wrap($fd).scrollIntoView().wait(1000)
+        cy.wrap($fd).find(syllabusItem)
+        .eq(location).should('contain.text',item)
         return
       }
     })
@@ -199,6 +213,7 @@ class SandboxLam{
     cy.wait(second)
   }
 
+  
 }
 
 export default SandboxLam

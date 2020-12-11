@@ -24,6 +24,8 @@ const iconCollapseExpandFolder = '.o-els-icon-svg.o-els-icon-svg--1x1o2.u-els-co
 const iconActionMenu = '.o-els-flex-layout__item > .c-els-menu  > button.c-els-menu__button'
 const btnOpenCourseSetup = '.o-els-container > div > .c-els-button'
 const toastMessage = '.c-els-toast__content'
+const folderItem = '.c-scm-syllabus-item--folder'
+const syllabusItem = '.c-scm-syllabus-item'
 
 //New Folder modal
 const txtName = '[name=editSyllabusItemTitleInput]'
@@ -199,12 +201,34 @@ class CoursePlanPage{
 
     //cannot select lower nested level
     cy.get(txtName).clear().type("temp")
-    cy.get(ddlDestination).get('[label="- - A folder"]').should('be.disabled')
+    cy.get(ddlDestination).get('[label="- - Sub Folder"]').should('be.disabled')
 
   }
 
   verifyMoveModalDisplay(){
     cy.get(modMoveReorder).should('be.visible')
+  }
+
+  verifyItemOrder(folder,item,location,subfolder='no'){
+    cy.wait(3000)
+    cy.get(folderItem).each(($fd, index, $list) => {
+      if (subfolder=='no'){
+        const innerText = $fd.text()
+        if (innerText.includes(folder)) {
+          cy.wrap($fd).scrollIntoView().wait(1000)
+          cy.wrap($fd).find(syllabusItem)
+          .eq(location).should('contain.text',item)
+          return
+        }
+      } else {
+        const innerText = $fd.text()
+        if (innerText.includes(folder)) {
+          cy.wrap($fd).scrollIntoView().wait(1000)
+          cy.wrap($fd).should('not.have.class', 'c-scm-syllabus-item--root').find(syllabusItem)
+          .eq(location).should('contain.text',item)
+          return
+        }}
+    })
   }
 
 }
