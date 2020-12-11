@@ -73,3 +73,4 @@ Cypress.Commands.add('scrollToTargetPosition', (targetPosition) => {
 
   })
 })
+
