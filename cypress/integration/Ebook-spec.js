@@ -7,31 +7,38 @@ const resourceData = require('../data/ResourceLibrary.json');
 const ebookData = require('../data/Ebook.json')
 
 
-// describe("Open Ebook Editor successfully", () => {
-//   const eBook = new EbookEditorPage()
-//   beforeEach(() => {
-//     cy.launchCourse(backDoor.email, backDoor.course1)
-//     cy.url().should('contain', 'course-plan')
-//     cy.clickALinkText(resourceData.linkResourceLibrary)
-//     cy.url().should('contain', 'catalog')
+describe("Open Ebook Editor successfully", () => {
+  const eBook = new EbookEditorPage()
+  beforeEach(() => {
+    cy.launchCourse(backDoor.email, backDoor.course1)
+    cy.url().should('contain', 'course-plan')
+    cy.clickALinkText(resourceData.linkResourceLibrary)
+    cy.url().should('contain', 'catalog')
 
-//   })
+  })
 
-//   it("Open Ebook Editor successfully", () => {
-//     cy.navigateToItemEditor('eBook Reading')
-//     eBook.verifyEbookEditorOpenSuccess()
-//   })
-// })
+  it("Open Ebook Editor successfully", () => {
+    cy.navigateToItemEditor('eBook Reading')
+    eBook.verifyEbookEditorOpenSuccess()
+  })
+})
 
-describe('Create an ebook assignment successfully', () => {
+describe('Verify Ebook Assignment Editor', () => {
   const eBook = new EbookEditorPage()
   const coursePlan = new CoursePlanPage()
-  beforeEach(() => {
+  before(() => {
     cy.launchCourse(backDoor.email, backDoor.course1)
     cy.clickALinkText(resourceData.linkResourceLibrary)
     cy.navigateToItemEditor('eBook Reading')
     eBook.verifyEbookEditorOpenSuccess()
   })
+
+  afterEach(() => {
+    eBook.closeEbookAssignmentEditor()
+    cy.clickALinkText(resourceData.linkResourceLibrary)
+    cy.navigateToItemEditor('eBook Reading')
+    eBook.verifyEbookEditorOpenSuccess()
+  });
 
   it("Select an eBook by name", () => {
     eBook.selectEbookByName(ebookData.bookName)
@@ -51,26 +58,29 @@ describe('Create an ebook assignment successfully', () => {
     })
   })
 
-  it.only("Choose Reading successfully", () => {
+  it("Choose Reading successfully", () => {
     eBook.verifyChooseReadingCorrectly(ebookData.bookName, ebookData.chapterName, '2-22')
   })
 
-  it('Create eBook from Resource Library page successfully', () => {
-    eBook.createEbookFromResourcePage(ebookData.bookName, ebookData.chapterName, ebookData.defaultpageRange)
-    coursePlan.verifyMoveModalDisplay()
-    cy.moveItemToFolder(ebookData.destination, 0)
   });
 
-  // it.only('test', () => {
-  //   eBook.selectEbookByName('Fake Cooper Ebook')
-  //   ebookData.multipleChapters.forEach((element)=>{
-  //   cy.setMultipleChaptersAndPageRange(element[0],element[1],element[2])
+  describe.only('Create an ebook assignment successfully', () => {
+    const eBook = new EbookEditorPage()
+    const coursePlan = new CoursePlanPage()
+    before(() => {
+      cy.launchCourse(backDoor.email, backDoor.course1)
+      cy.clickALinkText(resourceData.linkResourceLibrary)
+      cy.navigateToItemEditor('eBook Reading')
+      eBook.verifyEbookEditorOpenSuccess()
+    })
 
-  //   })
-
-  // })
+    it('Create eBook from Resource Library page successfully', () => {
+      eBook.createEbookFromResourcePage(ebookData.bookName, ebookData.chapterName, ebookData.defaultpageRange)
+      coursePlan.verifyMoveModalDisplay()
+      cy.moveItemToFolder(ebookData.destination, 0)
+      //coursePlan.verifyItemOrder(ebookData.destination,ebookData.bookName,0)
 })
-
+  })
 
 
 

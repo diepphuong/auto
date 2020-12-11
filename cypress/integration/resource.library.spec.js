@@ -11,7 +11,6 @@ describe("Go to Resource Library Page successfully", () => {
   before(() => {
     cy.launchCourse(backDoor.email, backDoor.course1)
     cy.url().should('contain', 'course-plan')
-
   })
 
   afterEach(() => {
@@ -28,8 +27,10 @@ describe("Go to Resource Library Page successfully", () => {
     coursePlan.verifyResourcePageIsOpenSuccess()
   });
 
-  it.skip('Launch RL page by clicking AddAResource from an empty folder', () => {
-    coursePlan.openResourcePageFromEmptyFolder()
+  it('Launch RL page by clicking AddAResource from an empty folder', () => {
+    const folder = 'test'
+    coursePlan.addParentFolder(folder)
+    coursePlan.openResourcePageFromEmptyFolder(folder)
     coursePlan.verifyResourcePageIsOpenSuccess()
   });
 
@@ -42,8 +43,14 @@ describe("Go to Resource Library Page successfully", () => {
 describe("Verify states of elements on Resource Library page", () => {
   const resourcePage = new ResourceLibraryPage()
   const resourceData = require('../data/ResourceLibrary.json');
-  beforeEach(() => {
+  before(() => {
     cy.launchCourse(backDoor.email, backDoor.course1)
+    cy.clickALinkText(resourceData.linkResourceLibrary)
+    cy.url().should('contain', 'catalog')
+  })
+
+  afterEach(() => {
+    resourcePage.closeReourcePage()
     cy.clickALinkText(resourceData.linkResourceLibrary)
     cy.url().should('contain', 'catalog')
   })
@@ -64,27 +71,58 @@ it('Verify All resources are NOT checked when checkbox SelectAll is NOT checked'
 });
 
 it('Verify filter resource by selecting Taxonomy works correctly', () => {
-  resourcePage.filterResourceByTaxonomy(30)
+  const taxonomy01 = 'Potter 10e Chapter'
+  const totalResourceOfTaxonomy01 = 14
+  const taxonomy02 = 'Cooper FAAHN 8e Chapter'
+  const totalResourceOfTaxonomy02 = 16
+  resourcePage.selectTaxonomy(taxonomy01)
+  resourcePage.selectAllResources()
+  resourcePage.countNumberOfResources(totalResourceOfTaxonomy01)
+  resourcePage.verifyNumberOfSelectedItems(totalResourceOfTaxonomy01)
+  resourcePage.selectTaxonomy(taxonomy02)
+  resourcePage.selectAllResources()
+  resourcePage.countNumberOfResources(totalResourceOfTaxonomy02)
+  resourcePage.verifyNumberOfSelectedItems(totalResourceOfTaxonomy02)
 });
 
 it('Verify filter resource by selecting Chapter works correctly', () => {
-  resourcePage.filterResourceByChapter(14)
+  const taxonomy = 'Potter 10e Chapter'
+  const chapter = 'Chapter 47, Bowel Elimination'
+  const totalResource = 7
+  resourcePage.selectTaxonomy(taxonomy)
+  resourcePage.selectChapter(chapter)
+  resourcePage.selectAllResources()
+  resourcePage.verifyNumberOfSelectedItems(totalResource)
+  resourcePage.countNumberOfResources(totalResource)
 
 });
 
   it('Verify the number of selected items is displayed correctly', () => {
-    resourcePage.verifyNumberOfSelectedItems()
+    const numOfResources = 5
+    const totalResource = 30
+    resourcePage.selectMultipleResources(1)
+    resourcePage.verifyNumberOfSelectedItems(1)
+    resourcePage.unselectAllResources()
+    resourcePage.selectMultipleResources(numOfResources)
+    resourcePage.verifyNumberOfSelectedItems(numOfResources)
+    resourcePage.selectAllResources()
+    resourcePage.verifyNumberOfSelectedItems(totalResource)
   });
 
-  it('Verify the Add button is disable when do not select any resource or folder', () => {
+  it('Verify the state of Add button', () => {
     resourcePage.verifyAddBtnWhenDoNotSelectResource()
     resourcePage.verifyAddBtnWhentSelectAResource(resourceData.resourceName)
   });
 
+  // it('test', () => {
+  //   cy.get('#field-input-section-list').selectContaining('Testing folder')
+  // });
+
 })
 
-describe("Verify resource(s) is added to folder successfully", () => {
+describe("Verify resource(s) is/are added to folder successfully", () => {
   const resourcePage = new ResourceLibraryPage()
+  const coursePlanPage = new CoursePlanPage()
   const resourceData = require('../data/ResourceLibrary.json');
   const numOfResource = '3'
   beforeEach(() => {
@@ -92,6 +130,16 @@ describe("Verify resource(s) is added to folder successfully", () => {
     cy.clickALinkText(resourceData.linkResourceLibrary)
     cy.url().should('contain', 'catalog')
   })
+
+  it('Verify added resources are displayed in course plan successfully', () => {
+    resourcePage.selectResourceByName(resourceData.resourceName)
+    resourcePage.selectFolder(resourceData.newFolder)
+    resourcePage.clickAddButton()
+    resourcePage.createNewFolder('Test')
+    resourcePage.navigateToAddedResourceFolder()
+    cy.url().should('contain', 'course-plan')
+    coursePlanPage.verifyItemOrder(resourceData.newFolder,resourceData.resourceName,0)
+  });
 
   it('Add a resource to an existing folder successfully', () => {
     //resourcePage.addAResourceToExistingFolder(1, resourceData.folderName)
@@ -170,15 +218,7 @@ describe("Verify resource(s) is added to folder successfully", () => {
     resourcePage.verifyToastMessageNotDisplay()
   });
 
-  it.only('test', () => {
-    resourcePage.selectResourceByName(resourceData.resourceName)
-    resourcePage.selectFolder(resourceData.folderName)
-    resourcePage.clickAddButton()
-    resourcePage.verifyToastMessageDisplay()
-    resourcePage.navigateToAddedResourceFolder()
-    cy.url().should('contain', 'course-plan')
-    //cy.scrollToTargetPosition(resourceData.folderName)
-  });
+  
 
 })
 

@@ -3,6 +3,7 @@
 const dialogEbookAssignment = '.c-els-modal__window'
 const ddSelectEbook = '.c-els-field__input'
 const btnSelect = '.c-els-button--small'
+const btnClose = '.u-els-font-size-body-large'
 
 //Choose-Reading
 const txtPageRange = '[placeholder="Pages"]'
@@ -43,16 +44,12 @@ class EbookEditorPage {
 
   chooseReading(ebookName, chapterName, pageRange) {
     this.selectEbookByName(ebookName)
-    //this.selectChapterByName(chapterName)
-    //this.setPageRange(pageRange)
     cy.setChapterAndPageRange(chapterName,pageRange)
     this.clickNextStep()
   }
 
   verifyChooseReadingCorrectly(ebookName, chapterName, pageRange) {
     this.selectEbookByName(ebookName)
-    // this.selectChapterByName(chapterName)
-    // this.setPageRange(pageRange)
     cy.setChapterAndPageRange(chapterName,pageRange)
     this.clickNextStep()
     cy.get(textOverview).should('have.text', chapterName + '; Pages: ' + pageRange)
@@ -70,7 +67,6 @@ class EbookEditorPage {
   }
 
   verifyPagerange(pageRanges) {
-    //const pageRanges = ["2", "2-3", "-2", "2-", "2-1", "-"]
     for (var i = 0; i < pageRanges.length; i++) {
       cy.get(txtPageRange).clear().type(pageRanges[i])
       cy.get(txtPageRange).invoke('val').then(ele => {
@@ -85,9 +81,10 @@ class EbookEditorPage {
     }
   }
 
-// multipleSelectChaptesAndPageRange(){
+  closeEbookAssignmentEditor(){
+    cy.get(btnClose).click()
+  }
 
-// }
 
 
 

@@ -33,8 +33,8 @@ Cypress.Commands.add('launchCourse', (email, courseName) => {
 Cypress.Commands.add('selectContaining', { prevSubject: 'subject' }, (subject, text) => {
   return cy.wrap(subject).contains('option', text).then(
     option => cy.get(subject).select(option.text().trim())
-  );
-});
+  )
+})
 
 Cypress.Commands.add('selectItembyIndex', { prevSubject: 'subject' }, (subject, index) => {
   cy.wrap(subject)
@@ -43,8 +43,7 @@ Cypress.Commands.add('selectItembyIndex', { prevSubject: 'subject' }, (subject, 
     .then(e => {
       cy.wrap(subject).select(e.val())
     })
-}
-)
+})
 
 Cypress.Commands.add('moveItemToFolder', (destination, locationIndex) => {
   cy.get('#field-input-destination-dropdown').selectContaining(destination)

@@ -52,12 +52,12 @@ const btnCancelMove = '.c-els-button.c-els-button--default.c-els-button--seconda
 //data
 const coursePlan = require('../data/CoursePlan.json')
 
-class CoursePlanPage{
-  goToResourceLibrary(){
+class CoursePlanPage {
+  goToResourceLibrary() {
     cy.get(btnAddMoreResources).click()
   }
 
-  confirmRemoveItem(){
+  confirmRemoveItem() {
     cy.get(confirmRemoveItem).wait(1000)
     cy.get(confirmRemoveItem).click()
   }
@@ -66,12 +66,12 @@ class CoursePlanPage{
     cy.get(btnOpenCourseSetup).click
   }
 
-  deleteAFolder(){
+  deleteAFolder() {
     cy.get(btnMenu).click()
     cy.get(actionMenu).select('Remove')
   }
 
-  verifyUICoursePlan(){
+  verifyUICoursePlan() {
     cy.get(btnAddEbookReading).should('be.visible')
     cy.get(btnAddEAQ).should('be.visible')
     cy.get(btnAddAdaptiveLesson).should('be.visible')
@@ -81,25 +81,25 @@ class CoursePlanPage{
     cy.get(btnAddaFolder).should('be.visible')
   }
 
-  addParentFolder(name){
+  addParentFolder(name) {
     cy.get(btnAddaFolder).click()
-    cy.get(modNewFolder).should('include.text',coursePlan.modalName).wait(1000)
+    cy.get(modNewFolder).should('include.text', coursePlan.modalName).wait(1000)
     cy.get(txtName).clear().type(name)
-    cy.get(ddlDestination).should('include.text',coursePlan.defaultDestination)
-    cy.get(ddlLocation).should('include.text',coursePlan.defaultLocation)
-    cy.get(btnCancelNewFolder).should('include.text','Cancel')
-    cy.get(btnAddNewFolder).should('include.text','Add').click()
+    cy.get(ddlDestination).should('include.text', coursePlan.defaultDestination)
+    cy.get(ddlLocation).should('include.text', coursePlan.defaultLocation)
+    cy.get(btnCancelNewFolder).should('include.text', 'Cancel')
+    cy.get(btnAddNewFolder).should('include.text', 'Add').click()
     cy.wait(1000)
   }
 
-  addSubFolder(name,destination,location){
+  addSubFolder(name, destination, location) {
     cy.get(btnAddaFolder).click()
-    cy.get(modNewFolder).should('include.text',coursePlan.modalName).wait(1000)
+    cy.get(modNewFolder).should('include.text', coursePlan.modalName).wait(1000)
     cy.get(txtName).clear().type(name)
-    cy.get(ddlDestination).should('include.text',coursePlan.defaultDestination).select(destination)
-    cy.get(ddlLocation).should('include.text',coursePlan.defaultLocation).select(location)
-    cy.get(btnCancelNewFolder).should('include.text','Cancel')
-    cy.get(btnAddNewFolder).should('include.text','Add').click()
+    cy.get(ddlDestination).should('include.text', coursePlan.defaultDestination).select(destination)
+    cy.get(ddlLocation).should('include.text', coursePlan.defaultLocation).select(location)
+    cy.get(btnCancelNewFolder).should('include.text', 'Cancel')
+    cy.get(btnAddNewFolder).should('include.text', 'Add').click()
     cy.wait(1000)
   }
 
@@ -107,7 +107,7 @@ class CoursePlanPage{
     this.clickActionMenu(itemName)
     cy.get(actionMenu).contains('Remove').click()
     this.confirmRemoveItem()
-    cy.get(toastMessage).should('include.text','removed')
+    cy.get(toastMessage).should('include.text', 'removed')
   }
 
   //Navigate from Course Plan to Resource Library
@@ -119,16 +119,21 @@ class CoursePlanPage{
     cy.get(btnAddMoreResources).click({ force: true })
   }
 
-  openResourcePageFromEmptyFolder() {
-    cy.get(btnAddAResource).wait(3000).click({force: true})
-    cy.get(elAddResource).click()
+  openResourcePageFromEmptyFolder(folderName) {
+    cy.get(divParentItem).each(($el, index, $list) => {
+      const innerText = $el.text()
+      if (innerText.includes(folderName)) {
+        cy.get(btnAddAResource).wait(3000).click({ force: true })
+        cy.get(elAddResource).click()
+      }
+    })
   }
 
   verifyResourcePageIsOpenSuccess() {
     cy.url().should('contain', 'catalog')
   }
-      
-  verifyUINewFolderModal(){
+
+  verifyUINewFolderModal() {
     cy.get(btnAddaFolder).click()
     cy.get(modNewFolder).should('be.visible')
     cy.get(txtName).should('be.visible')
@@ -138,23 +143,23 @@ class CoursePlanPage{
     cy.get(btnCancelNewFolder).should('be.visible')
   }
 
-  clickActionMenu(itemName){
+  clickActionMenu(itemName) {
     cy.get(divParentItem).each(($el, index, $list) => {
-    const innerText = $el.text()
-    if (innerText.includes(itemName)) {
-      cy.wrap($el).scrollIntoView().wait(1000)
-      cy.wrap($el).find(iconActionMenu).click()
-      return
+      const innerText = $el.text()
+      if (innerText.includes(itemName)) {
+        cy.wrap($el).scrollIntoView().wait(1000)
+        cy.wrap($el).find(iconActionMenu).click()
+        return
       }
     })
   }
 
-  moveItemsFromCoursePlan(itemName,destination,location) {
+  moveItemsFromCoursePlan(itemName, destination, location) {
     this.openMoveModal(itemName)
     cy.get(ddlDestination).select(destination)
     cy.get(ddlLocation).select(location)
     cy.get(btnSubmitMove).click()
-    cy.get(toastMessage).should('include.text',itemName + ' was moved to')
+    cy.get(toastMessage).should('include.text', itemName + ' was moved to')
     cy.wait(1000)
   }
 
@@ -164,20 +169,20 @@ class CoursePlanPage{
     cy.get(modMoveReorder).wait(1000)
   }
 
-  verifyAddedItem(itemName){
+  verifyAddedItem(itemName) {
     cy.get(divParentItem).each(($el, index, $list) => {
-    const innerText = $el.text()
-    if (innerText.includes(itemName)) {
-      cy.wrap($el).should('include.text',itemName)
-      return
+      const innerText = $el.text()
+      if (innerText.includes(itemName)) {
+        cy.wrap($el).should('include.text', itemName)
+        return
       }
     })
   }
 
-  verifyUIMoveReorderModal(itemName){
+  verifyUIMoveReorderModal(itemName) {
     this.openMoveModal(itemName)
     cy.get(modMoveReorder).should('be.visible')
-    cy.get(lblItemName).should('include.text',itemName)
+    cy.get(lblItemName).should('include.text', itemName)
     cy.get(tooltipDestination).should('be.visible')
     cy.get(ddlDestination).should('be.visible')
     cy.get(ddlLocation).should('be.visible')
@@ -187,7 +192,7 @@ class CoursePlanPage{
     cy.wait(1000)
   }
 
-  verifyNewFolderInvalidCase(){
+  verifyNewFolderInvalidCase() {
     cy.get(btnAddaFolder).click()
 
     //empty folder name
@@ -205,19 +210,19 @@ class CoursePlanPage{
 
   }
 
-  verifyMoveModalDisplay(){
+  verifyMoveModalDisplay() {
     cy.get(modMoveReorder).should('be.visible')
   }
 
-  verifyItemOrder(folder,item,location,subfolder='no'){
+  verifyItemOrder(folder, item, location, subfolder = 'no') {
     cy.wait(3000)
     cy.get(folderItem).each(($fd, index, $list) => {
-      if (subfolder=='no'){
+      if (subfolder == 'no') {
         const innerText = $fd.text()
         if (innerText.includes(folder)) {
           cy.wrap($fd).scrollIntoView().wait(1000)
           cy.wrap($fd).find(syllabusItem)
-          .eq(location).should('contain.text',item)
+            .eq(location).should('contain.text', item)
           return
         }
       } else {
@@ -225,9 +230,10 @@ class CoursePlanPage{
         if (innerText.includes(folder)) {
           cy.wrap($fd).scrollIntoView().wait(1000)
           cy.wrap($fd).should('not.have.class', 'c-scm-syllabus-item--root').find(syllabusItem)
-          .eq(location).should('contain.text',item)
+            .eq(location).should('contain.text', item)
           return
-        }}
+        }
+      }
     })
   }
 

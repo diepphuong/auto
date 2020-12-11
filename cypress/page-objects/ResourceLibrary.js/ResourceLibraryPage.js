@@ -20,6 +20,7 @@ const firstTaxonomy = 'Potter 10e Chapter'
 const secondTaxonomy = 'Cooper FAAHN 8e Chapter'
 const taxonomyItem = ['All', 'Potter 10e Chapter', 'Cooper FAAHN 8e Chapter']
 const chapterItem = ['All', 'Chapter 47, Bowel Elimination', 'Chapter 46, Urinary Elimination']
+const numOfSelectedItem = 'div.o-els-flex-layout--center > div:nth-of-type(1)'
 
 //Select Folder section
 const ddSelectFolder = '#field-input-section-list'
@@ -75,29 +76,29 @@ class ResourceLibraryPage {
         })
     }
 
-    selectTaxonomy(taxonomyOption) {
-        cy.get(ddTaxonomy).select(taxonomyOption)
+    selectTaxonomy(taxonomyName) {
+        cy.get(ddTaxonomy).selectContaining(taxonomyName)
     }
 
-    filterResourceByTaxonomy() {
-        for (var i = 0; i < taxonomyItem.length; i++) {
-            this.selectTaxonomy(taxonomyItem[i])
-            this.countNumberOfResources()
-        }
-    }
-
-    selectChapter(chapterOption) {
-        cy.get(ddSection).select(chapterOption)
+    selectChapter(chapterName) {
+        cy.get(ddSection).selectContaining(chapterName)
 
     }
 
-    filterResourceByChapter() {
-        this.selectTaxonomy(firstTaxonomy)
-        for (var i = 0; i < chapterItem.length; i++) {
-            this.selectChapter(chapterItem[i])
-            this.countNumberOfResources()
-        }
+    verifyNumberOfSelectedItems(number){
+        if (number == 1){
+            cy.get(numOfSelectedItem).should('have.text',number + ' item selected')
+        } else
+        cy.get(numOfSelectedItem).should('have.text', number + ' items selected')
     }
+
+    // filterResourceByChapter(number) {
+    //     this.selectTaxonomy(firstTaxonomy)
+    //     for (var i = 0; i < chapterItem.length; i++) {
+    //         this.selectChapter(chapterItem[i])
+    //         this.countNumberOfResources(number)
+    //     }
+    // }
 
     selectResourceByName(resourceName) {
         cy.get(resourceLabel).contains(resourceName)
@@ -120,13 +121,6 @@ class ResourceLibraryPage {
 
     verifyToastMessageNotDisplay() {
         cy.get(toastMessage).should('not.be.visible')
-    }
-
-    verifyNumberOfSelectedItems() {
-        this.selectAllResources()
-        cy.get(itemSelected).should('have.text', '30 items selected')
-        this.unselectAllResources()
-        cy.get(itemSelected).should('have.text', '0 item selected')
     }
 
     verifyAddBtnWhenDoNotSelectResource() {

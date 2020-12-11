@@ -2,7 +2,7 @@
     "bookName" : "Fake Potter Ebook",
     "chapterName": "Chapter 47, Bowel Elimination",
     "defaultpageRange": "2-22",
-    "destination" : "- Testing Folder",
+    "destination" : "Testing folder",
     "location" : "Insert here",
     "pageRanges" : ["2", "2-3", "-2", "2-", "2-1", "-"],
     "multipleChapters" :[["Chapter 12, Vital Signs","12-15"],["Chapter 13, Physical Assessment","13-40"],["Chapter 14, Oxygenation","14-16"]]
