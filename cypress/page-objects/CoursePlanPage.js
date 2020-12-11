@@ -24,7 +24,7 @@ const iconCollapseExpandFolder = '.o-els-icon-svg.o-els-icon-svg--1x1o2.u-els-co
 const iconActionMenu = '.o-els-flex-layout__item > .c-els-menu  > button.c-els-menu__button'
 const btnOpenCourseSetup = '.o-els-container > div > .c-els-button'
 const toastMessage = '.c-els-toast__content'
-const folderItem = '.c-scm-syllabus-item--folder'
+const folderItem = '.c-scm-syllabus-item.c-scm-syllabus-item--folder'
 const syllabusItem = '.c-scm-syllabus-item'
 
 //New Folder modal
@@ -106,6 +106,7 @@ class CoursePlanPage{
   removeItemsFromCoursePlan(itemName) {
     this.clickActionMenu(itemName)
     cy.get(actionMenu).contains('Remove').click()
+    cy.wait(1000)
     this.confirmRemoveItem()
     cy.get(toastMessage).should('include.text','removed')
   }
@@ -151,8 +152,8 @@ class CoursePlanPage{
 
   moveItemsFromCoursePlan(itemName,destination,location) {
     this.openMoveModal(itemName)
-    cy.get(ddlDestination).select(destination)
-    cy.get(ddlLocation).select(location)
+    cy.get(ddlDestination).selectContaining(destination)
+    cy.get(ddlLocation).selectItembyIndex(location)
     cy.get(btnSubmitMove).click()
     cy.get(toastMessage).should('include.text',itemName + ' was moved to')
     cy.wait(1000)
@@ -209,25 +210,30 @@ class CoursePlanPage{
     cy.get(modMoveReorder).should('be.visible')
   }
 
-  verifyItemOrder(folder,item,location,subfolder='no'){
-    cy.wait(3000)
+  verifyItemOrderRootFolder(folder,item,location){
+    cy.wait(1000)
     cy.get(folderItem).each(($fd, index, $list) => {
-      if (subfolder=='no'){
+      const innerText = $fd.text()
+      if (innerText.includes(folder)) {
+        cy.wrap($fd).scrollIntoView().wait(1000)
+        cy.wrap($fd).find(syllabusItem)
+        .eq(location).should('contain.text',item)
+        return
+      }
+    })
+  }
+
+  verifyItemOrderSubFolder(folder,item,location,subfolder='no'){
+    cy.wait(1000)
+    cy.get(folderItem).not('.c-scm-syllabus-item--root')
+      .each(($fd, index, $list) => {
         const innerText = $fd.text()
-        if (innerText.includes(folder)) {
-          cy.wrap($fd).scrollIntoView().wait(1000)
-          cy.wrap($fd).find(syllabusItem)
-          .eq(location).should('contain.text',item)
-          return
-        }
-      } else {
-        const innerText = $fd.text()
-        if (innerText.includes(folder)) {
-          cy.wrap($fd).scrollIntoView().wait(1000)
-          cy.wrap($fd).should('not.have.class', 'c-scm-syllabus-item--root').find(syllabusItem)
-          .eq(location).should('contain.text',item)
-          return
-        }}
+      if (innerText.includes(folder)) {
+        cy.wrap($fd).scrollIntoView().wait(1000)
+        cy.wrap($fd).find(syllabusItem)
+        .eq(location).should('contain.text',item)
+        return
+      }
     })
   }
 
