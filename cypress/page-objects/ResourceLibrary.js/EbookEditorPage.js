@@ -3,7 +3,7 @@
 const dialogEbookAssignment = '.c-els-modal__window'
 const ddSelectEbook = '.c-els-field__input'
 const btnSelect = '.c-els-button--small'
-const btnClose = '.u-els-font-size-body-large'
+const btnCancel = '.u-els-font-size-body-large'
 
 //Choose-Reading
 const txtPageRange = '[placeholder="Pages"]'
@@ -22,7 +22,7 @@ class EbookEditorPage {
   }
 
   selectEbookByName(ebookName) {
-    cy.get(ddSelectEbook).select(ebookName)
+    cy.get(ddSelectEbook).selectContaining(ebookName)
     cy.get(btnSelect).should('be.enabled').click()
   }
 
@@ -82,7 +82,7 @@ class EbookEditorPage {
   }
 
   closeEbookAssignmentEditor(){
-    cy.get(btnClose).click()
+    cy.get(btnCancel).click()
   }
 
 

@@ -64,7 +64,7 @@ describe('Verify Ebook Assignment Editor', () => {
 
   });
 
-  describe.only('Create an ebook assignment successfully', () => {
+  describe('Create an ebook assignment successfully', () => {
     const eBook = new EbookEditorPage()
     const coursePlan = new CoursePlanPage()
     before(() => {
@@ -74,12 +74,30 @@ describe('Verify Ebook Assignment Editor', () => {
       eBook.verifyEbookEditorOpenSuccess()
     })
 
-    it('Create eBook from Resource Library page successfully', () => {
+    it.only('Create eBook from Resource Library page successfully', () => {
+      const title = 'Potter 10e'
       eBook.createEbookFromResourcePage(ebookData.bookName, ebookData.chapterName, ebookData.defaultpageRange)
       coursePlan.verifyMoveModalDisplay()
       cy.moveItemToFolder(ebookData.destination, 0)
-      //coursePlan.verifyItemOrder(ebookData.destination,ebookData.bookName,0)
+      cy.verifyItemDetails(ebookData.destination,title,ebookData.defaultpageRange,0)
+      cy.verifySyllabusItemHasAssignment(ebookData.destination,0)
+
 })
+
+    it('Verify eBook should not be created when cancelling the assignment', () => {
+      eBook.selectEbookByName(ebookName)
+      cy.setChapterAndPageRange(chapterName,pageRange)
+      eBook.clickNextStep()
+      eBook.closeEbookAssignmentEditor()
+      cy.verifyMoveModalNOTDisplay()
+    });
+
+    it.skip('test', () => {
+      // Cypress.moment.format('M')
+    });
+
+   
+
   })
 
 

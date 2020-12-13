@@ -1,6 +1,8 @@
+
 //Add command to click a syllabus item link
 Cypress.Commands.add('navigateToItemEditor', (itemName) => {
-  cy.get('div.u-els-margin-bottom-1o2 .c-els-link__text').contains(itemName).click();
+  const itemLink = 'div.u-els-margin-bottom-1o2 .c-els-link__text'
+  cy.get(itemLink).contains(itemName).click();
 })
 
 Cypress.Commands.add('clickALinkText', (text) => {
@@ -72,4 +74,83 @@ Cypress.Commands.add('scrollToTargetPosition', (targetPosition) => {
 
   })
 })
+
+Cypress.Commands.add('verifyItemDetails', (folder, title, location) => {
+  const folderItem = '.c-scm-syllabus-item--folder'
+  const syllabusItem = '.c-scm-syllabus-item'
+
+  cy.wait(3000)
+  cy.get(folderItem).each(($fd, index, $list) => {
+    const innerText = $fd.text()
+    if (innerText.includes(folder)) {
+      cy.wrap($fd).scrollIntoView().wait(1000)
+      cy.wrap($fd).find(syllabusItem)
+        .eq(location)
+        .should('contain.text', title)
+        //.should('contain.text', pageRange)
+    }
+  })
+})
+
+Cypress.Commands.add('verifySyllabusItemHasAssignment', (folder, location) => {
+  const folderItem = '.c-scm-syllabus-item--folder'
+  const assignmentDetails = '.o-els-flex-layout__item .c-scm-syllabus-item__assignment'
+  cy.wait(3000)
+  cy.get(folderItem).each(($fd, index, $list) => {
+    const innerText = $fd.text()
+    if (innerText.includes(folder)) {
+      cy.wrap($fd).scrollIntoView().wait(1000)
+      cy.wrap($fd).find(assignmentDetails).eq(location).then((el) => {
+        //if an assignment have available date & due date, it will have 2 childrent button atributes
+        cy.get(el).find('button')
+        .its('length')
+        .should('eq', 2)
+        //The assignment should have 2 content: Available date & Due date
+        cy.get(el)
+          .children()
+          .should('contain', 'Available')
+          .and('contain', 'Due')
+        
+      })
+    }
+  })
+
+})
+
+Cypress.Commands.add('verifySyllabusItemHasNoAssignment', (folder, location) => {
+  const folderItem = '.c-scm-syllabus-item--folder'
+  const assignmentDetails = '.o-els-flex-layout__item .c-scm-syllabus-item__assignment'
+  cy.wait(3000)
+  cy.get(folderItem).each(($fd, index, $list) => {
+    const innerText = $fd.text()
+    if (innerText.includes(folder)) {
+      cy.wrap($fd).scrollIntoView().wait(1000)
+      cy.wrap($fd).find(assignmentDetails).eq(location).then((el) => {
+        //if a syllabus item has No Assignment, there's only 1 'button' attribute below the 'assignmentDetails'
+        cy.get(el).find('button')
+          .its('length')
+          .should('eq', 1)
+        //The content of the child button should be "not available"
+        cy.get(el)
+          .children('button')
+          .should('contain', 'Not Available')
+      })
+    }
+  })
+
+})
+
+
+Cypress.Commands.add('verifyMoveModalDisplay', () => {
+  const modMoveReorder = '.c-scm-move-modal'
+  cy.get(modMoveReorder).should('be.visible')
+})
+
+Cypress.Commands.add('verifyMoveModalNOTDisplay', () => {
+  const modMoveReorder = '.c-scm-move-modal'
+  cy.get(modMoveReorder).should('not.be.visible')
+})
+
+
+
 

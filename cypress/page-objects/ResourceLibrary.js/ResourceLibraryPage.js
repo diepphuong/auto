@@ -156,6 +156,7 @@ class ResourceLibraryPage {
 
     createNewFolder(newFolderName) {
         this.setNewFolderName(newFolderName)
+        //cy.get(ddlLocation).selectItembyIndex(location)
         cy.get(btnAddNewFolder).click()
     }
 
@@ -195,7 +196,7 @@ class ResourceLibraryPage {
         cy.get(dialogEbookAssignment).should('be.visible')
     }
 
-    navigateToAddedResourceFolder(){
+    clickFolderLinkOnToastMessage(){
         cy.get(folderLink).click({force: true})
     }
     
