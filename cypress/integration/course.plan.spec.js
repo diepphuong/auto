@@ -57,8 +57,8 @@ describe ('Verify Move / Reorder modal', ()=>{
   const uuid = () => Cypress._.random(0, 1e6)
   const id = uuid()
   const name = coursePlan.movingFolder + id
-  const item = coursePlan.movingItem
-  const subitem = coursePlan.movingSubItem
+  const item = coursePlan.itemRoot
+  const subitem = coursePlan.itemSub
 
   before(()=>{
     const loginPage = new LoginPage()
