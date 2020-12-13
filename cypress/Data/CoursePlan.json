@@ -8,5 +8,13 @@
     "insertLocation": "Insert here",
     "movingFolder": "Folder to be moved",
     "itemRoot": "Sim 01",
-    "itemSub": "Adaptive Lesson - 2222233333333/PT10ELSN1025"
+    "itemSub": "Laboring Patients: Nursing Care",
+    "actionMenuRootFolder": ["Rename","Move / Reorder",
+        "Add an eBook Reading","Add an Adaptive Quiz","Add an Adaptive Lesson",
+        "Add a SimChart","Add more resources","Add a folder","Remove"],
+    "actionMenuSubFolder": ["Rename","Move / Reorder",
+        "Add an eBook Reading","Add an Adaptive Quiz","Add an Adaptive Lesson",
+        "Add a SimChart","Add more resources","Remove"],
+    "actionMenuItemNotAvailable": ["Settings","View","Move / Reorder","Remove"],
+    "actionMenuItemAvailable": ["Settings","View","Performance Report","Move / Reorder","Remove"]
 }

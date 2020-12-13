@@ -5,21 +5,35 @@ import CoursePlanPage from '../page-objects/CoursePlanPage'
 const backDoor = require('../data/Backdoor.json')
 const coursePlan = require('../data/CoursePlan.json')
 
-/*
 describe ('Verify Course Plan page', ()=>{
   const coursePlanPage = new CoursePlanPage()
 
-  beforeEach(()=>{
+  before(()=>{
     const loginPage = new LoginPage()
     loginPage.launchCourse(backDoor.email_lam, backDoor.course_lam)
   })
 
+  /*
   it("Verify UI course plan page", () => {
     coursePlanPage.verifyUICoursePlan()
+  })*/
+
+  it("Verify Action Menu Options", () => {
+    //Action Menu on Root folder
+    coursePlanPage.verifyListActionMenu(coursePlan.parentFolder,coursePlan.actionMenuRootFolder)
+
+    //Action Menu on Lowest Sub folder
+    coursePlanPage.verifyListActionMenu(coursePlan.subFolder,coursePlan.actionMenuSubFolder)
+
+    //Action Menu on Item Availabe Date (Performance icon)
+    coursePlanPage.verifyListActionMenu(coursePlan.itemSub,coursePlan.actionMenuItemAvailable)
+
+    //Action Menu on Item Not Available
+    coursePlanPage.verifyListActionMenu(coursePlan.itemRoot,coursePlan.actionMenuItemNotAvailable)
   })
 
 })
-*/
+
 /*
 describe ('Verify New Folder modal', ()=>{
   const coursePlanPage = new CoursePlanPage()
