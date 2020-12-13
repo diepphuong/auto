@@ -5,21 +5,35 @@ import CoursePlanPage from '../page-objects/CoursePlanPage'
 const backDoor = require('../data/Backdoor.json')
 const coursePlan = require('../data/CoursePlan.json')
 
-/*
 describe ('Verify Course Plan page', ()=>{
   const coursePlanPage = new CoursePlanPage()
 
-  beforeEach(()=>{
+  before(()=>{
     const loginPage = new LoginPage()
     loginPage.launchCourse(backDoor.email_lam, backDoor.course_lam)
   })
 
+  /*
   it("Verify UI course plan page", () => {
     coursePlanPage.verifyUICoursePlan()
+  })*/
+
+  it("Verify Action Menu Options", () => {
+    //Action Menu on Root folder
+    coursePlanPage.verifyListActionMenu(coursePlan.parentFolder,coursePlan.actionMenuRootFolder)
+
+    //Action Menu on Lowest Sub folder
+    coursePlanPage.verifyListActionMenu(coursePlan.subFolder,coursePlan.actionMenuSubFolder)
+
+    //Action Menu on Item Availabe Date (Performance icon)
+    coursePlanPage.verifyListActionMenu(coursePlan.itemSub,coursePlan.actionMenuItemAvailable)
+
+    //Action Menu on Item Not Available
+    coursePlanPage.verifyListActionMenu(coursePlan.itemRoot,coursePlan.actionMenuItemNotAvailable)
   })
 
 })
-*/
+
 /*
 describe ('Verify New Folder modal', ()=>{
   const coursePlanPage = new CoursePlanPage()
@@ -57,8 +71,8 @@ describe ('Verify Move / Reorder modal', ()=>{
   const uuid = () => Cypress._.random(0, 1e6)
   const id = uuid()
   const name = coursePlan.movingFolder + id
-  const item = coursePlan.movingItem
-  const subitem = coursePlan.movingSubItem
+  const item = coursePlan.itemRoot
+  const subitem = coursePlan.itemSub
 
   before(()=>{
     const loginPage = new LoginPage()

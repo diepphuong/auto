@@ -5,15 +5,23 @@ import SandboxLam from '../page-objects/SandboxLam'
 const backDoor = require('../data/Backdoor.json')
 const coursePlan = require('../data/CoursePlan.json')
 
-describe ('Verify New Folder modal', ()=>{
+describe ('Testing new function', ()=>{
   const sandbox = new SandboxLam()
+  const item = coursePlan.parentFolder
+  const menulist = coursePlan.actionMenuRootFolder
 
   beforeEach(()=>{
     const loginPage = new LoginPage()
     loginPage.launchCourse(backDoor.email_lam, backDoor.course_lam)
   })
 
-  it("Verify UI course plan page", () => {
+  it("Testing", () => {
+    
+    sandbox.wait(3000)
+    sandbox.verifyActionMenuRootFolder(item,menulist)
+
+
+
     //sandbox.addParentFolder(coursePlan.folderName)
     //sandbox.verifyAddedItem(coursePlan.folderName)
     //sandbox.removeItemsFromCoursePlan(coursePlan.folderName)
@@ -24,7 +32,6 @@ describe ('Verify New Folder modal', ()=>{
 
     //sandbox.verifyNewFolderInvalidCase()
 
-    sandbox.wait(3000)
     /*root folder
     const item = "Sim 01"
     sandbox.moveItemsFromCoursePlan(item,"Week 1",0)
@@ -32,10 +39,12 @@ describe ('Verify New Folder modal', ()=>{
     sandbox.moveItemsFromCoursePlan(item,"Week 1",2)
     */
 
+    /*sub folder
     const item = "Adaptive Lesson - 2222233333333/PT10ELSN1025"
     sandbox.moveItemsFromCoursePlan(item,"Sub Folder",0)
     sandbox.verifyItemOrderSubFolder("Sub Folder", item, 0)
     sandbox.moveItemsFromCoursePlan(item,"Sub Folder",2)
+    */
   })
 
 })
