@@ -11,7 +11,7 @@ const btnAddaFolder = '.c-els-button.c-els-button--small.c-els-button--secondary
 const btnMenu = 'div.o-els-flex-layout--center .c-els-menu .o-els-icon-svg'
 const menuRemove = 'ul.c-els-menu__list > li:nth-of-type(12) > span:nth-of-type(1) span:nth-of-type(1)'
 const actionMenu = '.c-els-menu__list'
-const menuOption = 'li.c-els-menu__item > .c-els-link'
+const menuOption = '.c-els-menu__item > .c-els-link > .c-els-link'
 
 //Confirm dialogs
 const confirmRemoveItem = 'div#c-els-modal__content-REMOVE_MODAL_ID .c-els-button--primary'
@@ -207,7 +207,14 @@ class SandboxLam{
     cy.wait(second)
   }
 
-  
+  //New Dec 13 2020
+  verifyActionMenuRootFolder(itemName,menulist){
+    this.clickActionMenu(itemName)
+
+    menulist.forEach(element => {
+      cy.get(menuOption).should('contain',element)
+    })
+  }
 }
 
 export default SandboxLam
