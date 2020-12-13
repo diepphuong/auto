@@ -96,8 +96,8 @@ class CoursePlanPage {
     cy.get(btnAddaFolder).click()
     cy.get(modNewFolder).should('include.text', coursePlan.modalName).wait(1000)
     cy.get(txtName).clear().type(name)
-    cy.get(ddlDestination).should('include.text', coursePlan.defaultDestination).select(destination)
-    cy.get(ddlLocation).should('include.text', coursePlan.defaultLocation).select(location)
+    cy.get(ddlDestination).should('include.text', coursePlan.defaultDestination).selectContaining(destination)
+    cy.get(ddlLocation).should('include.text', coursePlan.defaultLocation).selectContaining(location)
     cy.get(btnCancelNewFolder).should('include.text', 'Cancel')
     cy.get(btnAddNewFolder).should('include.text', 'Add').click()
     cy.wait(1000)
@@ -108,6 +108,7 @@ class CoursePlanPage {
     cy.get(actionMenu).contains('Remove').click()
     this.confirmRemoveItem()
     cy.get(toastMessage).should('include.text', 'removed')
+    cy.wait(1000)
   }
 
   //Navigate from Course Plan to Resource Library
@@ -156,8 +157,8 @@ class CoursePlanPage {
 
   moveItemsFromCoursePlan(itemName, destination, location) {
     this.openMoveModal(itemName)
-    cy.get(ddlDestination).select(destination)
-    cy.get(ddlLocation).select(location)
+    cy.get(ddlDestination).selectContaining(destination)
+    cy.get(ddlLocation).selectItembyIndex(location)
     cy.get(btnSubmitMove).click()
     cy.get(toastMessage).should('include.text', itemName + ' was moved to')
     cy.wait(1000)
@@ -214,25 +215,29 @@ class CoursePlanPage {
     cy.get(modMoveReorder).should('be.visible')
   }
 
-  verifyItemOrder(folder, item, location, subfolder = 'no') {
-    cy.wait(3000)
+  verifyItemOrderRootFolder(folder,item,location){
+    cy.wait(1000)
     cy.get(folderItem).each(($fd, index, $list) => {
-      if (subfolder == 'no') {
+      const innerText = $fd.text()
+      if (innerText.includes(folder)) {
+        cy.wrap($fd).scrollIntoView().wait(1000)
+        cy.wrap($fd).find(syllabusItem)
+        .eq(location).should('contain.text',item)
+        return
+      }
+    })
+  }
+
+  verifyItemOrderSubFolder(folder,item,location){
+    cy.wait(1000)
+    cy.get(folderItem).not('.c-scm-syllabus-item--root')
+      .each(($fd, index, $list) => {
         const innerText = $fd.text()
-        if (innerText.includes(folder)) {
-          cy.wrap($fd).scrollIntoView().wait(1000)
-          cy.wrap($fd).find(syllabusItem)
-            .eq(location).should('contain.text', item)
-          return
-        }
-      } else {
-        const innerText = $fd.text()
-        if (innerText.includes(folder)) {
-          cy.wrap($fd).scrollIntoView().wait(1000)
-          cy.wrap($fd).should('not.have.class', 'c-scm-syllabus-item--root').find(syllabusItem)
-            .eq(location).should('contain.text', item)
-          return
-        }
+      if (innerText.includes(folder)) {
+        cy.wrap($fd).scrollIntoView().wait(1000)
+        cy.wrap($fd).find(syllabusItem)
+        .eq(location).should('contain.text',item)
+        return
       }
     })
   }

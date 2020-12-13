@@ -4,9 +4,9 @@
     "defaultLocation": "Insert here",
     "folderName": "Testing Folder",
     "subFolder": "Sub Folder",
-    "parentFolder": "- Week 1",
+    "parentFolder": "Week 1",
     "insertLocation": "Insert here",
     "movingFolder": "Folder to be moved",
-    "movingItem": "Sim 01",
-    "movingSubItem": "Adaptive Lesson - 2222233333333/PT10ELSN1025"
+    "itemRoot": "Sim 01",
+    "itemSub": "Adaptive Lesson - 2222233333333/PT10ELSN1025"
 }
