@@ -14,7 +14,6 @@ describe("Open Ebook Editor successfully", () => {
     cy.url().should('contain', 'course-plan')
     cy.clickALinkText(resourceData.linkResourceLibrary)
     cy.url().should('contain', 'catalog')
-
   })
 
   it("Open Ebook Editor successfully", () => {
@@ -25,7 +24,6 @@ describe("Open Ebook Editor successfully", () => {
 
 describe('Verify Ebook Assignment Editor', () => {
   const eBook = new EbookEditorPage()
-  const coursePlan = new CoursePlanPage()
   before(() => {
     cy.launchCourse(backDoor.email, backDoor.course1)
     cy.clickALinkText(resourceData.linkResourceLibrary)
@@ -74,29 +72,28 @@ describe('Verify Ebook Assignment Editor', () => {
       eBook.verifyEbookEditorOpenSuccess()
     })
 
-    it.only('Create eBook from Resource Library page successfully', () => {
-      const title = 'Potter 10e'
-      eBook.createEbookFromResourcePage(ebookData.bookName, ebookData.chapterName, ebookData.defaultpageRange)
-      coursePlan.verifyMoveModalDisplay()
-      cy.moveItemToFolder(ebookData.destination, 0)
-      cy.verifyItemDetails(ebookData.destination,title,ebookData.defaultpageRange,0)
-      cy.verifySyllabusItemHasAssignment(ebookData.destination,0)
-
-})
+    afterEach(()=>{
+      cy.clickALinkText(resourceData.linkResourceLibrary)
+      cy.navigateToItemEditor('eBook Reading')
+    })
 
     it('Verify eBook should not be created when cancelling the assignment', () => {
-      eBook.selectEbookByName(ebookName)
-      cy.setChapterAndPageRange(chapterName,pageRange)
+      eBook.selectEbookByName(ebookData.bookName)
+      cy.setChapterAndPageRange(ebookData.chapterName,ebookData.defaultpageRange)
       eBook.clickNextStep()
       eBook.closeEbookAssignmentEditor()
       cy.verifyMoveModalNOTDisplay()
     });
 
-    it.skip('test', () => {
-      // Cypress.moment.format('M')
-    });
+    it('Create eBook from Resource Library page successfully', () => {
+      const title = 'Potter 10e'
+      eBook.createEbookFromResourcePage(ebookData.bookName, ebookData.chapterName, ebookData.defaultpageRange)
+      coursePlan.verifyMoveModalDisplay()
+      cy.moveItemToFolder(ebookData.destination, 0)
+      cy.verifyItemDetails(ebookData.destination,title,0)
+      cy.verifySyllabusItemHasAssignment(ebookData.destination,0)
 
-   
+})
 
   })
 

@@ -34,7 +34,6 @@ describe("Go to Resource Library Page successfully", () => {
     coursePlan.verifyResourcePageIsOpenSuccess()
   });
 
-  
 
   // it('Launch RL page by clicking AddAResource from action menu', () => {
 

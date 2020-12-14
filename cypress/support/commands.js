@@ -87,7 +87,7 @@ Cypress.Commands.add('verifyItemDetails', (folder, title, location) => {
       cy.wrap($fd).find(syllabusItem)
         .eq(location)
         .should('contain.text', title)
-        //.should('contain.text', pageRange)
+      //.should('contain.text', pageRange)
     }
   })
 })
@@ -103,14 +103,14 @@ Cypress.Commands.add('verifySyllabusItemHasAssignment', (folder, location) => {
       cy.wrap($fd).find(assignmentDetails).eq(location).then((el) => {
         //if an assignment have available date & due date, it will have 2 childrent button atributes
         cy.get(el).find('button')
-        .its('length')
-        .should('eq', 2)
+          .its('length')
+          .should('eq', 2)
         //The assignment should have 2 content: Available date & Due date
         cy.get(el)
           .children()
           .should('contain', 'Available')
           .and('contain', 'Due')
-        
+
       })
     }
   })
@@ -152,5 +152,18 @@ Cypress.Commands.add('verifyMoveModalNOTDisplay', () => {
 })
 
 
+Cypress.Commands.add('removeAllResources', () => {
+  const btnBulk = '.c-els-slide-switch__state'
+  const radioSelectAll = 'c-els-field__switch'
+
+  cy.get(btnBulk).click()
+
+  cy.get(radioSelectAll).contains('Select All')
+    .parents
+    .find('input')
+    .check({ force: true })
+
+  cy.get('.u-els-font-family-bold').contains('Remove').click()
+})
 
 
