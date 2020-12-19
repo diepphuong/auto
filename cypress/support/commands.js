@@ -154,16 +154,16 @@ Cypress.Commands.add('verifyMoveModalNOTDisplay', () => {
 
 Cypress.Commands.add('removeAllResources', () => {
   const btnBulk = '.c-els-slide-switch__state'
-  const radioSelectAll = 'c-els-field__switch'
+  const radioSelectAll = '[name=select-all-radio]'
+  const link = '.u-els-font-family-bold'
+  const btnRemove = '#c-els-modal__content-REMOVE_MODAL_ID .c-els-button--primary'
+  const btnClose = 'div.c-scm-page__footer .c-els-button--default '
 
-  cy.get(btnBulk).click()
-
-  cy.get(radioSelectAll).contains('Select All')
-    .parents
-    .find('input')
-    .check({ force: true })
-
-  cy.get('.u-els-font-family-bold').contains('Remove').click()
+  cy.get(btnBulk).click({force:true})
+  cy.get(radioSelectAll).click({force:true})
+  cy.get(link).contains('Remove').click()
+  cy.get(btnRemove).click()
+  cy.get(btnClose).click()
 })
 
 

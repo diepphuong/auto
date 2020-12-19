@@ -117,7 +117,7 @@ describe("Verify states of elements on Resource Library page", () => {
 
 });
 
-describe("Verify resource(s) is/are added to folder successfully", () => {
+describe.only("Verify resource(s) is/are added to folder successfully", () => {
   const resourcePage = new ResourceLibraryPage()
   const resourceData = require('../data/ResourceLibrary.json');
   const numOfResource = '3'
@@ -213,7 +213,7 @@ describe("Verify resource(s) is/are added to folder successfully", () => {
 });
 
 
-describe("Verify added resource details in Course Plan page", () => {
+describe.only("Verify added resource details in Course Plan page", () => {
   const resourcePage = new ResourceLibraryPage()
   const resourceData = require('../data/ResourceLibrary.json');
 
