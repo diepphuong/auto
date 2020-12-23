@@ -92,7 +92,7 @@ Cypress.Commands.add('verifyItemDetails', (folder, title, location) => {
   })
 })
 
-Cypress.Commands.add('verifySyllabusItemHasAssignment', (folder, location) => {
+Cypress.Commands.add('verifyAssignmentHasDueDate', (folder, location) => {
   const folderItem = '.c-scm-syllabus-item--folder'
   const assignmentDetails = '.o-els-flex-layout__item .c-scm-syllabus-item__assignment'
   cy.wait(3000)
@@ -110,6 +110,30 @@ Cypress.Commands.add('verifySyllabusItemHasAssignment', (folder, location) => {
           .children()
           .should('contain', 'Available')
           .and('contain', 'Due')
+
+      })
+    }
+  })
+
+})
+
+Cypress.Commands.add('verifyAssignmentHasNoDue', (folder, location) => {
+  const folderItem = '.c-scm-syllabus-item--folder'
+  const assignmentDetails = '.o-els-flex-layout__item .c-scm-syllabus-item__assignment'
+  cy.wait(3000)
+  cy.get(folderItem).each(($fd, index, $list) => {
+    const innerText = $fd.text()
+    if (innerText.includes(folder)) {
+      cy.wrap($fd).scrollIntoView().wait(1000)
+      cy.wrap($fd).find(assignmentDetails).eq(location).then((el) => {
+        //if an assignment have available date & due date, it will have 2 childrent button atributes
+        cy.get(el).find('button')
+          .its('length')
+          .should('eq', 1)
+        //The assignment should have 1 content: Available date 
+        cy.get(el)
+          .children()
+          .should('contain', 'Available')
 
       })
     }

@@ -91,7 +91,7 @@ describe('Verify Ebook Assignment Editor', () => {
       coursePlan.verifyMoveModalDisplay()
       cy.moveItemToFolder(ebookData.destination, 0)
       cy.verifyItemDetails(ebookData.destination,title,0)
-      cy.verifySyllabusItemHasAssignment(ebookData.destination,0)
+      cy.verifyAssignmentHasDueDate(ebookData.destination,0)
 
 })
 
